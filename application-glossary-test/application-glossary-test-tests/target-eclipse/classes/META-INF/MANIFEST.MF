@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-Description: FAQ - Functional Tests
+Bundle-License: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+Bundle-SymbolicName: org.xwiki.contrib.application-glossary-test-tests
+Built-By: sarthak
+Bnd-LastModified: 1506672717464
+Bundle-ManifestVersion: 2
+Bundle-DocURL: http://contrib.xwiki.org/
+Bundle-Vendor: XWiki Contrib
+Tool: Bnd-2.3.0.201405100607
+XWiki-Extension-Id: org.xwiki.contrib:application-glossary-test-tests
+Bundle-Name: FAQ - Tests - Functional Tests
+Bundle-Version: 1.0.0.SNAPSHOT
+Build-Jdk: 1.8.0_144
+Created-By: Apache Maven Bundle Plugin
+

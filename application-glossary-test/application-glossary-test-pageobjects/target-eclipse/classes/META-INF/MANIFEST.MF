@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-Description: Contrib extension which depends on xwiki-platform
+Bundle-License: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+Bundle-SymbolicName: org.xwiki.contrib.application-glossary-test-pageo
+ bjects
+Built-By: sarthak
+Bnd-LastModified: 1506672714912
+Bundle-ManifestVersion: 2
+Bundle-DocURL: http://contrib.xwiki.org/
+Bundle-Vendor: XWiki Contrib
+Import-Package: org.openqa.selenium,org.openqa.selenium.support,org.xw
+ iki.model;version="[7.4,8)",org.xwiki.model.reference;version="[7.4,8
+ )",org.xwiki.test.ui;version="[7.4,8)",org.xwiki.test.ui.po;version="
+ [7.4,8)"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
+Tool: Bnd-2.3.0.201405100607
+XWiki-Extension-Id: org.xwiki.contrib:application-glossary-test-pageob
+ jects
+Export-Package: org.xwiki.glossary.test.po;uses:="org.xwiki.model.refe
+ rence,org.xwiki.test.ui.po";version="1.0.0"
+Bundle-Name: application-glossary-test-pageobjects
+Bundle-Version: 1.0.0.SNAPSHOT
+Build-Jdk: 1.8.0_144
+Created-By: Apache Maven Bundle Plugin
+
