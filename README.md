@@ -1,0 +1,14 @@
+# Glossary Application
+
+A Glossary Application
+
+* Project Lead: [Sarthak Gupta](http://www.xwiki.org/xwiki/bin/view/XWiki/sgc_072)
+
+* [Issue Tracker](http://jira.xwiki.org/browse/GLOSSARY)
+* Communication: [Mailing List](http://dev.xwiki.org/xwiki/bin/view/Community/MailingLists), [IRC](http://dev.xwiki.org/xwiki/bin/view/Community/IRC)
+* [Development Practices](http://dev.xwiki.org)
+* Minimal XWiki version supported: XWiki 6.4
+* License: LGPL 2.1
+* Translations: N/A
+* Sonar Dashboard: N/A
+* Continuous Integration Status: [![Build Status](http://ci.xwiki.org/buildStatus/icon?job=XWiki Contrib/application-antispam/master)](http://ci.xwiki.org/view/Contrib/job/XWiki%20Contrib/job/application-antispam/job/master/)
