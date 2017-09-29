@@ -1,0 +1,42 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<xwikidoc version="1.3" reference="GlossaryCode.SearchGlossary" locale="">
+  <web>GlossaryCode</web>
+  <name>SearchGlossary</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>XWiki.sgc_072</creator>
+  <creationDate>1497877098000</creationDate>
+  <parent>GlossaryCode.GlossaryClass</parent>
+  <author>XWiki.sgc_072</author>
+  <contentAuthor>XWiki.sgc_072</contentAuthor>
+  <date>1502715273000</date>
+  <contentUpdateDate>1502218618000</contentUpdateDate>
+  <version>2.2</version>
+  <title>Search Glossary</title>
+  <comment/>
+  <minorEdit>true</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{include reference="XWiki.SearchCode"/}}&#xd;
+&#xd;
+{{velocity output="false"}}&#xd;
+#if ($searchEngine == 'solr')&#xd;
+  ## Customize the Solr Search UI for the Glossary application.&#xd;
+  #set ($solrConfig = {&#xd;
+    'queryFields': 'title^3 property.GlossaryCode.GlossaryClass.definition',&#xd;
+    'facetFields': ['creator', 'creationdate', 'author', 'date', 'mimetype', 'attauthor', 'attdate', 'attsize'],&#xd;
+    'filterQuery': [&#xd;
+      'type:DOCUMENT',&#xd;
+      "wiki:$xcontext.database",&#xd;
+      "space_exact:$doc.space",&#xd;
+      'class:GlossaryCode.GlossaryClass'&#xd;
+    ]&#xd;
+  })&#xd;
+#end&#xd;
+{{/velocity}}&#xd;
+&#xd;
+{{velocity}}&#xd;
+{{include reference="$searchPage"/}}&#xd;
+{{/velocity}}</content>
+</xwikidoc>
