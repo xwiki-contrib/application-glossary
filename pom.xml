@@ -13,4 +13,31 @@
   	<module>application-glossary-ui</module>
   	<module>application-glossary-test</module>
   </modules>
+  <scm>
+    <connection>scm:git:git://github.com/xwiki-contrib/application-glossary.git</connection>
+    <developerConnection>scm:git:git@github.com:xwiki-contrib/application-glossary.git</developerConnection>
+    <url>https://github.com/xwiki-contrib/application-glossary</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>sarthak-sopho</id>
+      <name>Sarthak Gupta</name>
+    </developer>
+  </developers>
+  <properties>
+    <!-- Don't check for API backward-compatibility here since there's no Java code. -->
+ 
+    <xwiki.revapi.skip>true</xwiki.revapi.skip>
+   
+
+    <!-- The Extension name. If not defined, the <name> property is used -->
+    <xwiki.extension.name>application-glossary</xwiki.extension.name>
+
+    <!-- The extension's category -->
+    <xwiki.extension.category>application</xwiki.extension.category>
+
+    <!-- Issue management -->
+    <xwiki.release.jira.skip>false</xwiki.release.jira.skip>
+    <xwiki.issueManagement.jira.id>GLOSSARY</xwiki.issueManagement.jira.id>
+  </properties>
 </project>
