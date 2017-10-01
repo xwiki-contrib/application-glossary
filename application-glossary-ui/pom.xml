@@ -1,4 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.contrib</groupId>
@@ -6,6 +27,106 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>application-glossary-ui</artifactId>
-  <packaging>xar</packaging>
   <name>Glossary - UI</name>
+  <packaging>xar</packaging>
+  <properties>
+    <!-- Don't run CLIRR here since there's no Java code. -->
+    <xwiki.clirr.skip>true</xwiki.clirr.skip>
+    <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->
+    <xwiki.extension.features>org.xwiki.platform:xwiki-platform-glossary-ui,org.xwiki.platform:xwiki-platform-glossary</xwiki.extension.features>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>Glossary Application</xwiki.extension.name>
+    <!-- Extension Manager category -->
+    <xwiki.extension.category>application</xwiki.extension.category>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-rendering-macro-velocity</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-rendering-macro-include</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-macro-box</artifactId>
+      <version>${rendering.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-macro-message</artifactId>
+      <version>${rendering.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-macro-html</artifactId>
+      <version>${rendering.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- Required for Document Translation Bundle -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-localization-source-wiki</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- Required by wiki macros -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-rendering-wikimacro-store</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- We need the livetable for the Glossary Home page that lists all Glossarys -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-livetable-ui</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- Search features requires the Search UI to be present to work fine -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-search-ui</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- The Panels application is an optional dependency since the Glossary application can work even if it's not present
+         but if it's there then it'll register in it. -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-panels-ui</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+      <scope>runtime</scope>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+  <build>
+    <!-- Needed to add support for the XAR packaging -->
+    <extensions>
+      <extension>
+        <groupId>org.xwiki.commons</groupId>
+        <artifactId>xwiki-commons-tool-xar-handlers</artifactId>
+        <version>${commons.version}</version>
+      </extension>
+    </extensions>
+    <plugins>
+      <!-- The XAR packaging uses the XAR plugin and thus we need to define what version to use -->
+      <plugin>
+        <groupId>org.xwiki.commons</groupId>
+        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
+        <version>${commons.version}</version><!--$NO-MVN-MAN-VER$-->
+      </plugin>
+    </plugins>
+  </build>
 </project>
