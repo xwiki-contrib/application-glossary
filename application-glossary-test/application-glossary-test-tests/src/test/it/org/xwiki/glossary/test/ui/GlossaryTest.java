@@ -48,7 +48,8 @@ public class GlossaryTest extends AbstractTest
     @Test
     public void testGlossary() throws Exception
     {
-        // Note: we use a dot in the page name to verify it's supported by the Glossary application and we use an accent to
+        // Note: we use a dot in the page name to verify it's supported by the Glossary application and we use an accent
+        // to
         // verify encoding.
         String glossaryTestPage = "Test.entrée de Glossary";
 
@@ -71,7 +72,8 @@ public class GlossaryTest extends AbstractTest
         entryPage.setAnswer("content");
         vp = entryPage.clickSaveAndView();
 
-        // Go back to the home page by clicking in the breadcrumb (this verifies that the new entry has the Glossary home
+        // Go back to the home page by clicking in the breadcrumb (this verifies that the new entry has the Glossary
+        // home
         // specified in the breadcrumb).
         vp.clickBreadcrumbLink("Glossary");
 
@@ -83,9 +85,10 @@ public class GlossaryTest extends AbstractTest
     }
 
     /**
-     * Verify that it's possible to add a new Glossary altogether, in a different space. Also make sure it works
-     * when creating that new Glossary in a Nested Space.
-     * @throws Exception 
+     * Verify that it's possible to add a new Glossary altogether, in a different space. Also make sure it works when
+     * creating that new Glossary in a Nested Space.
+     * 
+     * @throws Exception
      */
     @Test
     public void testNewGlossaryAndInNestedSpace() throws Exception
@@ -108,7 +111,8 @@ public class GlossaryTest extends AbstractTest
         entryPage.setAnswer("new content");
         ViewPage vp = entryPage.clickSaveAndView();
 
-        // Go back to the home page by clicking in the breadcrumb (this verifies that the new entry has the Glossary home
+        // Go back to the home page by clicking in the breadcrumb (this verifies that the new entry has the Glossary
+        // home
         // specified in the breadcrumb).
         vp.clickBreadcrumbLink("Nested");
 

@@ -35,76 +35,78 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 4.3M2
  */
-public class GlossaryHomePage extends ViewPage {
-	/**
-	 * Main wiki id.
-	 */
-	public static final String MAIN_WIKI = "xwiki";
+public class GlossaryHomePage extends ViewPage
+{
+    /**
+     * Main wiki id.
+     */
+    public static final String MAIN_WIKI = "xwiki";
 
-	/**
-	 * Glossary home page document reference.
-	 */
-	public static final GlossaryHomePage DEFAULT_GLOSSARY_HOME_PAGE = new GlossaryHomePage(
-			new DocumentReference(MAIN_WIKI, Arrays.asList("Glossary"), "WebHome"));
+    /**
+     * Glossary home page document reference.
+     */
+    public static final GlossaryHomePage DEFAULT_GLOSSARY_HOME_PAGE =
+        new GlossaryHomePage(new DocumentReference(MAIN_WIKI, Arrays.asList("Glossary"), "WebHome"));
 
-	private EntityReference homeReference;
+    private EntityReference homeReference;
 
-	/**
-	 * @param homeReference
-	 *            the reference to the home page where the Glossary app is installed
-	 *            (several versions of the Glossary app can be installed in the same
-	 *            wiki)
-	 */
-	public GlossaryHomePage(EntityReference homeReference) {
-		this.homeReference = homeReference;
-	}
+    /**
+     * @param homeReference the reference to the home page where the Glossary app is installed (several versions of the
+     *            Glossary app can be installed in the same wiki)
+     */
+    public GlossaryHomePage(EntityReference homeReference)
+    {
+        this.homeReference = homeReference;
+    }
 
-	/**
-	 * Opens the home page.
-	 */
-	public void gotoPage() {
-		getUtil().gotoPage(this.homeReference);
-	}
+    /**
+     * Opens the home page.
+     */
+    public void gotoPage()
+    {
+        getUtil().gotoPage(this.homeReference);
+    }
 
-	/**
-	 * @return the String reference to the space where the Glossary app is installed
-	 *         (e.g. "{@code Space1.Space2})
-	 * @since 7.2RC1
-	 */
-	public String getSpaces() {
-		return getUtil().serializeReference(
-				this.homeReference.extractReference(EntityType.SPACE).removeParent(new WikiReference(MAIN_WIKI)));
-	}
+    /**
+     * @return the String reference to the space where the Glossary app is installed (e.g. "{@code Space1.Space2})
+     * @since 7.2RC1
+     */
+    public String getSpaces()
+    {
+        return getUtil().serializeReference(
+            this.homeReference.extractReference(EntityType.SPACE).removeParent(new WikiReference(MAIN_WIKI)));
+    }
 
-	/**
-	 * @return the name of the home page where the Glossary app is installed (e.g.
-	 *         "{@code WebHome})
-	 */
-	public String getPage() {
-		return this.homeReference.getName();
-	}
+    /**
+     * @return the name of the home page where the Glossary app is installed (e.g. "{@code WebHome})
+     */
+    public String getPage()
+    {
+        return this.homeReference.getName();
+    }
 
-	/**
-	 * @param glossaryName
-	 *            the name of the Glossary entry to add
-	 * @return the new Glossary entry page
-	 */
-	public GlossaryEntryEditPage addGlossaryEntry(String glossaryName) {
-		WebElement glossaryNameField = getDriver().findElementByName("glossaryItem");
-		WebElement glossaryNameButton = getDriver().findElementByXPath(
-				"//div[contains(@class, 'glossary-link add-glossary')]//input[contains(@class, 'btn btn-success')]");
-		glossaryNameField.clear();
-		glossaryNameField.sendKeys(glossaryName);
-		glossaryNameButton.click();
-		return new GlossaryEntryEditPage();
-	}
+    /**
+     * @param glossaryName the name of the Glossary entry to add
+     * @return the new Glossary entry page
+     */
+    public GlossaryEntryEditPage addGlossaryEntry(String glossaryName)
+    {
+        WebElement glossaryNameField = getDriver().findElementByName("glossaryItem");
+        WebElement glossaryNameButton = getDriver().findElementByXPath(
+            "//div[contains(@class, 'glossary-link add-glossary')]//input[contains(@class, 'btn btn-success')]");
+        glossaryNameField.clear();
+        glossaryNameField.sendKeys(glossaryName);
+        glossaryNameButton.click();
+        return new GlossaryEntryEditPage();
+    }
 
-	/**
-	 * @return the Glossary livetable element
-	 */
-	public LiveTableElement getGlossaryLiveTable() {
-		LiveTableElement lt = new LiveTableElement("glossary");
-		lt.waitUntilReady();
-		return lt;
-	}
+    /**
+     * @return the Glossary livetable element
+     */
+    public LiveTableElement getGlossaryLiveTable()
+    {
+        LiveTableElement lt = new LiveTableElement("glossary");
+        lt.waitUntilReady();
+        return lt;
+    }
 }

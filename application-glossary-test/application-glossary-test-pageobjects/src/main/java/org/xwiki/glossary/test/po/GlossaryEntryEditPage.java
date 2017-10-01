@@ -29,16 +29,17 @@ import org.xwiki.test.ui.po.InlinePage;
  * @version $Id$
  * @since 4.3M2
  */
-public class GlossaryEntryEditPage extends InlinePage {
-	@FindBy(id = "GlossaryCode.GlossaryClass_0_definition")
-	private WebElement definitionElement;
+public class GlossaryEntryEditPage extends InlinePage
+{
+    @FindBy(id = "GlossaryCode.GlossaryClass_0_definition")
+    private WebElement definitionElement;
 
-	/**
-	 * @param definition
-	 *            the definition to type in the Glossary entry
-	 */
-	public void setAnswer(String definition) {
-		this.definitionElement.clear();
-		this.definitionElement.sendKeys(definition);
-	}
+    /**
+     * @param definition the definition to type in the Glossary entry
+     */
+    public void setAnswer(String definition)
+    {
+        this.definitionElement.clear();
+        this.definitionElement.sendKeys(definition);
+    }
 }
