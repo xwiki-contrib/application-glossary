@@ -3,7 +3,7 @@
 A Glossary Application
 
 * Project Lead: [Sarthak Gupta](http://www.xwiki.org/xwiki/bin/view/XWiki/sgc_072)
-
+* Project Mentor: [Vincent Massol](http://www.xwiki.org/xwiki/bin/view/XWiki/VincentMassol)
 * [Issue Tracker](http://jira.xwiki.org/browse/GLOSSARY)
 * Communication: [Mailing List](http://dev.xwiki.org/xwiki/bin/view/Community/MailingLists), [IRC](http://dev.xwiki.org/xwiki/bin/view/Community/IRC)
 * [Development Practices](http://dev.xwiki.org)
