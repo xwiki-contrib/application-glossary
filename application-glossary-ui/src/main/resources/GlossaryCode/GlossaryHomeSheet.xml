@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -30,8 +31,8 @@
   <parent>GlossaryCode.GlossaryHomeClass</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1502714602000</date>
-  <contentUpdateDate>1502714602000</contentUpdateDate>
+  <date>1507140806000</date>
+  <contentUpdateDate>1507140789000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'GlossaryHomeSheet')Glossary Home Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <comment/>
@@ -102,7 +103,7 @@
 #if ($isGuest)
       #set($login = ${escapetool.xml($doc.getURL("login", "xredirect=$doc.externalURL"))})
       #set($register = ${escapetool.xml($xwiki.getURL($services.model.resolveDocument('', 'default'), "register", "xredirect=$doc.externalURL"))})
-      $services.localization.render('platform.glossary.need', ["&lt;a href=$login&gt;","&lt;/a&gt;","&lt;a href=$register&gt;","&lt;/a&gt;"])
+      $services.localization.render('glossary.need', ["&lt;a href=$login&gt;","&lt;/a&gt;","&lt;a href=$register&gt;","&lt;/a&gt;"])
     #else
  &lt;form action="$doc.getURL()" id="newglossary" class="xformInline"&gt;
         &lt;div&gt;
@@ -119,13 +120,16 @@
         &lt;/div&gt;
       &lt;/form&gt;
     #end
-{{/html}}
-)))
-)))
+    {{/html}}
+    )))
+  )))
 
- (% class="clearfloats" %)((()))(%%)
+  (% class="clearfloats" %)((()))(%%)
 
+  {{glossary filter="space=${glossarySpace}"/}}
+#else
+  This class sheet must be applied on a document containing a GlossaryCode.GlossaryHomeClass object
 #end
-
+{{/velocity}}
 </content>
 </xwikidoc>

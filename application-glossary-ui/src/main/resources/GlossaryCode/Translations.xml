@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -30,25 +31,37 @@
   <parent>GlossaryCode.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1506669213000</date>
-  <contentUpdateDate>1506669213000</contentUpdateDate>
+  <date>1507142652000</date>
+  <contentUpdateDate>1507140848000</contentUpdateDate>
   <version>1.1</version>
   <title>Translations</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content>glossary.search.text=Search the glossary item..
+  <content>glossary.doc.title=Glossary Items
+glossary.doc.creationDate=Created On
+glossary.doc.date=Last Modified
+glossary.applicationsPanelEntryLabel = Glossary
+glossary._actions=Actions
+
+glossary.search.text=Search...
 glossary.search.submit = Search
 glossary.search.title = Search Glossary...
-
 glossary.add.title = Add Glossary Item...
 glossary.add.searchHint = Glossary Item....
 glossary.add.submit = Add Glossary Item
 
-platform.glossary.need = Please login or register
+glossary.need = Please login or register
 
-glossary.applicationsPanelEntryLabel = Glossary</content>
+
+
+
+
+
+
+glossary.technical=Contains technical pages for the Glossary application.
+glossary.list=Pages</content>
   <object>
     <name>GlossaryCode.Translations</name>
     <number>0</number>
