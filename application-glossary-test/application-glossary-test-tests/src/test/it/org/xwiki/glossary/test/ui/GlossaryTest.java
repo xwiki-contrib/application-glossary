@@ -81,7 +81,7 @@ public class GlossaryTest extends AbstractTest
         // - verify that the Translation has been applied by checking the Translated livetable column name
         // - verify that the Livetable contains our new Glossary entry
         LiveTableElement lt = homePage.getGlossaryLiveTable();
-        Assert.assertTrue(lt.hasRow("Question", glossaryTestPage + "?"));
+        Assert.assertTrue(lt.hasRow("Glossary Items", glossaryTestPage));
     }
 
     /**
@@ -120,6 +120,6 @@ public class GlossaryTest extends AbstractTest
         // - verify that the Translation has been applied by checking the Translated livetable column name
         // - verify that the Livetable contains our new Glossary entry
         LiveTableElement lt = homePage.getGlossaryLiveTable();
-        Assert.assertTrue(lt.hasRow("Question", glossaryTestPage + "?"));
+        Assert.assertTrue(lt.hasRow("Glossary Items", glossaryTestPage));
     }
 }
