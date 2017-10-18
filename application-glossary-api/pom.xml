@@ -21,7 +21,6 @@
 	</parent>
 
 	<artifactId>application-glossary-api</artifactId>
-
 	<name>XWiki Macro - Hello World Component</name>
 	<description>XWiki Macro - Hello World Component</description>
 	<properties>
