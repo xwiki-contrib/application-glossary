@@ -11,4 +11,4 @@ A Glossary Application
 * License: LGPL 2.1
 * Translations: N/A
 * Sonar Dashboard: N/A
-* Continuous Integration Status: [![Build Status](http://ci.xwiki.org/buildStatus/icon?job=XWiki Contrib/application-glossary/master)](http://ci.xwiki.org/view/Contrib/job/XWiki%20Contrib/job/application-glossary/job/master/)
+* Continuous Integration Status: [![Build Status](http://ci.xwiki.org/buildStatus/icon?job=XWikiContrib/application-glossary/master)](http://ci.xwiki.org/view/Contrib/job/XWiki%20Contrib/job/application-glossary/job/master/)
