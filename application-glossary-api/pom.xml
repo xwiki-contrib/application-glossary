@@ -21,8 +21,8 @@
 	</parent>
 
 	<artifactId>application-glossary-api</artifactId>
-	<name>XWiki Macro - Hello World Component</name>
-	<description>XWiki Macro - Hello World Component</description>
+	<name>Application Glossary Api</name>
+
 	<properties>
 		<commons.version>5.4.4</commons.version>
 	</properties>
@@ -31,7 +31,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>2.3.2</version><!--$NO-MVN-MAN-VER$ -->
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -87,6 +87,12 @@
 			<groupId>org.xwiki.commons</groupId>
 			<artifactId>xwiki-commons-test-component</artifactId>
 			<version>${commons.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.xwiki.commons</groupId>
+			<artifactId>xwiki-commons-tool-test-component</artifactId>
+			<version>9.10-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

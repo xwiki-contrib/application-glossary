@@ -19,11 +19,11 @@
  */
 package org.xwiki.contrib.glossary.internal;
 
-import org.xwiki.contrib.glossary.Cache;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.query.QueryManager;
 import org.xwiki.component.annotation.Component;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +48,16 @@ public class GlossaryTransformation extends AbstractTransformation
     @Inject
     private QueryManager queryManager;
 
+    @Inject
+    private Logger logger;
+
     private ProtectedBlockFilter filter = new ProtectedBlockFilter();
 
     public List<String> getGlossaryEntries() throws QueryException
     {
 
         Query query =
-            this.queryManager.createQuery("select doc.name from doc.object(Glossary.GlossaryClass)", Query.XWQL);
+            this.queryManager.createQuery("select doc.name from doc.object(GlossaryCode.GlossaryClass)", Query.XWQL);
         List<String> GlossaryEntries = new ArrayList<String>();
         GlossaryEntries = query.execute();
         return GlossaryEntries;
@@ -63,24 +66,26 @@ public class GlossaryTransformation extends AbstractTransformation
     @Override
     public void transform(Block block, TransformationContext context) throws TransformationException
     {
+        List<String> result = null;
+        try {
+            result = getGlossaryEntries();
+        } catch (QueryException e) {
+            this.logger.error("Failure in comment listener", e);
+        }
 
-        // TODO Auto-generated method stub
         for (WordBlock wordBlock : this.filter.getChildrenByType(block, WordBlock.class, true)) {
-            try {
-                for (int i = 0; i < getGlossaryEntries().size(); i++) {
-                    String result = getGlossaryEntries().get(i);
-                    if (result.equals(wordBlock.getWord())) {
-                        String page = "Glossary." + result;
-                        ResourceReference linkReference = new DocumentResourceReference(page);
-                        wordBlock.getParent().replaceChild(new LinkBlock(wordBlock.getChildren(), linkReference, false),
-                            wordBlock);
 
-                    }
+            for (int i = 0; i < result.size(); i++) {
+                String entry = result.get(i);
+                if (entry.equals(wordBlock.getWord())) {
+                    String page = "Glossary." + result;
+                    ResourceReference linkReference = new DocumentResourceReference(page);
+                    wordBlock.getParent().replaceChild(new LinkBlock(wordBlock.getChildren(), linkReference, false),
+                        wordBlock);
+
                 }
-            } catch (QueryException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
+
         }
 
     }
