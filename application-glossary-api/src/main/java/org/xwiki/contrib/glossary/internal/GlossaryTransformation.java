@@ -70,7 +70,7 @@ public class GlossaryTransformation extends AbstractTransformation
         try {
             result = getGlossaryEntries();
         } catch (QueryException e) {
-            this.logger.error("Failure in comment listener", e);
+            this.logger.error("Failure in getting entries", e);
         }
 
         for (WordBlock wordBlock : this.filter.getChildrenByType(block, WordBlock.class, true)) {
