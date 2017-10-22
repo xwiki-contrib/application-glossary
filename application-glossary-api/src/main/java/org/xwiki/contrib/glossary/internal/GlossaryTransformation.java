@@ -55,7 +55,6 @@ public class GlossaryTransformation extends AbstractTransformation
 
     public List<String> getGlossaryEntries() throws QueryException
     {
-
         Query query =
             this.queryManager.createQuery("select doc.name from doc.object(GlossaryCode.GlossaryClass)", Query.XWQL);
         List<String> GlossaryEntries = new ArrayList<String>();

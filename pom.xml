@@ -1,86 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.xwiki.contrib</groupId>
-		<artifactId>parent-platform</artifactId>
-		<version>7.4-13</version>
-	</parent>
-	<artifactId>application-glossary</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>Glossary - Parent POM</name>
 
-	<scm>
-		<connection>scm:git:git://github.com/xwiki-contrib/application-glossary.git</connection>
-		<developerConnection>scm:git:git@github.com:xwiki-contrib/application-glossary.git</developerConnection>
-		<url>https://github.com/xwiki-contrib/application-glossary</url>
-	</scm>
-	<developers>
-		<developer>
-			<id>sarthak-sopho</id>
-			<name>Sarthak Gupta</name>
-		</developer>
-	</developers>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
 
-
-	<properties>
-		<!-- Don't check for API backward-compatibility here since there's no Java 
-			code. -->
-
-		<xwiki.revapi.skip>true</xwiki.revapi.skip>
-
-
-		<!-- The Extension name. If not defined, the <name> property is used -->
-		<xwiki.extension.name>application-glossary</xwiki.extension.name>
-
-		<!-- The extension's category -->
-		<xwiki.extension.category>application</xwiki.extension.category>
-
-		<!-- Issue management -->
-		<xwiki.release.jira.skip>false</xwiki.release.jira.skip>
-		<xwiki.issueManagement.jira.id>GLOSSARY</xwiki.issueManagement.jira.id>
-	</properties>
-	<build>
-  <pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.eclipse.m2e</groupId>
-        <artifactId>lifecycle-mapping</artifactId>
-        <version>1.0.0</version>
-        <configuration>
-          <lifecycleMappingMetadata>
-            <pluginExecutions>
-              <pluginExecution>
-                <pluginExecutionFilter>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-enforcer-plugin</artifactId>
-                  <versionRange>[1.0.0,)</versionRange>
-                  <goals>
-                    <goal>enforce</goal>
-                  </goals>
-                </pluginExecutionFilter>
-                <action>
-                  <ignore/>
-                </action>
-              </pluginExecution>
-            </pluginExecutions>
-          </lifecycleMappingMetadata>
-        </configuration>
-      </plugin>
-    </plugins>
-  </pluginManagement>
-</build>
-	<modules>
-		<module>application-glossary-ui</module>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.xwiki.contrib</groupId>
+    <artifactId>parent-platform</artifactId>
+    <version>8.4-8</version>
+  </parent>
+  <artifactId>application-glossary</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Glossary - Parent POM</name>
+  <scm>
+    <connection>scm:git:git://github.com/xwiki-contrib/application-glossary.git</connection>
+    <developerConnection>scm:git:git@github.com:xwiki-contrib/application-glossary.git</developerConnection>
+    <url>https://github.com/xwiki-contrib/application-glossary</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>sarthak-sopho</id>
+      <name>Sarthak Gupta</name>
+    </developer>
+  </developers>
+  <properties>
+    <xwiki.release.jira.skip>false</xwiki.release.jira.skip>
+    <xwiki.issueManagement.jira.id>GLOSSARY</xwiki.issueManagement.jira.id>
+  </properties>
+  <modules>
+    <module>application-glossary-ui</module>
     <module>application-glossary-api</module>
   </modules>
-	<profiles>
-		<profile>
-			<id>integration-tests</id>
-			<modules>
-				<module>application-glossary-test</module>
-			</modules>
-		</profile>
-	</profiles>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <versionRange>[1.0.0,)</versionRange>
+                    <goals>
+                      <goal>enforce</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore/>
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  <profiles>
+    <profile>
+      <id>integration-tests</id>
+      <modules>
+        <module>application-glossary-test</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>

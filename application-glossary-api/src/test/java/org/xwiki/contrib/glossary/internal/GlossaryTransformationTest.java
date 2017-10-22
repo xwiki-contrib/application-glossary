@@ -17,29 +17,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.glossary.test.po;
+package org.xwiki.contrib.glossary.internal;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.po.InlinePage;
+import org.junit.Rule;
+import org.junit.Test;
+import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
 /**
- * Represents a Glossary entry page being added.
+ * unit tests for {@link GlossaryTransformation}.
  *
  * @version $Id$
- * @since 4.3M2
  */
-public class GlossaryEntryEditPage extends InlinePage
+public class GlossaryTransformationTest
 {
-    @FindBy(id = "GlossaryCode.GlossaryClass_0_definition")
-    private WebElement definitionElement;
+    @Rule
+    public MockitoComponentMockingRule<GlossaryTransformation> mocker =
+        new MockitoComponentMockingRule<GlossaryTransformation>(GlossaryTransformation.class);
 
-    /**
-     * @param definition the definition to type in the Glossary entry
-     */
-    public void setAnswer(String definition)
+    @Test
+    public void transformWhenOk() throws Exception
     {
-        this.definitionElement.clear();
-        this.definitionElement.sendKeys(definition);
     }
 }

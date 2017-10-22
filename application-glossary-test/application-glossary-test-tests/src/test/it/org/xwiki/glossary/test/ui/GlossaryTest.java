@@ -23,8 +23,8 @@ import java.util.Arrays;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.xwiki.glossary.test.po.GlossaryEntryEditPage;
-import org.xwiki.glossary.test.po.GlossaryHomePage;
+import org.xwiki.contrib.glossary.test.po.GlossaryEntryEditPage;
+import org.xwiki.contrib.glossary.test.po.GlossaryHomePage;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.panels.test.po.ApplicationsPanel;
 import org.xwiki.test.ui.AbstractTest;
