@@ -41,6 +41,11 @@ import org.xwiki.rendering.transformation.AbstractTransformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
 
+/**
+ * Create Transformation for Glossary Application.
+ * 
+ * @version $Id$
+ */
 @Component
 @Singleton
 public class GlossaryTransformation extends AbstractTransformation
@@ -53,13 +58,17 @@ public class GlossaryTransformation extends AbstractTransformation
 
     private ProtectedBlockFilter filter = new ProtectedBlockFilter();
 
+    /**
+     * @return the names of glossary entries.
+     * @throws QueryException when no object is found.
+     */ 
     public List<String> getGlossaryEntries() throws QueryException
     {
         Query query =
             this.queryManager.createQuery("select doc.name from doc.object(GlossaryCode.GlossaryClass)", Query.XWQL);
-        List<String> GlossaryEntries = new ArrayList<String>();
-        GlossaryEntries = query.execute();
-        return GlossaryEntries;
+        List<String> glossaryEntries = new ArrayList<String>();
+        glossaryEntries = query.execute();
+        return glossaryEntries;
     }
 
     @Override
