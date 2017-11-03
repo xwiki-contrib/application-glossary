@@ -23,12 +23,16 @@ import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.query.QueryManager;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.DocumentReferenceResolver;
+import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.rendering.block.Block;
@@ -47,6 +51,7 @@ import org.xwiki.rendering.transformation.TransformationException;
  * @version $Id$
  */
 @Component
+@Named("glossaryTansformation")
 @Singleton
 public class GlossaryTransformation extends AbstractTransformation
 {
@@ -56,38 +61,51 @@ public class GlossaryTransformation extends AbstractTransformation
     @Inject
     private Logger logger;
 
+    @Inject
+    @Named("current")
+    private DocumentReferenceResolver<String> resolver;
+
+    @Inject
+    private EntityReferenceSerializer<String> serializer;
+
     private ProtectedBlockFilter filter = new ProtectedBlockFilter();
 
     /**
      * @return the names of glossary entries.
      * @throws QueryException when no object is found.
-     */ 
-    public List<String> getGlossaryEntries() throws QueryException
+     */
+    public List<String> getGlossaryEntries()
     {
-        Query query =
-            this.queryManager.createQuery("select doc.name from doc.object(GlossaryCode.GlossaryClass)", Query.XWQL);
-        List<String> glossaryEntries = new ArrayList<String>();
-        glossaryEntries = query.execute();
-        return glossaryEntries;
+
+        Query query;
+        try {
+            query = this.queryManager.createQuery("where doc.space like 'Glossary.%'", Query.XWQL);
+            List<String> glossaryEntries = new ArrayList<String>();
+            glossaryEntries = query.execute();
+            return glossaryEntries;
+        } catch (QueryException e) {
+            this.logger.error("Failure in getting entries", e);
+            return null;
+        }
+
     }
 
     @Override
     public void transform(Block block, TransformationContext context) throws TransformationException
     {
         List<String> result = null;
-        try {
-            result = getGlossaryEntries();
-        } catch (QueryException e) {
-            this.logger.error("Failure in getting entries", e);
-        }
 
-        for (WordBlock wordBlock : this.filter.getChildrenByType(block, WordBlock.class, true)) {
+        result = getGlossaryEntries();
 
-            for (int i = 0; i < result.size(); i++) {
-                String entry = result.get(i);
+        for (int i = 0; i < result.size(); i++) {
+            String entry = result.get(i);
+            for (WordBlock wordBlock : this.filter.getChildrenByType(block, WordBlock.class, true)) {
+
                 if (entry.equals(wordBlock.getWord())) {
                     String page = "Glossary." + result;
-                    ResourceReference linkReference = new DocumentResourceReference(page);
+                    DocumentReference reference = resolver.resolve(page);
+                    String serial = serializer.serialize(reference);
+                    ResourceReference linkReference = new DocumentResourceReference(serial);
                     wordBlock.getParent().replaceChild(new LinkBlock(wordBlock.getChildren(), linkReference, false),
                         wordBlock);
 

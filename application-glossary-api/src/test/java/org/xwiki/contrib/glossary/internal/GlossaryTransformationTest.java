@@ -19,9 +19,24 @@
  */
 package org.xwiki.contrib.glossary.internal;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
+
+import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.parser.Parser;
+import org.xwiki.rendering.renderer.BlockRenderer;
+import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
+import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.transformation.TransformationContext;
+
+import static org.mockito.Mockito.*;
+
+import java.io.StringReader;
+import java.util.ArrayList;
+import static org.junit.Assert.*;
 
 /**
  * unit tests for {@link GlossaryTransformation}.
@@ -34,8 +49,35 @@ public class GlossaryTransformationTest
     public MockitoComponentMockingRule<GlossaryTransformation> mocker =
         new MockitoComponentMockingRule<GlossaryTransformation>(GlossaryTransformation.class);
 
+    private GlossaryTransformation glossaryTransformation;
+
+    @Mock
+    private ArrayList<String> mockArrayList;
+
+    @Before
+    public void setUp() throws Exception
+    {
+        this.mockArrayList = new ArrayList<String>();
+        mockArrayList.add("glossaryEntry1");
+        mockArrayList.add("glossaryEntry2");
+
+    }
+
     @Test
     public void transformWhenOk() throws Exception
     {
+        glossaryTransformation = this.mocker.getComponentUnderTest();
+        when(this.glossaryTransformation.getGlossaryEntries()).thenReturn(mockArrayList);
+        String testInput = "This is a glossaryEntry1, AnotherglossaryEntry1, XWikiEnterprise glossaryEntry2.";
+
+        Parser parser = this.mocker.getInstance(Parser.class, "xwiki/2.1");
+        XDOM xdom = parser.parse(new StringReader(testInput));
+        this.glossaryTransformation.transform(xdom, new TransformationContext());
+        WikiPrinter printer = new DefaultWikiPrinter();
+        BlockRenderer xwiki21BlockRenderer = this.mocker.getInstance(BlockRenderer.class, "xwiki/2.1");
+        xwiki21BlockRenderer.render(xdom, printer);
+        assertEquals("This is a [[doc:glossaryEntry1]], AnotherglossaryEntry1, XWikiEnterprise [[doc:glossaryEntry2]].",
+            printer.toString());
+
     }
 }
