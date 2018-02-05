@@ -29,7 +29,9 @@ import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -74,15 +76,20 @@ public class GlossaryTransformation extends AbstractTransformation
      * @return the names of glossary entries.
      * @throws QueryException when no object is found.
      */
-    public List<String> getGlossaryEntries()
+    public Map<String, String> getGlossaryEntries()
     {
 
         Query query;
         try {
             query = this.queryManager.createQuery("where doc.space like 'Glossary.%'", Query.XWQL);
-            List<String> glossaryEntries = new ArrayList<String>();
-            glossaryEntries = query.execute();
-            return glossaryEntries;
+            List<String> glossaryList = new ArrayList<String>();
+            glossaryList = query.execute(); 
+            Map<String, String> glossaryMap = new HashMap<String, String>();
+            for(String str : glossaryList) {
+                glossaryMap.put(str, null);
+            }
+            return glossaryMap;
+            
         } catch (QueryException e) {
             this.logger.error("Failure in getting entries", e);
             return null;
@@ -93,14 +100,14 @@ public class GlossaryTransformation extends AbstractTransformation
     @Override
     public void transform(Block block, TransformationContext context) throws TransformationException
     {
-        List<String> result = null;
+        Map<String, String> result = getGlossaryEntries();
+        Set<Map.Entry<String, String>> entrySet = result.entrySet();
 
-        result = getGlossaryEntries();
-
-        for (int i = 0; i < result.size(); i++) {
-            String entry = result.get(i);
+        
             for (WordBlock wordBlock : this.filter.getChildrenByType(block, WordBlock.class, true)) {
-
+                for (Map.Entry<String, String> temp : entrySet) {
+                    String entry = temp.getKey();
+                
                 if (entry.equals(wordBlock.getWord())) {
                     String page = "Glossary." + result;
                     DocumentReference reference = resolver.resolve(page);
@@ -109,6 +116,7 @@ public class GlossaryTransformation extends AbstractTransformation
                     wordBlock.getParent().replaceChild(new LinkBlock(wordBlock.getChildren(), linkReference, false),
                         wordBlock);
 
+                }
                 }
             }
 
