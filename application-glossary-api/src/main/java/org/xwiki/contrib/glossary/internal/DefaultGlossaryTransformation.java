@@ -23,12 +23,12 @@ import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.query.QueryManager;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.glossary.GlossaryTransformation;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,6 @@ import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.transformation.AbstractTransformation;
 import org.xwiki.rendering.transformation.TransformationContext;
-import org.xwiki.rendering.transformation.TransformationException;
 
 /**
  * Create Transformation for Glossary Application.
@@ -55,7 +54,7 @@ import org.xwiki.rendering.transformation.TransformationException;
 @Component
 @Named("glossaryTansformation")
 @Singleton
-public class GlossaryTransformation extends AbstractTransformation
+public class DefaultGlossaryTransformation extends AbstractTransformation implements GlossaryTransformation
 {
     @Inject
     private QueryManager queryManager;
@@ -73,21 +72,31 @@ public class GlossaryTransformation extends AbstractTransformation
     private ProtectedBlockFilter filter = new ProtectedBlockFilter();
 
     /**
+     * 
      * @return the names of glossary entries.
      * @throws QueryException when no object is found.
      */
-    public Map<String, String> getGlossaryEntries()
+    public Map<String, DocumentReference> getGlossaryEntries()
     {
-
-        Query query;
+    	/* 
+    	 * Since 'Glossary entries' will be created as several pages, so firstly
+    	 * we will create a query to find the pages having space name = 'Glossary', 
+    	 * and the query will return the 'space' and the 'name' of that page.
+    	 * This 'space' and 'name' will be used to create a Document Reference
+    	 * that will be passed to the map<String, Document Reference>.
+    	 */
+        
+    	Map<String, DocumentReference> glossaryMap = new HashMap<String, DocumentReference>();
         try {
-            query = this.queryManager.createQuery("where doc.space like 'Glossary.%'", Query.XWQL);
-            List<String> glossaryList = new ArrayList<String>();
-            glossaryList = query.execute(); 
-            Map<String, String> glossaryMap = new HashMap<String, String>();
-            for(String str : glossaryList) {
-                glossaryMap.put(str, null);
+        	Query query = this.queryManager.createQuery("select doc.space, doc.name where doc.space like 'Glossary.%'", Query.XWQL);
+            List<Object[]> glossaryList =(List<Object[]>) (List) query.execute();
+            for(Object[] glossaryData : glossaryList) {
+            	String space = (String) glossaryData[0];
+            	String name = (String) glossaryData[1];
+            	DocumentReference reference = new DocumentReference("wiki", space, name);
+            	glossaryMap.put(name, reference);
             }
+            
             return glossaryMap;
             
         } catch (QueryException e) {
@@ -98,29 +107,30 @@ public class GlossaryTransformation extends AbstractTransformation
     }
 
     @Override
-    public void transform(Block block, TransformationContext context) throws TransformationException
+    public void transform(Block block, TransformationContext context)
     {
-        Map<String, String> result = getGlossaryEntries();
-        Set<Map.Entry<String, String>> entrySet = result.entrySet();
-
+        Map<String, DocumentReference> result = getGlossaryEntries();
         
             for (WordBlock wordBlock : this.filter.getChildrenByType(block, WordBlock.class, true)) {
-                for (Map.Entry<String, String> temp : entrySet) {
-                    String entry = temp.getKey();
                 
-                if (entry.equals(wordBlock.getWord())) {
-                    String page = "Glossary." + result;
-                    DocumentReference reference = resolver.resolve(page);
+            	String word = wordBlock.getWord();
+            	
+            	//Checking if the map 'result' contains the word.
+            	
+                if (result.containsKey(word)) {
+                	// Taking the DocumentReference from the map and converting it to ResourceReference
+                	// using 'serializer' because link block takes 'Resource Reference' as an argument.
+                    DocumentReference reference = result.get(word);
                     String serial = serializer.serialize(reference);
                     ResourceReference linkReference = new DocumentResourceReference(serial);
                     wordBlock.getParent().replaceChild(new LinkBlock(wordBlock.getChildren(), linkReference, false),
                         wordBlock);
 
                 }
-                }
+                
             }
 
-        }
+        
 
     }
 }
