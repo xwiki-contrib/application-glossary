@@ -20,41 +20,54 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>application-glossary</artifactId>
-    <groupId>org.xwiki.contrib</groupId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
-  <artifactId>application-glossary-api</artifactId>
-  <name>Glossary - API</name>
-  <properties>
-    <xwiki.extension.name>Glossary Application API</xwiki.extension.name>
-  </properties>
-  <dependencies>
-    <dependency>
-      <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-component-api</artifactId>
-      <version>${commons.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-xwiki21</artifactId>
-      <version>${rendering.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-query-manager</artifactId>
-      <version>${platform.version}</version>
-    </dependency>
-    <!-- Testing dependencies -->
-    <dependency>
-      <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-tool-test-component</artifactId>
-      <version>${commons.version}</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>application-glossary</artifactId>
+		<groupId>org.xwiki.contrib</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>application-glossary-api</artifactId>
+	<name>Glossary - API</name>
+	<properties>
+		<xwiki.extension.name>Glossary Application API</xwiki.extension.name>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.xwiki.commons</groupId>
+			<artifactId>xwiki-commons-component-api</artifactId>
+			<version>${commons.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.xwiki.rendering</groupId>
+			<artifactId>xwiki-rendering-syntax-xwiki21</artifactId>
+			<version>${rendering.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.xwiki.platform</groupId>
+			<artifactId>xwiki-platform-query-manager</artifactId>
+			<version>${platform.version}</version>
+		</dependency>
+		<!-- Testing dependencies -->
+		<dependency>
+			<groupId>org.xwiki.commons</groupId>
+			<artifactId>xwiki-commons-tool-test-component</artifactId>
+			<version>${commons.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.0.0-M5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.0.0-M1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
