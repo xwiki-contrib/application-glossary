@@ -17,33 +17,26 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.xwiki.contrib.glossary;
 
 import java.util.Map;
 
-import org.xwiki.component.annotation.Role;
 import org.xwiki.model.reference.DocumentReference;
-import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.transformation.TransformationContext;
+import org.xwiki.query.QueryException;
 
 /**
- * Interface got Default GLossary Transformation.
+ * The model for retrieving glossary entries from the 'Glossary Space'. The entries received will be used in
+ * transformations.
  * 
  * @version $Id$
  */
-@Role
-public interface GlossaryTransformation
+public interface EntryRetrieval
 {
-
     /**
-     * @return the string of glossary entries.
+     * Map to be used to retrieve glossary entries.
+     * 
+     * @throws QueryException when no object is found.
+     * @return a map containing the glossary entries in String form along with it's DocumentReference.
      */
     Map<String, DocumentReference> getGlossaryEntries();
-
-    /**
-     * @param block denotes the wordblock on a wiki page
-     * @param context is org.xwiki.rendering.transformation.TransformationContext;
-     */
-    void transform(Block block, TransformationContext context);
 }

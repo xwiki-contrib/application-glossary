@@ -22,7 +22,6 @@ package org.xwiki.contrib.glossary.internal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.StringReader;
 import java.util.HashMap;
@@ -53,8 +52,8 @@ public class DefaultGlossaryTransformationTest
 {
 
     @Rule
-    public final MockitoComponentMockingRule<DefaultGlossaryTransformation> mocker =
-        new MockitoComponentMockingRule<DefaultGlossaryTransformation>(DefaultGlossaryTransformation.class);
+    public final MockitoComponentMockingRule<GlossaryTransformation> mocker =
+        new MockitoComponentMockingRule<GlossaryTransformation>(GlossaryTransformation.class);
 
     // private QueryManager queryManager;
 
@@ -74,7 +73,7 @@ public class DefaultGlossaryTransformationTest
         glossaryMap.put(str2, documentReference2);
         glossaryMap.put(str3, documentReference3);
 
-        when(this.mocker.getComponentUnderTest().getGlossaryEntries()).thenReturn(glossaryMap);
+        // when(this.mocker.getComponentUnderTest().getGlossaryEntries()).thenReturn(glossaryMap);
 
     }
 
