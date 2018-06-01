@@ -21,15 +21,15 @@ package org.xwiki.contrib.glossary.internal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.rendering.block.XDOM;
@@ -47,7 +47,7 @@ import org.xwiki.test.mockito.MockitoComponentMockingRule;
  */
 
 @AllComponents
-@Ignore
+// @Disabled
 public class GlossaryTransformationTest
 {
     @Rule
@@ -58,7 +58,7 @@ public class GlossaryTransformationTest
 
     private DefaultEntryRetrieval defaultEntryRetrieval;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         // This creates an instance of the class under test.
@@ -96,6 +96,7 @@ public class GlossaryTransformationTest
         // This testInput will contain some of the glossary words. It represents a
         // paragraph on a wiki page.
         // Some glossary entries to be checked are "foo", "bar", "XWiki".
+        // Test Fixture..
         String testInput = "Hello, there are some great companies like foo, bar and XWiki";
 
         // Mocks the Parser Class
@@ -111,6 +112,9 @@ public class GlossaryTransformationTest
         assertEquals(
             "Hello, there are some great companies like [[doc:Glossary.HP]], [[doc:Glossary.Samsung]] and [[doc:Glossary.XWiki]]",
             printer.toString());
+
+        // Verify whether the getGlossaryEntries() method was called in transform/
+        verify(defaultEntryRetrieval).getGlossaryEntries();
 
     }
 
