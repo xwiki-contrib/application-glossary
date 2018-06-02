@@ -21,6 +21,7 @@ package org.xwiki.contrib.glossary;
 
 import java.util.Map;
 
+import org.xwiki.component.annotation.Role;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.query.QueryException;
 
@@ -30,6 +31,7 @@ import org.xwiki.query.QueryException;
  * 
  * @version $Id$
  */
+@Role
 public interface EntryRetrieval
 {
     /**

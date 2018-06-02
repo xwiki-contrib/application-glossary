@@ -26,6 +26,8 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.phase.Initializable;
+import org.xwiki.contrib.glossary.EntryRetrieval;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.rendering.block.Block;
@@ -46,18 +48,23 @@ import org.xwiki.rendering.transformation.TransformationException;
 @Component
 @Singleton
 @Named("glossary")
-public class GlossaryTransformation extends AbstractTransformation
+public class GlossaryTransformation extends AbstractTransformation implements Initializable
 {
     @Inject
-    private DefaultEntryRetrieval entryRetrieval;
-
-    @Inject
-    private ProtectedBlockFilter filter = new ProtectedBlockFilter();
+    private EntryRetrieval entryRetrieval;
 
     @Inject
     private EntityReferenceSerializer<String> serializer;
 
-    private Map<String, DocumentReference> result = entryRetrieval.getGlossaryEntries();
+    private ProtectedBlockFilter filter = new ProtectedBlockFilter();
+
+    private Map<String, DocumentReference> glossaryEntries;
+
+    @Override
+    public void initialize()
+    {
+        this.glossaryEntries = this.entryRetrieval.getGlossaryEntries();
+    }
 
     @Override
     public void transform(Block block, TransformationContext context) throws TransformationException
@@ -67,18 +74,16 @@ public class GlossaryTransformation extends AbstractTransformation
             String word = wordBlock.getWord();
 
             // Checking if the map 'result' contains the 'glossary' word. For now, it only supports single strings.
-
-            if (result.containsKey(word)) {
+            if (this.glossaryEntries.containsKey(word)) {
                 // Taking the DocumentReference from the map and converting it to ResourceReference
                 // using 'EntityReferenceSerializer' because link block takes 'Resource Reference' as an argument.
-                DocumentReference reference = result.get(word);
+                DocumentReference reference = this.glossaryEntries.get(word);
                 String serial = serializer.serialize(reference);
                 ResourceReference linkReference = new DocumentResourceReference(serial);
                 wordBlock.getParent().replaceChild(new LinkBlock(wordBlock.getChildren(), linkReference, false),
                     wordBlock);
 
             }
-
         }
     }
 

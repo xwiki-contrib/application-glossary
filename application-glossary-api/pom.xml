@@ -45,11 +45,28 @@
 			<artifactId>xwiki-rendering-syntax-xwiki21</artifactId>
 			<version>${rendering.version}</version>
 		</dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>org.xwiki.platform</groupId>
 			<artifactId>xwiki-platform-query-manager</artifactId>
 			<version>${platform.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.xwiki.platform</groupId>
+			<artifactId>xwiki-platform-query-xwql</artifactId>
+			<version>${platform.version}</version>
+			<scope>runtime</scope>
+		</dependency-->
+		<dependency>
+			<groupId>org.xwiki.platform</groupId>
+			<artifactId>xwiki-platform-oldcore</artifactId>
+			<version>${platform.version}</version>
+		</dependency>
+		<!--dependency>
+			<groupId>org.xwiki.platform</groupId>
+			<artifactId>xwiki-platform-security-bridge</artifactId>
+			<version>${platform.version}</version>
+			<scope>runtime</scope>
+		</dependency-->
 		<!-- Testing dependencies -->
 		<dependency>
 			<groupId>org.xwiki.commons</groupId>
@@ -58,15 +75,14 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.2.0</version>
+			<groupId>org.xwiki.platform</groupId>
+			<artifactId>xwiki-platform-test-page</artifactId>
+			<version>${platform.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.2.0</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

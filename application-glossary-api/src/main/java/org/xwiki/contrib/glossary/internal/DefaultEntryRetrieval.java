@@ -47,12 +47,6 @@ public class DefaultEntryRetrieval implements EntryRetrieval
     @Inject
     private Logger logger;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.contrib.glossary.EntryRetrieval#getGlossaryEntries()
-     */
-
     @Override
     public Map<String, DocumentReference> getGlossaryEntries()
     {
@@ -63,11 +57,11 @@ public class DefaultEntryRetrieval implements EntryRetrieval
          * map<String,DocumentReference>. This map will be used in transformations.
          */
 
-        Map<String, DocumentReference> glossaryMap = new HashMap<String, DocumentReference>();
+        Map<String, DocumentReference> glossaryMap = new HashMap<>();
         try {
             Query query = this.queryManager.createQuery("select doc.space, doc.name where doc.space like 'Glossary.%'",
                 Query.XWQL);
-            List<Object[]> glossaryList = (List<Object[]>) (List) query.execute();
+            List<Object[]> glossaryList = query.execute();
             for (Object[] glossaryData : glossaryList) {
                 String space = (String) glossaryData[0];
                 String name = (String) glossaryData[1];
@@ -78,6 +72,7 @@ public class DefaultEntryRetrieval implements EntryRetrieval
             return glossaryMap;
 
         } catch (QueryException e) {
+            // TODO: Introduce a GlossaryException exception class and throw it here instead of returning null
             this.logger.error("Failure in getting entries", e);
             return null;
         }
