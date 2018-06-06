@@ -21,6 +21,7 @@ package org.xwiki.contrib.glossary.internal;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.StringReader;
@@ -33,19 +34,13 @@ import org.junit.Test;
 import org.xwiki.contrib.glossary.EntryRetrieval;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.internal.parser.plain.PlainTextBlockParser;
-import org.xwiki.rendering.internal.parser.plain.PlainTextStreamParser;
 import org.xwiki.rendering.internal.parser.reference.type.URLResourceReferenceTypeParser;
-import org.xwiki.rendering.internal.renderer.plain.PlainTextBlockRenderer;
-import org.xwiki.rendering.internal.renderer.plain.PlainTextRenderer;
 import org.xwiki.rendering.internal.renderer.plain.PlainTextRendererFactory;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
-import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
-import org.xwiki.test.annotation.BeforeComponent;
 import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 import org.xwiki.test.page.XWikiSyntax21ComponentList;
@@ -54,10 +49,7 @@ import org.xwiki.test.page.XWikiSyntax21ComponentList;
  * @version $Id$
  */
 @XWikiSyntax21ComponentList
-@ComponentList({
-    URLResourceReferenceTypeParser.class,
-    PlainTextRendererFactory.class
-})
+@ComponentList({URLResourceReferenceTypeParser.class, PlainTextRendererFactory.class})
 public class GlossaryTransformationTest
 {
     @Rule
@@ -79,6 +71,9 @@ public class GlossaryTransformationTest
         String str2 = "bar";
         String str3 = "XWiki";
 
+        documentReference1 = new DocumentReference("xwiki", "Glossary", str1);
+        documentReference2 = new DocumentReference("xwiki", "Glossary", str2);
+        documentReference3 = new DocumentReference("xwiki", "Glossary", str3);
         Map<String, DocumentReference> glossaryMap = new HashMap<>();
         glossaryMap.put(str1, documentReference1);
         glossaryMap.put(str2, documentReference2);
@@ -105,7 +100,10 @@ public class GlossaryTransformationTest
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer xwikiBlockRenderer = this.mocker.getInstance(BlockRenderer.class, "xwiki/2.1");
         xwikiBlockRenderer.render(xdom, printer);
-        assertEquals("Hello, there are some great companies like [[doc:Glossary.HP]], [[doc:Glossary.Samsung]] "
-            + "and [[doc:Glossary.XWiki]]", printer.toString());
+        assertEquals("Hello, there are some great companies like [[xwiki:Glossary.foo]], [[xwiki:Glossary.bar]] "
+            + "and [[xwiki:Glossary.XWiki]]", printer.toString());
+
+        // Verify that getGlossaryEntries() was called.
+        verify(defaultEntryRetrieval).getGlossaryEntries();
     }
 }

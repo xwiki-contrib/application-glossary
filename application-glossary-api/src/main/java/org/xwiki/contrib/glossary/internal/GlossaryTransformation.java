@@ -29,13 +29,11 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.contrib.glossary.EntryRetrieval;
 import org.xwiki.model.reference.DocumentReference;
-import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.internal.block.ProtectedBlockFilter;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
-import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.transformation.AbstractTransformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
@@ -52,9 +50,6 @@ public class GlossaryTransformation extends AbstractTransformation implements In
 {
     @Inject
     private EntryRetrieval entryRetrieval;
-
-    @Inject
-    private EntityReferenceSerializer<String> serializer;
 
     private ProtectedBlockFilter filter = new ProtectedBlockFilter();
 
@@ -76,10 +71,9 @@ public class GlossaryTransformation extends AbstractTransformation implements In
             // Checking if the map 'result' contains the 'glossary' word. For now, it only supports single strings.
             if (this.glossaryEntries.containsKey(word)) {
                 // Taking the DocumentReference from the map and converting it to ResourceReference
-                // using 'EntityReferenceSerializer' because link block takes 'Resource Reference' as an argument.
+                // because link block takes 'Resource Reference' as an argument.
                 DocumentReference reference = this.glossaryEntries.get(word);
-                String serial = serializer.serialize(reference);
-                ResourceReference linkReference = new DocumentResourceReference(serial);
+                DocumentResourceReference linkReference = new DocumentResourceReference(reference.toString());
                 wordBlock.getParent().replaceChild(new LinkBlock(wordBlock.getChildren(), linkReference, false),
                     wordBlock);
 
