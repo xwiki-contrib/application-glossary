@@ -59,8 +59,8 @@ public class DefaultEntryRetrieval implements EntryRetrieval
 
         Map<String, DocumentReference> glossaryMap = new HashMap<>();
         try {
-            Query query = this.queryManager.createQuery("select doc.space, doc.name where doc.space like 'Glossary.%'",
-                Query.XWQL);
+            Query query = this.queryManager.createQuery(
+                "select doc.space, doc.name from XWikiDocument doc where doc.space like 'Glossary'", Query.XWQL);
             List<Object[]> glossaryList = query.execute();
             for (Object[] glossaryData : glossaryList) {
                 String space = (String) glossaryData[0];
