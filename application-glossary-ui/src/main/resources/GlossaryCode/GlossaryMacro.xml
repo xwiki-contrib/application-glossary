@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -27,12 +26,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1507138781000</creationDate>
+  <creationDate>1526985082000</creationDate>
   <parent>GlossaryCode.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1507140582000</date>
-  <contentUpdateDate>1507138781000</contentUpdateDate>
+  <date>1526985082000</date>
+  <contentUpdateDate>1526985082000</contentUpdateDate>
   <version>1.1</version>
   <title>GlossaryMacro</title>
   <comment/>

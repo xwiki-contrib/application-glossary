@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -27,12 +26,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1497876531000</creationDate>
+  <creationDate>1526985082000</creationDate>
   <parent>GlossaryCode.GlossaryClass</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1502218594000</date>
-  <contentUpdateDate>1502201562000</contentUpdateDate>
+  <date>1526985082000</date>
+  <contentUpdateDate>1526985082000</contentUpdateDate>
   <version>1.1</version>
   <title>Glossary Template</title>
   <comment/>
@@ -59,10 +58,11 @@
         <customDisplay/>
         <disabled>0</disabled>
         <editor>---</editor>
+        <hint/>
         <name>definition</name>
         <number>1</number>
         <picker>0</picker>
-        <prettyName>Definition</prettyName>
+        <prettyName>definition</prettyName>
         <rows>5</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>

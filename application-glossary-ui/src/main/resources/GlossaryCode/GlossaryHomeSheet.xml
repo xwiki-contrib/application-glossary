@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -27,12 +26,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1497876709000</creationDate>
+  <creationDate>1526985083000</creationDate>
   <parent>GlossaryCode.GlossaryHomeClass</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1507140806000</date>
-  <contentUpdateDate>1507140789000</contentUpdateDate>
+  <date>1528539662000</date>
+  <contentUpdateDate>1528539662000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'GlossaryHomeSheet')Glossary Home Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <comment/>
@@ -55,7 +54,7 @@
  ## If this page is called with createGlossary=true then create a new page using the GlossaryTemplate template
   #if ($request.createGlossary == 'true')
     ## Remove the "?" if it's the last character since the Glossary sheet adds one automatically
-    #set ($glossaryItem = $stringtool.stripEnd($stringtool.trim($!{request.glossaryItem}), '?'))
+    #set ($glossaryItem = $!{request.glossaryItem})
     ## If there's no glossaryItem then issue a warning below
     #if (!$stringtool.isBlank($glossaryItem))
  #set ($newGlossaryReference = $services.model.createDocumentReference('', '', "$glossaryItem"))

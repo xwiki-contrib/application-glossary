@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -27,12 +26,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1497876647000</creationDate>
+  <creationDate>1526985083000</creationDate>
   <parent>XWiki.XWikiClasses</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1502218607000</date>
-  <contentUpdateDate>1502201561000</contentUpdateDate>
+  <date>1526985083000</date>
+  <contentUpdateDate>1526985083000</contentUpdateDate>
   <version>1.1</version>
   <title>GlossaryHome Class</title>
   <comment/>
