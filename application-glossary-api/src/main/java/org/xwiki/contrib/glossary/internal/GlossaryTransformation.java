@@ -26,7 +26,6 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.phase.Initializable;
 import org.xwiki.contrib.glossary.EntryRetrieval;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.rendering.block.Block;
@@ -46,7 +45,7 @@ import org.xwiki.rendering.transformation.TransformationException;
 @Component
 @Singleton
 @Named("glossary")
-public class GlossaryTransformation extends AbstractTransformation implements Initializable
+public class GlossaryTransformation extends AbstractTransformation
 {
     @Inject
     private EntryRetrieval entryRetrieval;
@@ -56,14 +55,10 @@ public class GlossaryTransformation extends AbstractTransformation implements In
     private Map<String, DocumentReference> glossaryEntries;
 
     @Override
-    public void initialize()
-    {
-        this.glossaryEntries = this.entryRetrieval.getGlossaryEntries();
-    }
-
-    @Override
     public void transform(Block block, TransformationContext context) throws TransformationException
     {
+        this.glossaryEntries = this.entryRetrieval.getGlossaryEntries();
+
         for (WordBlock wordBlock : this.filter.getChildrenByType(block, WordBlock.class, true)) {
 
             String word = wordBlock.getWord();
