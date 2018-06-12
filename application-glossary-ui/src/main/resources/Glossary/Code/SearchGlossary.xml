@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,38 +20,38 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.3" reference="GlossaryCode.SearchGlossary" locale="">
-  <web>GlossaryCode</web>
+<xwikidoc version="1.3" reference="Glossary.Code.SearchGlossary" locale="">
+  <web>Glossary.Code</web>
   <name>SearchGlossary</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1526985083000</creationDate>
-  <parent>GlossaryCode.GlossaryClass</parent>
+  <creationDate>1528792422000</creationDate>
+  <parent>Glossary.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1526985083000</date>
-  <contentUpdateDate>1526985083000</contentUpdateDate>
+  <date>1528792422000</date>
+  <contentUpdateDate>1528792422000</contentUpdateDate>
   <version>1.1</version>
-  <title>Search Glossary</title>
+  <title>SearchGlossary</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>true</hidden>
+  <hidden>false</hidden>
   <content>{{include reference="XWiki.SearchCode"/}}
 
 {{velocity output="false"}}
 #if ($searchEngine == 'solr')
   ## Customize the Solr Search UI for the Glossary application.
   #set ($solrConfig = {
-    'queryFields': 'title^3 property.GlossaryCode.GlossaryClass.definition',
+    'queryFields': 'title^3 property.Glossary.Code.GlossaryClass.definition',
     'facetFields': ['creator', 'creationdate', 'author', 'date', 'mimetype', 'attauthor', 'attdate', 'attsize'],
     'filterQuery': [
       'type:DOCUMENT',
       "wiki:$xcontext.database",
       "space_exact:$doc.space",
-      'class:GlossaryCode.GlossaryClass'
+      'class:Glossary.Code.GlossaryClass'
     ]
   })
 #end

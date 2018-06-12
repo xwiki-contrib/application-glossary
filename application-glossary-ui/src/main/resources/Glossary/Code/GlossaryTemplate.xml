@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,33 +20,33 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.3" reference="GlossaryCode.GlossaryTemplate" locale="">
-  <web>GlossaryCode</web>
+<xwikidoc version="1.3" reference="Glossary.Code.GlossaryTemplate" locale="">
+  <web>Glossary.Code</web>
   <name>GlossaryTemplate</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1526985082000</creationDate>
-  <parent>GlossaryCode.GlossaryClass</parent>
+  <creationDate>1528788568000</creationDate>
+  <parent>Glossary.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1526985082000</date>
-  <contentUpdateDate>1526985082000</contentUpdateDate>
+  <date>1528788595000</date>
+  <contentUpdateDate>1528788568000</contentUpdateDate>
   <version>1.1</version>
-  <title>Glossary Template</title>
+  <title/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>true</hidden>
+  <hidden>false</hidden>
   <content/>
   <object>
-    <name>GlossaryCode.GlossaryTemplate</name>
+    <name>Glossary.Code.GlossaryTemplate</name>
     <number>0</number>
-    <className>GlossaryCode.GlossaryClass</className>
-    <guid>cf3d709e-38ae-464e-b8c0-15588b08573f</guid>
+    <className>Glossary.Code.GlossaryClass</className>
+    <guid>4ce893c1-c47c-4a39-99b9-fed75e8895ec</guid>
     <class>
-      <name>GlossaryCode.GlossaryClass</name>
+      <name>Glossary.Code.GlossaryClass</name>
       <customClass/>
       <customMapping/>
       <defaultViewSheet/>
@@ -62,7 +63,7 @@
         <name>definition</name>
         <number>1</number>
         <picker>0</picker>
-        <prettyName>definition</prettyName>
+        <prettyName>Definition</prettyName>
         <rows>5</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>

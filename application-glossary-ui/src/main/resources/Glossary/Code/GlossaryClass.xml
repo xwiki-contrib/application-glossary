@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,21 +20,21 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.3" reference="GlossaryCode.GlossaryClass" locale="">
-  <web>GlossaryCode</web>
+<xwikidoc version="1.3" reference="Glossary.Code.GlossaryClass" locale="">
+  <web>Glossary.Code</web>
   <name>GlossaryClass</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1526985082000</creationDate>
-  <parent>XWiki.XWikiClasses</parent>
+  <creationDate>1528788006000</creationDate>
+  <parent>Glossary.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1528541263000</date>
-  <contentUpdateDate>1526985082000</contentUpdateDate>
+  <date>1528793212000</date>
+  <contentUpdateDate>1528788006000</contentUpdateDate>
   <version>1.1</version>
-  <title>Glossary  Class</title>
+  <title>GlossaryClass</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
@@ -42,11 +43,11 @@
 ## Replace the default space with the space where you want your documents to be created.
 ## Replace the default parent with the one of your choice and save the document.
 ##
-#set ($defaultSpace = 'GlossaryCode')
-#set ($defaultParent ="Glossary1Code.WebHome")
+#set ($defaultSpace = 'Glossary.Code')
+#set ($defaultParent ="Glossary.Code.WebHome")
 {{/velocity}}</content>
   <class>
-    <name>GlossaryCode.GlossaryClass</name>
+    <name>Glossary.Code.GlossaryClass</name>
     <customClass/>
     <customMapping/>
     <defaultViewSheet/>
@@ -63,7 +64,7 @@
       <name>definition</name>
       <number>1</number>
       <picker>0</picker>
-      <prettyName>definition</prettyName>
+      <prettyName>Definition</prettyName>
       <rows>5</rows>
       <size>40</size>
       <unmodifiable>0</unmodifiable>
@@ -73,10 +74,10 @@
     </definition>
   </class>
   <object>
-    <name>GlossaryCode.GlossaryClass</name>
+    <name>Glossary.Code.GlossaryClass</name>
     <number>0</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>b31a9314-3761-42b0-8e41-43569d2b1ea4</guid>
+    <guid>7d668c73-ce2c-48d0-aad7-5e017d7556a0</guid>
     <class>
       <name>XWiki.ClassSheetBinding</name>
       <customClass/>
@@ -102,38 +103,6 @@
     </class>
     <property>
       <sheet>GlossarySheet</sheet>
-    </property>
-  </object>
-  <object>
-    <name>GlossaryCode.GlossaryClass</name>
-    <number>0</number>
-    <className>XWiki.DocumentSheetBinding</className>
-    <guid>76f805d9-fbf2-4505-8a71-54a544b9144e</guid>
-    <class>
-      <name>XWiki.DocumentSheetBinding</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <sheet>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>sheet</name>
-        <number>1</number>
-        <picker>0</picker>
-        <prettyName>Sheet</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </sheet>
-    </class>
-    <property>
-      <sheet>XWiki.ClassSheet</sheet>
     </property>
   </object>
 </xwikidoc>

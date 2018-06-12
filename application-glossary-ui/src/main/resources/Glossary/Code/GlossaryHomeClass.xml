@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,28 +20,28 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.3" reference="GlossaryCode.GlossaryHomeClass" locale="">
-  <web>GlossaryCode</web>
+<xwikidoc version="1.3" reference="Glossary.Code.GlossaryHomeClass" locale="">
+  <web>Glossary.Code</web>
   <name>GlossaryHomeClass</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1526985083000</creationDate>
-  <parent>XWiki.XWikiClasses</parent>
+  <creationDate>1528788702000</creationDate>
+  <parent>Glossary.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1526985083000</date>
-  <contentUpdateDate>1526985083000</contentUpdateDate>
+  <date>1528788816000</date>
+  <contentUpdateDate>1528788702000</contentUpdateDate>
   <version>1.1</version>
-  <title>GlossaryHome Class</title>
+  <title/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <content/>
   <class>
-    <name>GlossaryCode.GlossaryHomeClass</name>
+    <name>Glossary.Code.GlossaryHomeClass</name>
     <customClass/>
     <customMapping/>
     <defaultViewSheet/>
@@ -53,6 +54,7 @@
       <customDisplay/>
       <disabled>0</disabled>
       <editor>---</editor>
+      <hint/>
       <name>description</name>
       <number>1</number>
       <picker>0</picker>
@@ -66,10 +68,10 @@
     </description>
   </class>
   <object>
-    <name>GlossaryCode.GlossaryHomeClass</name>
+    <name>Glossary.Code.GlossaryHomeClass</name>
     <number>0</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>3b3db88c-15f1-4ff7-8b15-5c5c52a72cc5</guid>
+    <guid>0205f199-a219-49d6-8814-be13f89fd0f4</guid>
     <class>
       <name>XWiki.ClassSheetBinding</name>
       <customClass/>
@@ -95,38 +97,6 @@
     </class>
     <property>
       <sheet>GlossaryHomeSheet</sheet>
-    </property>
-  </object>
-  <object>
-    <name>GlossaryCode.GlossaryHomeClass</name>
-    <number>0</number>
-    <className>XWiki.DocumentSheetBinding</className>
-    <guid>0a75236d-0972-4b98-9583-47ac8e7ea104</guid>
-    <class>
-      <name>XWiki.DocumentSheetBinding</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <sheet>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>sheet</name>
-        <number>1</number>
-        <picker>0</picker>
-        <prettyName>Sheet</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </sheet>
-    </class>
-    <property>
-      <sheet>XWiki.ClassSheet</sheet>
     </property>
   </object>
 </xwikidoc>
