@@ -55,9 +55,15 @@ public class GlossaryTransformation extends AbstractTransformation implements In
 
     private Map<String, DocumentReference> glossaryEntries;
 
+    // TO DO: Inject the GlossaryCache object here.
     @Override
     public void initialize()
     {
+        // Initialize the cache here.
+        // How to initialize?:
+        // See:
+        // xwiki-platform-oldcore/src/main/java/com/xpn/xwiki/internal/cache/rendering/DefaultRenderingCache.java
+        // initialise the cache with getGlossaryEntries by setting key-value pairs.
         this.glossaryEntries = this.entryRetrieval.getGlossaryEntries();
     }
 
