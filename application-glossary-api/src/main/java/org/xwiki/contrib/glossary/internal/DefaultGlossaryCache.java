@@ -19,12 +19,59 @@
  */
 package org.xwiki.contrib.glossary.internal;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import org.xwiki.cache.Cache;
+import org.xwiki.cache.CacheException;
+import org.xwiki.cache.CacheManager;
+import org.xwiki.cache.config.CacheConfiguration;
+import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.GlossaryCache;
+import org.xwiki.model.reference.DocumentReference;
 
 /**
  * @version $Id$
  */
+@Component
+@Singleton
 public class DefaultGlossaryCache implements GlossaryCache
 {
 
+    /**
+     * Used to initialize the actual cache component.
+     */
+    @Inject
+    private CacheManager cacheManager;
+
+    /**
+     * The actual cache object.
+     */
+
+    private Cache<DocumentReference> cache;
+
+    /**
+     * The identifier of the cache.
+     */
+    private String name;
+
+    @Override
+    public void create(CacheConfiguration cacheConfiguration) throws CacheException
+    {
+        this.name = cacheConfiguration.getConfigurationId();
+
+        this.cache = this.cacheManager.createNewCache(cacheConfiguration);
+    }
+
+    @Override
+    public DocumentReference get(String key)
+    {
+        return cache.get(key);
+    }
+
+    @Override
+    public void set(String key, DocumentReference value)
+    {
+        this.cache.set(key, value);
+    }
 }

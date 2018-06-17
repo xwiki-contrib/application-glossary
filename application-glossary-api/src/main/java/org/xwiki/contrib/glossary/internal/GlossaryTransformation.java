@@ -25,9 +25,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.xwiki.cache.CacheException;
+import org.xwiki.cache.config.CacheConfiguration;
+import org.xwiki.cache.eviction.LRUEvictionConfiguration;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
+import org.xwiki.component.phase.InitializationException;
 import org.xwiki.contrib.glossary.EntryRetrieval;
+import org.xwiki.contrib.glossary.GlossaryCache;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.LinkBlock;
@@ -43,28 +48,52 @@ import org.xwiki.rendering.transformation.TransformationException;
  * 
  * @version $Id$
  */
+
 @Component
 @Singleton
 @Named("glossary")
 public class GlossaryTransformation extends AbstractTransformation implements Initializable
 {
+    private static final String NAME = "cache.glossaryCache";
+
     @Inject
     private EntryRetrieval entryRetrieval;
 
+    /**
+     * Identifier for the glossary cache.
+     */
+
     private ProtectedBlockFilter filter = new ProtectedBlockFilter();
 
-    private Map<String, DocumentReference> glossaryEntries;
+    @Inject
+    private GlossaryCache cache;
 
-    // TO DO: Inject the GlossaryCache object here.
     @Override
-    public void initialize()
+    public void initialize() throws InitializationException
     {
         // Initialize the cache here.
         // How to initialize?:
         // See:
         // xwiki-platform-oldcore/src/main/java/com/xpn/xwiki/internal/cache/rendering/DefaultRenderingCache.java
         // initialise the cache with getGlossaryEntries by setting key-value pairs.
-        this.glossaryEntries = this.entryRetrieval.getGlossaryEntries();
+        CacheConfiguration cacheConfiguration = new CacheConfiguration();
+        cacheConfiguration.setConfigurationId(NAME);
+        LRUEvictionConfiguration lru = new LRUEvictionConfiguration();
+        lru.setMaxEntries(1000);
+        cacheConfiguration.put(LRUEvictionConfiguration.CONFIGURATIONID, lru);
+
+        try {
+            this.cache.create(cacheConfiguration);
+        } catch (CacheException e) {
+            throw new InitializationException("Failed to initialize cache", e);
+        }
+        Map<String, DocumentReference> glossaryEntries;
+
+        glossaryEntries = this.entryRetrieval.getGlossaryEntries();
+
+        for (Map.Entry<String, DocumentReference> entry : glossaryEntries.entrySet()) {
+            this.cache.set(entry.getKey(), entry.getValue());
+        }
     }
 
     @Override
@@ -75,10 +104,10 @@ public class GlossaryTransformation extends AbstractTransformation implements In
             String word = wordBlock.getWord();
 
             // Checking if the map 'result' contains the 'glossary' word. For now, it only supports single strings.
-            if (this.glossaryEntries.containsKey(word)) {
+            if (this.cache.get(word) != null) {
                 // Taking the DocumentReference from the map and converting it to ResourceReference
                 // because link block takes 'Resource Reference' as an argument.
-                DocumentReference reference = this.glossaryEntries.get(word);
+                DocumentReference reference = this.cache.get(word);
                 DocumentResourceReference linkReference = new DocumentResourceReference(reference.toString());
                 wordBlock.getParent().replaceChild(new LinkBlock(wordBlock.getChildren(), linkReference, false),
                     wordBlock);
