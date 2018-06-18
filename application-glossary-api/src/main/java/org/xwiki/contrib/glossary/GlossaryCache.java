@@ -19,8 +19,6 @@
  */
 package org.xwiki.contrib.glossary;
 
-import org.xwiki.cache.CacheException;
-import org.xwiki.cache.config.CacheConfiguration;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.model.reference.DocumentReference;
 
@@ -30,16 +28,6 @@ import org.xwiki.model.reference.DocumentReference;
 @Role
 public interface GlossaryCache
 {
-
-    /**
-     * Initialize the cache.
-     * <p>
-     * This method should be called before anything else.
-     *
-     * @param cacheConfiguration the cache configuration
-     * @throws CacheException failed to initialize the cache
-     */
-    void create(CacheConfiguration cacheConfiguration) throws CacheException;
 
     /**
      * Get the value associated with the provided key in the cache.
