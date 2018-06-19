@@ -71,11 +71,6 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable
     @Override
     public void initialize() throws InitializationException
     {
-        // Initialize the cache here.
-        // How to initialize?:
-        // See:
-        // xwiki-platform-oldcore/src/main/java/com/xpn/xwiki/internal/cache/rendering/DefaultRenderingCache.java
-        // initialise the cache with getGlossaryEntries by setting key-value pairs.
 
         CacheConfiguration cacheConfiguration = new CacheConfiguration();
         cacheConfiguration.setConfigurationId(NAME);
@@ -110,6 +105,12 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable
     public void set(String key, DocumentReference value)
     {
         this.cache.set(key, value);
+    }
+
+    @Override
+    public void remove(String key)
+    {
+        this.cache.remove(key);
     }
 
 }

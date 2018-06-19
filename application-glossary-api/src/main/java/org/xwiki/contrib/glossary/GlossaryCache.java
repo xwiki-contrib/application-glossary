@@ -44,4 +44,11 @@ public interface GlossaryCache
      * @param value representing the DocumentReference of glossary Document.
      */
     void set(String key, DocumentReference value);
+
+    /**
+     * Remove the key and value pair from the cache.
+     * 
+     * @param key represents the glossaryItem.
+     */
+    void remove(String key);
 }

@@ -22,12 +22,16 @@ package org.xwiki.contrib.glossary.internal;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.bridge.event.DocumentCreatedEvent;
 import org.xwiki.bridge.event.DocumentDeletedEvent;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.glossary.GlossaryCache;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.Event;
@@ -45,14 +49,18 @@ import com.xpn.xwiki.doc.XWikiDocument;
 public class GlossaryEventListener implements EventListener
 {
 
-    // Cache component to be injected here and to be modified below.
-
     /**
      * Event listened by the component. Two cases: When a Glossary entry is 1)Created 2)Deleted. TODO: When glossary
      * entry is updated.
      */
     private static final List<Event> EVENTS =
         Arrays.<Event>asList(new DocumentCreatedEvent(), new DocumentDeletedEvent());
+
+    @Inject
+    private Provider<GlossaryCache> cache;
+
+    @Inject
+    private Logger logger;
 
     @Override
     public List<Event> getEvents()
@@ -74,13 +82,21 @@ public class GlossaryEventListener implements EventListener
         // Gives the name of the space in which the document is created.
         String spaceName = document.getDocumentReference().getLastSpaceReference().getName();
         // Check if the document modifies has "Glossary" space.
-        if (spaceName.equals(new String("Glossary"))) {
+        if (spaceName.equals("Glossary")) {
             // Fetch the name of the document
             String glossaryEntry = document.getDocumentReference().getName();
             // Fetch the document reference of the document.
-            DocumentReference glossaryDocumentRefernce = document.getDocumentReference();
-            // TODO:update the cache object
+            DocumentReference glossaryDocumentReference = document.getDocumentReference();
 
+            try {
+                if (event instanceof DocumentCreatedEvent) {
+                    this.cache.get().set(glossaryEntry, glossaryDocumentReference);
+                } else if (event instanceof DocumentDeletedEvent) {
+                    this.cache.get().remove(glossaryEntry);
+                }
+            } catch (Exception e) {
+                this.logger.error("Failure to update the cache", e);
+            }
         }
 
     }
