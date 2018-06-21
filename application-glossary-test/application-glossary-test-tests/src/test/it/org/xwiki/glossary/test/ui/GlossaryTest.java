@@ -19,19 +19,16 @@
  */
 package org.xwiki.glossary.test.ui;
 
-import java.util.Arrays;
-
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.contrib.glossary.test.po.GlossaryEntryEditPage;
 import org.xwiki.contrib.glossary.test.po.GlossaryHomePage;
-import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.panels.test.po.ApplicationsPanel;
 import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.ui.SuperAdminAuthenticationRule;
 import org.xwiki.test.ui.po.LiveTableElement;
 import org.xwiki.test.ui.po.ViewPage;
-import org.junit.Assert;
 
 /**
  * UI tests for the Glossary application.
@@ -69,52 +66,13 @@ public class GlossaryTest extends AbstractTest
 
         // Add Glossary entry
         GlossaryEntryEditPage entryPage = homePage.addGlossaryEntry(glossaryTestPage);
-        entryPage.setAnswer("content");
+        entryPage.setDefinition("content");
         vp = entryPage.clickSaveAndView();
 
         // Go back to the home page by clicking in the breadcrumb (this verifies that the new entry has the Glossary
         // home
         // specified in the breadcrumb).
         vp.clickBreadcrumbLink("Glossary");
-
-        // Assert Livetable:
-        // - verify that the Translation has been applied by checking the Translated livetable column name
-        // - verify that the Livetable contains our new Glossary entry
-        LiveTableElement lt = homePage.getGlossaryLiveTable();
-        Assert.assertTrue(lt.hasRow("Glossary Items", glossaryTestPage));
-    }
-
-    /**
-     * Verify that it's possible to add a new Glossary altogether, in a different space. Also make sure it works when
-     * creating that new Glossary in a Nested Space.
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testNewGlossaryAndInNestedSpace() throws Exception
-    {
-        String glossaryTestPage = "NewGlossaryEntry";
-        DocumentReference homeReference =
-            new DocumentReference("xwiki", Arrays.asList(getTestClassName(), "Nested"), "WebHome");
-
-        // Delete pages that we create in the test
-        getUtil().rest().delete(homeReference);
-
-        // Create a new Glossary home page
-        getUtil().addObject(homeReference, "GlossaryCode.GlossaryHomeClass", "description", "new Glossary");
-        // Note: AddObject stays in edit mode so we need to navigate again
-        GlossaryHomePage homePage = new GlossaryHomePage(homeReference);
-        homePage.gotoPage();
-
-        // Add Glossary entry
-        GlossaryEntryEditPage entryPage = homePage.addGlossaryEntry(glossaryTestPage);
-        entryPage.setAnswer("new content");
-        ViewPage vp = entryPage.clickSaveAndView();
-
-        // Go back to the home page by clicking in the breadcrumb (this verifies that the new entry has the Glossary
-        // home
-        // specified in the breadcrumb).
-        vp.clickBreadcrumbLink("Nested");
 
         // Assert Livetable:
         // - verify that the Translation has been applied by checking the Translated livetable column name

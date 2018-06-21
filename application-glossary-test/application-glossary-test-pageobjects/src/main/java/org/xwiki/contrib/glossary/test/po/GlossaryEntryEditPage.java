@@ -31,13 +31,13 @@ import org.xwiki.test.ui.po.InlinePage;
  */
 public class GlossaryEntryEditPage extends InlinePage
 {
-    @FindBy(id = "GlossaryCode.GlossaryClass_0_definition")
+    @FindBy(id = "Glossary.Code.GlossaryClass_0_definition")
     private WebElement definitionElement;
 
     /**
      * @param definition the definition to type in the Glossary entry
      */
-    public void setAnswer(String definition)
+    public void setDefinition(String definition)
     {
         this.definitionElement.clear();
         this.definitionElement.sendKeys(definition);

@@ -105,7 +105,7 @@ public class GlossaryHomePage extends ViewPage
      */
     public LiveTableElement getGlossaryLiveTable()
     {
-        LiveTableElement lt = new LiveTableElement("glossary");
+        LiveTableElement lt = new LiveTableElement("glossaries");
         lt.waitUntilReady();
         return lt;
     }
