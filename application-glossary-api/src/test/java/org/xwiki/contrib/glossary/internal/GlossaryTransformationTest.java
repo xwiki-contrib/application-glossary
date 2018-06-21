@@ -21,18 +21,14 @@ package org.xwiki.contrib.glossary.internal;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-import org.xwiki.contrib.glossary.EntryRetrieval;
+import org.xwiki.contrib.glossary.GlossaryCache;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.reference.type.URLResourceReferenceTypeParser;
@@ -49,7 +45,7 @@ import org.xwiki.test.page.XWikiSyntax21ComponentList;
 /**
  * @version $Id$
  */
-@Ignore
+
 @XWikiSyntax21ComponentList
 @ComponentList({URLResourceReferenceTypeParser.class, PlainTextRendererFactory.class})
 public class GlossaryTransformationTest
@@ -58,12 +54,13 @@ public class GlossaryTransformationTest
     public MockitoComponentMockingRule<GlossaryTransformation> mocker =
         new MockitoComponentMockingRule<>(GlossaryTransformation.class);
 
-    private EntryRetrieval defaultEntryRetrieval;
+    private GlossaryCache cache;
 
     @Before
     public void setUp() throws Exception
     {
-        this.defaultEntryRetrieval = this.mocker.getInstance(EntryRetrieval.class);
+
+        this.cache = this.mocker.getInstance(GlossaryCache.class);
 
         DocumentReference documentReference1 = mock(DocumentReference.class);
         DocumentReference documentReference2 = mock(DocumentReference.class);
@@ -76,12 +73,11 @@ public class GlossaryTransformationTest
         documentReference1 = new DocumentReference("xwiki", "Glossary", str1);
         documentReference2 = new DocumentReference("xwiki", "Glossary", str2);
         documentReference3 = new DocumentReference("xwiki", "Glossary", str3);
-        Map<String, DocumentReference> glossaryMap = new HashMap<>();
-        glossaryMap.put(str1, documentReference1);
-        glossaryMap.put(str2, documentReference2);
-        glossaryMap.put(str3, documentReference3);
 
-        when(this.defaultEntryRetrieval.getGlossaryEntries()).thenReturn(glossaryMap);
+        when(this.cache.get(str1)).thenReturn(documentReference1);
+        when(this.cache.get(str2)).thenReturn(documentReference2);
+        when(this.cache.get(str3)).thenReturn(documentReference3);
+
     }
 
     @Test
@@ -106,6 +102,6 @@ public class GlossaryTransformationTest
             + "and [[xwiki:Glossary.XWiki]]", printer.toString());
 
         // Verify that getGlossaryEntries() was called.
-        verify(defaultEntryRetrieval).getGlossaryEntries();
+        // verify(defaultEntryRetrieval).getGlossaryEntries();
     }
 }
