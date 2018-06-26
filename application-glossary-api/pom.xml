@@ -33,6 +33,7 @@
 	<name>Glossary - API</name>
 	<properties>
 		<xwiki.extension.name>Glossary Application API</xwiki.extension.name>
+        <xwiki.jacoco.instructionRatio>0.20</xwiki.jacoco.instructionRatio>
 	</properties>
 	<dependencies>
 		<dependency>
