@@ -27,12 +27,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1528784140000</creationDate>
+  <creationDate>1528805027000</creationDate>
   <parent>Glossary.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1528791098000</date>
-  <contentUpdateDate>1528791098000</contentUpdateDate>
+  <date>1530005080000</date>
+  <contentUpdateDate>1530005011000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <comment/>
@@ -64,12 +64,10 @@
     #end
   #end
 
-#set ($description = $doc.getValue("description"))
-  #if ("$!description" != "")
-    {{box cssClass="glossaryAbout"}}
-      $doc.display("description")
+
+{{box title = "== $services.localization.render('glossary.about') ==" cssClass="glossaryAbout"}}
     {{/box}}
-  #end
+
    
 ##Adding the Search box on main page.
 (% class="glossary-link search-glossary box" %)(((

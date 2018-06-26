@@ -27,13 +27,12 @@
   <defaultLanguage>en</defaultLanguage>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1528789552000</creationDate>
-  <parent>Glossary.Code.WebHome</parent>
+  <creationDate>1528805027000</creationDate>
   <parent>Glossary.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1528789966000</date>
-  <contentUpdateDate>1528789966000</contentUpdateDate>
+  <date>1529576154000</date>
+  <contentUpdateDate>1529576154000</contentUpdateDate>
   <version>1.1</version>
   <title>Translations</title>
   <comment/>
@@ -52,10 +51,13 @@ glossary.search.title = Search Glossary...
 glossary.add.title = Add Glossary Item...
 glossary.add.searchHint = Glossary Item....
 glossary.add.submit = Add Glossary Item
-
+glossary.about= Glossary Application
 glossary.need = Please login or register
 glossary.noAnswer = No answer has been provided yet for this Glossary entry. Be the first to provide one! Register on this wiki and edit this page to add an answer to this Glossary entry.
-glossary.sheet = This class sheet must be applied on a page containing a GlossaryCode.GlossaryClass object</content>
+glossary.sheet = This class sheet must be applied on a page containing a GlossaryCode.GlossaryClass object
+
+glossary.technical = Contains technical pages for the Glossary application.
+glossary.list = Pages</content>
   <object>
     <name>Glossary.Code.Translations</name>
     <number>0</number>
