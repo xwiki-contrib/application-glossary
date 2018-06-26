@@ -25,7 +25,7 @@
 	<parent>
 		<artifactId>application-glossary</artifactId>
 		<groupId>org.xwiki.contrib</groupId>
-		<version>0.1</version>
+		<version>0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>application-glossary-api</artifactId>
 	<name>Glossary - API</name>
