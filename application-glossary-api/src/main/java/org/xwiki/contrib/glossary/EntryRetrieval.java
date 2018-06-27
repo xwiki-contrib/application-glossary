@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.model.reference.DocumentReference;
-import org.xwiki.query.QueryException;
 
 /**
  * The model for retrieving glossary entries from the 'Glossary Space'. The entries received will be used in
@@ -37,7 +36,6 @@ public interface EntryRetrieval
     /**
      * Map to be used to retrieve glossary entries.
      * 
-     * @throws QueryException when no object is found.
      * @return a map containing the glossary entries in String form along with it's DocumentReference.
      */
     Map<String, DocumentReference> getGlossaryEntries();

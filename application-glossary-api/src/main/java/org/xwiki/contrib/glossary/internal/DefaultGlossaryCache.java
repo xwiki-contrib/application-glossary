@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.cache.Cache;
 import org.xwiki.cache.CacheException;
 import org.xwiki.cache.CacheManager;
@@ -67,6 +68,9 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable
 
     @Inject
     private EntryRetrieval entryRetrieval;
+
+    @Inject
+    private Logger logger;
 
     @Override
     public void initialize() throws InitializationException
