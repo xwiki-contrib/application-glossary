@@ -43,7 +43,7 @@
     <dependency>
       <groupId>org.xwiki.contrib</groupId>
       <artifactId>application-glossary-ui</artifactId>
-      <version>${project.version}</version>
+      <version>0.2-SNAPSHOT</version>
       <type>xar</type>
     </dependency>
     <!-- Add Panel deps which is optional in xwiki-platform-glossary-ui in order to test registration in the App
@@ -69,7 +69,7 @@
     <dependency>
       <groupId>org.xwiki.contrib</groupId>
       <artifactId>application-glossary-test-pageobjects</artifactId>
-      <version>${project.version}</version>
+      <version>0.2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
