@@ -27,6 +27,7 @@
     <artifactId>parent-platform</artifactId>
     <version>8.4-8</version>
   </parent>
+  <groupId>org.xwiki.contrib.glossary</groupId>
   <artifactId>application-glossary</artifactId>
   <version>0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
