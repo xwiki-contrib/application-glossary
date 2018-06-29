@@ -29,7 +29,7 @@
   </parent>
   <groupId>org.xwiki.contrib.glossary</groupId>
   <artifactId>application-glossary</artifactId>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.2</version>
   <packaging>pom</packaging>
   <name>Glossary - Parent POM</name>
   <scm>
