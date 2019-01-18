@@ -57,7 +57,7 @@ public class GlossaryTransformation extends AbstractTransformation
     {
         for (WordBlock wordBlock : this.filter.getChildrenByType(block, WordBlock.class, true)) {
 
-            String word = wordBlock.getWord();
+            String word = wordBlock.getWord().toLowerCase();
 
             // Checking if the map 'result' contains the 'glossary' word. For now, it only supports single strings.
             if (this.cache.get(word) != null) {
