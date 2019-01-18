@@ -66,7 +66,7 @@ public class DefaultEntryRetrieval implements EntryRetrieval
                 String space = (String) glossaryData[0];
                 String name = (String) glossaryData[1];
                 DocumentReference reference = new DocumentReference("xwiki", space, name);
-                glossaryMap.put(name, reference);
+                glossaryMap.put(name.toLowerCase(), reference);
             }
 
             return glossaryMap;
