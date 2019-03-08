@@ -203,7 +203,7 @@
       <supportsInlineMode>0</supportsInlineMode>
     </property>
     <property>
-      <visibility>Current User</visibility>
+      <visibility>Current Wiki</visibility>
     </property>
   </object>
 </xwikidoc>

@@ -19,89 +19,103 @@
  */
 package org.xwiki.contrib.glossary.internal;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.io.StringReader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.contrib.glossary.GlossaryCache;
+import org.xwiki.contrib.glossary.GlossaryModel;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.EntityReferenceSerializer;
+import org.xwiki.rendering.block.LinkBlock;
+import org.xwiki.rendering.block.MacroMarkerBlock;
+import org.xwiki.rendering.block.ParagraphBlock;
+import org.xwiki.rendering.block.SpaceBlock;
+import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.internal.parser.reference.type.URLResourceReferenceTypeParser;
-import org.xwiki.rendering.internal.renderer.plain.PlainTextRendererFactory;
-import org.xwiki.rendering.parser.Parser;
+import org.xwiki.rendering.internal.renderer.event.EventBlockRenderer;
+import org.xwiki.rendering.internal.renderer.event.EventRenderer;
+import org.xwiki.rendering.internal.renderer.event.EventRendererFactory;
+import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
-import org.xwiki.test.page.XWikiSyntax21ComponentList;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 /**
+ * Unit tests for {@link GlossaryTransformation}.
+ *
  * @version $Id$
  */
-
-@XWikiSyntax21ComponentList
-@ComponentList({URLResourceReferenceTypeParser.class, PlainTextRendererFactory.class})
+@ComponentList({
+    EventBlockRenderer.class,
+    EventRendererFactory.class,
+    EventRenderer.class
+})
 public class GlossaryTransformationTest
 {
     @Rule
     public MockitoComponentMockingRule<GlossaryTransformation> mocker =
         new MockitoComponentMockingRule<>(GlossaryTransformation.class);
 
-    private GlossaryCache cache;
-
     @Before
     public void setUp() throws Exception
     {
+        GlossaryCache glossaryCache = this.mocker.getInstance(GlossaryCache.class);
 
-        this.cache = this.mocker.getInstance(GlossaryCache.class);
+        DocumentReference reference1 = new DocumentReference("wiki", "space", "foo");
+        DocumentReference reference2 = new DocumentReference("wiki", "space", "XWiki");
 
-        DocumentReference documentReference1 = mock(DocumentReference.class);
-        DocumentReference documentReference2 = mock(DocumentReference.class);
-        DocumentReference documentReference3 = mock(DocumentReference.class);
+        when(glossaryCache.get("foo")).thenReturn(reference1);
+        when(glossaryCache.get("XWiki")).thenReturn(reference2);
 
-        String str1 = "foo";
-        String str2 = "bar";
-        String str3 = "XWiki";
-
-        documentReference1 = new DocumentReference("xwiki", "Glossary", str1);
-        documentReference2 = new DocumentReference("xwiki", "Glossary", str2);
-        documentReference3 = new DocumentReference("xwiki", "Glossary", str3);
-
-        when(this.cache.get(str1)).thenReturn(documentReference1);
-        when(this.cache.get(str2)).thenReturn(documentReference2);
-        when(this.cache.get(str3)).thenReturn(documentReference3);
-
+        EntityReferenceSerializer<String> serializer = this.mocker.getInstance(EntityReferenceSerializer.TYPE_STRING);
+        when(serializer.serialize(reference1)).thenReturn("wiki:space.foo");
+        when(serializer.serialize(reference2)).thenReturn("wiki:space.XWiki");
     }
 
     @Test
     public void transform() throws Exception
     {
-        // This testInput will contain some of the glossary words. It represents a
-        // paragraph on a wiki page.
-        // Some glossary entries to be checked are "foo", "bar", "XWiki".
-        // Test Fixture..
-        String testInput = "Hello, there are some great companies like foo, bar and XWiki";
+        // - The "Hello" word shouldn't be changed since there's no glossary entry for it
+        // - There's one glossary word to change to a link: "foo"
+        // - The "XWiki" word shouldn't be changed since it's inside a link
+        //   (even though there's a glossary entry for it)
+        // - The "protected" word shouldn't be changed since it's inside a protected block (code macro here)
+        XDOM xdom = new XDOM(Arrays.asList(new ParagraphBlock(Arrays.asList(
+            new WordBlock("Hello"), new SpaceBlock(), new WordBlock("foo"), new SpaceBlock(),
+            new LinkBlock(Arrays.asList(new WordBlock("XWiki")),
+                new DocumentResourceReference("XWiki.WebHome"), false),
+            new MacroMarkerBlock("code", Collections.emptyMap(), Arrays.asList(new WordBlock("protected")), true)))));
 
-        // Mocks the Parser Class
-        Parser parser = this.mocker.getInstance(Parser.class, "xwiki/2.1");
-        // Parses the "String" into XDOM
-        XDOM xdom = parser.parse(new StringReader(testInput));
-        // Glossary Transformation executes.
         this.mocker.getComponentUnderTest().transform(xdom, new TransformationContext());
-        WikiPrinter printer = new DefaultWikiPrinter();
-        BlockRenderer xwikiBlockRenderer = this.mocker.getInstance(BlockRenderer.class, "xwiki/2.1");
-        xwikiBlockRenderer.render(xdom, printer);
-        assertEquals("Hello, there are some great companies like [[xwiki:Glossary.foo]], [[xwiki:Glossary.bar]] "
-            + "and [[xwiki:Glossary.XWiki]]", printer.toString());
 
-        // Verify that getGlossaryEntries() was called.
-        // verify(defaultEntryRetrieval).getGlossaryEntries();
+        WikiPrinter printer = new DefaultWikiPrinter();
+        BlockRenderer xwikiBlockRenderer = this.mocker.getInstance(BlockRenderer.class, "event/1.0");
+        xwikiBlockRenderer.render(xdom, printer);
+        assertEquals("beginDocument\n"
+            + "beginParagraph\n"
+            + "onWord [Hello]\n"
+            + "onSpace\n"
+            + "beginLink [Typed = [true] Type = [doc] Reference = [wiki:space.foo]] [false]\n"
+            + "endLink [Typed = [true] Type = [doc] Reference = [wiki:space.foo]] [false]\n"
+            + "onSpace\n"
+            + "beginLink [Typed = [true] Type = [doc] Reference = [XWiki.WebHome]] [false]\n"
+            + "onWord [XWiki]\n"
+            + "endLink [Typed = [true] Type = [doc] Reference = [XWiki.WebHome]] [false]\n"
+            + "beginMacroMarkerInline [code] []\n"
+            + "onWord [protected]\n"
+            + "endMacroMarkerInline [code] []\n"
+            + "endParagraph\n"
+            + "endDocument", printer.toString());
     }
 }

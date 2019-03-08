@@ -26,56 +26,54 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.glossary.EntryRetrieval;
+import org.xwiki.contrib.glossary.GlossaryException;
+import org.xwiki.contrib.glossary.GlossaryModel;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.query.QueryManager;
 
 /**
+ * Default implementation using the Query Manager to find all Glossary entries in the database, for the current wiki.
+ *
  * @version $Id$
  */
 @Component
 @Singleton
-public class DefaultEntryRetrieval implements EntryRetrieval
+public class DefaultGlossaryModel implements GlossaryModel
 {
     @Inject
     private QueryManager queryManager;
 
     @Inject
-    private Logger logger;
+    private DocumentReferenceResolver<String> defaultDocumentReferenceResolver;
 
     @Override
-    public Map<String, DocumentReference> getGlossaryEntries()
+    public Map<String, DocumentReference> getGlossaryEntries() throws GlossaryException
     {
-        /*
-         * Since 'Glossary entries' will be created as several pages, so firstly we will create a query to find the
-         * pages having space name = 'Glossary', and the query will return the 'space' and the 'name' of that page. This
-         * 'space' and 'name' will be used to create a Document Reference that will be passed to the
-         * map<String,DocumentReference>. This map will be used in transformations.
-         */
-
+        // Find all existing glossary entries and save them in a cache for fast transformation execution.
         Map<String, DocumentReference> glossaryMap = new HashMap<>();
         try {
-            Query query = this.queryManager.createQuery(
-                "select doc.space, doc.name from XWikiDocument doc where doc.space like 'Glossary'", Query.XWQL);
-            List<Object[]> glossaryList = query.execute();
-            for (Object[] glossaryData : glossaryList) {
-                String space = (String) glossaryData[0];
-                String name = (String) glossaryData[1];
-                DocumentReference reference = new DocumentReference("xwiki", space, name);
+            Query query = this.queryManager.createQuery("from doc.object(Glossary.Code.GlossaryClass) as glossary",
+                Query.XWQL);
+            List<String> documentNames = query.execute();
+            for (String documentName : documentNames) {
+                DocumentReference reference = this.defaultDocumentReferenceResolver.resolve(documentName);
+                // Handle the case of nested page.
+                // TODO: When we upgrade the parent POM dependency to a more recent XWiki version, use a
+                // PageReferenceResolver instead.
+                String name = reference.getName();
+                if ("WebHome".equals(name)) {
+                    name = reference.getParent().getName();
+                }
                 glossaryMap.put(name, reference);
             }
-
-            return glossaryMap;
-
         } catch (QueryException e) {
-            // TODO: Introduce a GlossaryException exception class and throw it here instead of returning null
-            this.logger.error("Failure in getting entries", e);
-            return null;
+            throw new GlossaryException("Failed to retrieve Glossary entries", e);
         }
-    }
 
+        return glossaryMap;
+    }
 }

@@ -32,15 +32,17 @@ import org.xwiki.bridge.event.DocumentCreatedEvent;
 import org.xwiki.bridge.event.DocumentDeletedEvent;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.GlossaryCache;
+import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.EntityReference;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.Event;
 
 import com.xpn.xwiki.doc.XWikiDocument;
 
 /**
- * An event listener for the Glossary Application.
- * 
+ * Update the Glossary cache when documents containing {@code Glossary.Code.GlossaryClass} xobjects are modified.
+ *
  * @version $Id$
  */
 @Component
@@ -48,13 +50,12 @@ import com.xpn.xwiki.doc.XWikiDocument;
 @Singleton
 public class GlossaryEventListener implements EventListener
 {
+    private static final List<Event> EVENTS = Arrays.asList(new DocumentCreatedEvent(), new DocumentDeletedEvent());
 
-    /**
-     * Event listened by the component. Two cases: When a Glossary entry is 1)Created 2)Deleted. TODO: When glossary
-     * entry is updated.
-     */
-    private static final List<Event> EVENTS =
-        Arrays.<Event>asList(new DocumentCreatedEvent(), new DocumentDeletedEvent());
+    private static final EntityReference GLOSSARY_XCLASS_REFERENCE =
+        new EntityReference("GlossaryClass", EntityType.DOCUMENT,
+            new EntityReference("Code", EntityType.SPACE,
+                new EntityReference("Glossary", EntityType.SPACE)));
 
     @Inject
     private Provider<GlossaryCache> cache;
@@ -77,28 +78,33 @@ public class GlossaryEventListener implements EventListener
     @Override
     public void onEvent(Event event, Object source, Object data)
     {
-        // Document on which the event is happening
         XWikiDocument document = (XWikiDocument) source;
-        // Gives the name of the space in which the document is created.
-        String spaceName = document.getDocumentReference().getLastSpaceReference().getName();
-        // Check if the document modifies has "Glossary" space.
-        if (spaceName.equals("Glossary")) {
-            // Fetch the name of the document
-            String glossaryEntry = document.getDocumentReference().getName();
-            // Fetch the document reference of the document.
+        // Note:
+        // - if the doc is deleted then document.getOriginalDocument() is the doc before the deletion and thus
+        //   containing the xclass
+        // - if the doc is created then document.getOriginalDocument() is the same as document
+        if ((event instanceof DocumentCreatedEvent && document.getXObject(GLOSSARY_XCLASS_REFERENCE) != null)
+            || (event instanceof DocumentDeletedEvent
+                && document.getOriginalDocument().getXObject(GLOSSARY_XCLASS_REFERENCE) != null))
+        {
             DocumentReference glossaryDocumentReference = document.getDocumentReference();
-
-            try {
-                if (event instanceof DocumentCreatedEvent) {
-                    this.cache.get().set(glossaryEntry, glossaryDocumentReference);
-                } else if (event instanceof DocumentDeletedEvent) {
-                    this.cache.get().remove(glossaryEntry);
-                }
-            } catch (Exception e) {
-                this.logger.error("Failure to update the cache", e);
+            String glossaryName = getGlossaryName(glossaryDocumentReference);
+            if (event instanceof DocumentCreatedEvent) {
+                this.cache.get().set(glossaryName, glossaryDocumentReference);
+            } else if (event instanceof DocumentDeletedEvent) {
+                this.cache.get().remove(glossaryName);
             }
         }
-
     }
 
+    private String getGlossaryName(DocumentReference reference)
+    {
+        String name;
+        if ("WebHome".equals(reference.getName())) {
+            name = reference.getParent().getName();
+        } else {
+            name = reference.getName();
+        }
+        return name;
+    }
 }

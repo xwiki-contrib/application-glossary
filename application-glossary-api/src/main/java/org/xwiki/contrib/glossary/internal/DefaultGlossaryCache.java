@@ -24,7 +24,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.slf4j.Logger;
 import org.xwiki.cache.Cache;
 import org.xwiki.cache.CacheException;
 import org.xwiki.cache.CacheManager;
@@ -33,11 +32,14 @@ import org.xwiki.cache.eviction.LRUEvictionConfiguration;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.contrib.glossary.EntryRetrieval;
 import org.xwiki.contrib.glossary.GlossaryCache;
+import org.xwiki.contrib.glossary.GlossaryException;
+import org.xwiki.contrib.glossary.GlossaryModel;
 import org.xwiki.model.reference.DocumentReference;
 
 /**
+ * Cache of Glossary data to speed up the transformation.
+ *
  * @version $Id$
  */
 @Component
@@ -58,45 +60,32 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable
     /**
      * The actual cache object.
      */
-
     private Cache<DocumentReference> cache;
 
-    /**
-     * The identifier of the cache.
-     */
-    private String name;
-
     @Inject
-    private EntryRetrieval entryRetrieval;
-
-    @Inject
-    private Logger logger;
+    private GlossaryModel glossaryModel;
 
     @Override
     public void initialize() throws InitializationException
     {
-
-        CacheConfiguration cacheConfiguration = new CacheConfiguration();
-        cacheConfiguration.setConfigurationId(NAME);
-        LRUEvictionConfiguration lru = new LRUEvictionConfiguration();
-        lru.setMaxEntries(1000);
-        cacheConfiguration.put(LRUEvictionConfiguration.CONFIGURATIONID, lru);
         try {
-            this.name = cacheConfiguration.getConfigurationId();
+            CacheConfiguration cacheConfiguration = new CacheConfiguration();
+            cacheConfiguration.setConfigurationId(NAME);
+            LRUEvictionConfiguration lru = new LRUEvictionConfiguration();
+            lru.setMaxEntries(1000);
+            cacheConfiguration.put(LRUEvictionConfiguration.CONFIGURATIONID, lru);
             this.cache = this.cacheManager.createNewCache(cacheConfiguration);
 
-        } catch (CacheException e) {
-            throw new InitializationException("Failed to initialize cache", e);
+            Map<String, DocumentReference> glossaryEntries;
+
+            // Load existing Glossary entries in the current wiki and save them in the cache
+            glossaryEntries = this.glossaryModel.getGlossaryEntries();
+            for (Map.Entry<String, DocumentReference> entry : glossaryEntries.entrySet()) {
+                this.cache.set(entry.getKey(), entry.getValue());
+            }
+        } catch (CacheException | GlossaryException e) {
+            throw new InitializationException("Failed to initialize Glossary cache", e);
         }
-
-        Map<String, DocumentReference> glossaryEntries;
-
-        glossaryEntries = this.entryRetrieval.getGlossaryEntries();
-
-        for (Map.Entry<String, DocumentReference> entry : glossaryEntries.entrySet()) {
-            this.cache.set(entry.getKey(), entry.getValue());
-        }
-
     }
 
     @Override
@@ -116,5 +105,4 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable
     {
         this.cache.remove(key);
     }
-
 }

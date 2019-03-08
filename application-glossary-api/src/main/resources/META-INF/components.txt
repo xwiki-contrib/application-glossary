@@ -1,4 +1,4 @@
 org.xwiki.contrib.glossary.internal.GlossaryTransformation
-org.xwiki.contrib.glossary.internal.DefaultEntryRetrieval
+org.xwiki.contrib.glossary.internal.DefaultGlossaryModel
 org.xwiki.contrib.glossary.internal.GlossaryEventListener
 org.xwiki.contrib.glossary.internal.DefaultGlossaryCache

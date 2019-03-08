@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.contrib.glossary</groupId>
     <artifactId>application-glossary</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>application-glossary-ui</artifactId>
   <name>Glossary - UI</name>
@@ -35,12 +35,12 @@
     <xwiki.extension.category>application</xwiki.extension.category>
   </properties>
   <dependencies>
-  <dependency>
-  <groupId>org.xwiki.contrib.glossary</groupId>
-  <artifactId>application-glossary-api</artifactId>
-  <version>${project.version}</version>
-  <scope>runtime</scope>
-  </dependency>
+    <dependency>
+      <groupId>org.xwiki.contrib.glossary</groupId>
+      <artifactId>application-glossary-api</artifactId>
+      <version>${project.version}</version>
+      <scope>runtime</scope>
+    </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-rendering-macro-velocity</artifactId>

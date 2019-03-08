@@ -25,18 +25,20 @@ import org.xwiki.component.annotation.Role;
 import org.xwiki.model.reference.DocumentReference;
 
 /**
- * The model for retrieving glossary entries from the 'Glossary Space'. The entries received will be used in
- * transformations.
- * 
+ * The model for retrieving Glossary entries. The entries received will be used as a cache for the GLossary
+ * transformation to speed up execution.
+ *
  * @version $Id$
+ * @since 0.3
  */
 @Role
-public interface EntryRetrieval
+public interface GlossaryModel
 {
     /**
-     * Map to be used to retrieve glossary entries.
-     * 
-     * @return a map containing the glossary entries in String form along with it's DocumentReference.
+     * Find all existing Glossary definition in the current wiki.
+     *
+     * @return the map containing the glossary entries with the index being the Glossary page name
+     * @throws GlossaryException when an error happens when finding Glossary entries
      */
-    Map<String, DocumentReference> getGlossaryEntries();
+    Map<String, DocumentReference> getGlossaryEntries() throws GlossaryException;
 }

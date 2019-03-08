@@ -20,12 +20,13 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.contrib.glossary</groupId>
     <artifactId>application-glossary-test</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>application-glossary-test-tests</artifactId>
   <name>Glossary - Tests - Functional Tests</name>
@@ -34,16 +35,16 @@
   <packaging>jar</packaging>
   <description>Glossary - Functional Tests</description>
   <properties>
-    <!-- TODO: Remove once http://jira.xwiki.org/jira/browse/XWIKI-7581 is fixed -->
     <xwikiCfgSuperadminPassword>pass</xwikiCfgSuperadminPassword>
+    <xwikiRenderingTransformations>macro, icon, glossary</xwikiRenderingTransformations>
     <!-- Functional tests are allowed to output content to the console -->
     <xwiki.surefire.captureconsole.skip>true</xwiki.surefire.captureconsole.skip>
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.xwiki.contrib</groupId>
+      <groupId>org.xwiki.contrib.glossary</groupId>
       <artifactId>application-glossary-ui</artifactId>
-      <version>0.2-SNAPSHOT</version>
+      <version>${project.version}</version>
       <type>xar</type>
     </dependency>
     <!-- Add Panel deps which is optional in xwiki-platform-glossary-ui in order to test registration in the App
@@ -67,9 +68,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.contrib</groupId>
+      <groupId>org.xwiki.contrib.glossary</groupId>
       <artifactId>application-glossary-test-pageobjects</artifactId>
-      <version>0.2-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -115,39 +116,6 @@
         </executions>
       </plugin>
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>
-                      org.xwiki.platform
-                    </groupId>
-                    <artifactId>
-                      xwiki-platform-tool-packager-plugin
-                    </artifactId>
-                    <versionRange>[7.4,)</versionRange>
-                    <goals>
-                      <goal>package</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
   </build>
   <profiles>
     <profile>
@@ -156,7 +124,7 @@
            It's needed because instrumented jars in the WAR will call Clover APIs at runtime when they execute. -->
       <dependencies>
         <dependency>
-          <groupId>com.atlassian.clover</groupId>
+          <groupId>org.openclover</groupId>
           <artifactId>clover</artifactId>
         </dependency>
       </dependencies>
@@ -170,7 +138,7 @@
             <version>${platform.version}</version>
             <dependencies>
               <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover</artifactId>
                 <version>${clover.version}</version>
               </dependency>

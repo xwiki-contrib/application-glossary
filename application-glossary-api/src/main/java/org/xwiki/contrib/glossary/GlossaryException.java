@@ -19,35 +19,24 @@
  */
 package org.xwiki.contrib.glossary;
 
-import org.xwiki.component.annotation.Role;
-import org.xwiki.model.reference.DocumentReference;
-
 /**
+ * Exception in the Glossary module's operations.
+ *
  * @version $Id$
+ * @since 0.3
  */
-@Role
-public interface GlossaryCache
+public class GlossaryException extends Exception
 {
-    /**
-     * Get the value associated with the provided key in the cache.
-     *
-     * @param key of type String
-     * @return the DocumentReference
-     */
-    DocumentReference get(String key);
+    private static final long serialVersionUID = 1L;
 
     /**
-     * Sets the key and value in the cache.
+     * Constructor.
      *
-     * @param key represents the glossaryItem.
-     * @param value representing the DocumentReference of glossary Document.
+     * @param message the detail message
+     * @param cause the cause of this exception
      */
-    void set(String key, DocumentReference value);
-
-    /**
-     * Remove the key and value pair from the cache.
-     *
-     * @param key represents the glossaryItem.
-     */
-    void remove(String key);
+    public GlossaryException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
 }
