@@ -38,6 +38,13 @@
   </properties>
   <modules>
     <module>application-glossary-test-pageobjects</module>
-    <module>application-glossary-test-tests</module>
   </modules>
+  <profiles>
+    <profile>
+      <id>docker</id>
+      <modules>
+        <module>application-glossary-test-docker</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
