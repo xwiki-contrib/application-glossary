@@ -19,8 +19,15 @@
  */
 package org.xwiki.contrib.glossary.internal;
 
+import java.util.Arrays;
+
 import org.junit.runner.RunWith;
+import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.mockito.MockitoComponentManager;
+
+import static org.mockito.Mockito.when;
 
 /**
  * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
@@ -28,7 +35,19 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  *
  * @version $Id$
  */
+@AllComponents
 @RunWith(RenderingTestSuite.class)
 public class GlossaryReferenceMacroTest
 {
+    @RenderingTestSuite.Initialized
+    public void initialize(MockitoComponentManager componentManager) throws Exception
+    {
+        // By default the GlossaryTransformation will be registered since DefaultRenderingConfiguration's
+        // implementation registers all transformation in the classpath for the test. However, in this test we don't
+        // want the "glossary" transformation since we're testing a macro that is supposed to be used especially when
+        // the transformation is not enabled. Also, enabling the transformation would require to setup more mocks which
+        // is unnecessary.
+        RenderingConfiguration configuration = componentManager.registerMockComponent(RenderingConfiguration.class);
+        when(configuration.getTransformationNames()).thenReturn(Arrays.asList("macro"));
+    }
 }
