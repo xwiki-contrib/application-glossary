@@ -33,7 +33,6 @@ import org.xwiki.test.ui.po.ViewPage;
  * Represents actions that can be done on a Glossary home page.
  *
  * @version $Id$
- * @since 4.3M2
  */
 public class GlossaryHomePage extends ViewPage
 {

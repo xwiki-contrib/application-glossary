@@ -27,7 +27,6 @@ import org.xwiki.test.ui.po.InlinePage;
  * Represents a Glossary entry page being added.
  *
  * @version $Id$
- * @since 4.3M2
  */
 public class GlossaryEntryEditPage extends InlinePage
 {
