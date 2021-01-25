@@ -19,16 +19,18 @@
  */
 package org.xwiki.glossary.test.ui;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.xwiki.contrib.glossary.test.po.GlossaryEntryEditPage;
 import org.xwiki.contrib.glossary.test.po.GlossaryHomePage;
 import org.xwiki.panels.test.po.ApplicationsPanel;
-import org.xwiki.test.ui.AbstractTest;
-import org.xwiki.test.ui.SuperAdminAuthenticationRule;
+import org.xwiki.test.docker.junit5.UITest;
+import org.xwiki.test.ui.TestUtils;
 import org.xwiki.test.ui.po.LiveTableElement;
 import org.xwiki.test.ui.po.ViewPage;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * UI tests for the Glossary application.
@@ -36,22 +38,21 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 4.3M2
  */
-public class GlossaryTest extends AbstractTest
+@UITest
+class GlossaryIT
 {
-    // Login as superadmin to have delete rights.
-    @Rule
-    public SuperAdminAuthenticationRule authenticationRule = new SuperAdminAuthenticationRule(getUtil());
-
     @Test
-    public void testGlossary() throws Exception
+    public void verifyGlossary(TestUtils setup, TestInfo info) throws Exception
     {
+        setup.loginAsSuperAdmin();
+
         // Note: we use a dot in the page name to verify it's supported by the Glossary application and we use an accent
         // to
         // verify encoding.
         String glossaryTestPage = "Test.entrée de Glossary";
 
         // Delete pages that we create in the test
-        getUtil().rest().deletePage(getTestClassName(), glossaryTestPage);
+        setup.rest().deletePage(info.getTestClass().get().getSimpleName(), glossaryTestPage);
 
         // Navigate to the Glossary app by clicking in the Application Panel.
         // This verifies that the Glossary application is registered in the Applications Panel.
@@ -61,8 +62,8 @@ public class GlossaryTest extends AbstractTest
 
         // Verify we're on the right page!
         GlossaryHomePage homePage = GlossaryHomePage.DEFAULT_GLOSSARY_HOME_PAGE;
-        Assert.assertEquals(homePage.getSpaces(), vp.getMetaDataValue("space"));
-        Assert.assertEquals(homePage.getPage(), vp.getMetaDataValue("page"));
+        assertEquals(homePage.getSpaces(), vp.getMetaDataValue("space"));
+        assertEquals(homePage.getPage(), vp.getMetaDataValue("page"));
 
         // Add Glossary entry
         GlossaryEntryEditPage entryPage = homePage.addGlossaryEntry(glossaryTestPage);
@@ -78,6 +79,6 @@ public class GlossaryTest extends AbstractTest
         // - verify that the Translation has been applied by checking the Translated livetable column name
         // - verify that the Livetable contains our new Glossary entry
         LiveTableElement lt = homePage.getGlossaryLiveTable();
-        Assert.assertTrue(lt.hasRow("Glossary Items", glossaryTestPage));
+        assertTrue(lt.hasRow("Glossary Items", glossaryTestPage));
     }
 }
