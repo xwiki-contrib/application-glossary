@@ -1,0 +1,23 @@
+.runTransformations
+.#---------------------------------------------------------
+.input|xwiki/2.1
+.# With missing content.
+.#---------------------------------------------------------
+Hello {{glossaryReference/}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Hello]
+onSpace
+beginMacroMarkerInline [glossaryReference] []
+beginFormat [NONE] [[class]=[xwikirenderingerror]]
+onWord [Failed to execute the [glossaryReference] macro. Cause: [You must specify some content which will be used as the label off the glossary reference link]. Click on this message for details.]
+endFormat [NONE] [[class]=[xwikirenderingerror]]
+beginFormat [NONE] [[class]=[xwikirenderingerrordescription hidden]]
+onVerbatim [org.xwiki.rendering.macro.MacroExecutionException: You must specify some content which will be used as the label off the glossary reference link${{{regex:.*}}}] [true]
+endFormat [NONE] [[class]=[xwikirenderingerrordescription hidden]]
+endMacroMarkerInline [glossaryReference] []
+endParagraph
+endDocument

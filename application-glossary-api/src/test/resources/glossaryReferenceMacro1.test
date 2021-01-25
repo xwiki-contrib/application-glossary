@@ -1,0 +1,20 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.# No glossary entry id parameter specified.
+.#-----------------------------------------------------
+Hello {{glossaryReference}}world{{/glossaryReference}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Hello]
+onSpace
+beginMacroMarkerInline [glossaryReference] [] [world]
+beginLink [Typed = [true] Type = [doc] Reference = [xwiki:Glossary.world]] [false]
+onWord [world]
+endLink [Typed = [true] Type = [doc] Reference = [xwiki:Glossary.world]] [false]
+endMacroMarkerInline [glossaryReference] [] [world]
+endParagraph
+endDocument
