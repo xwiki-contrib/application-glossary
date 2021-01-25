@@ -175,7 +175,7 @@
    "rowCount": 30,
    "extraParams" : "$xcontext.macro.params.filter"
 })
-#livetable("glossaries" $columns $columnsProperties $options)
+#livetable("glossary" $columns $columnsProperties $options)
 {{/velocity}}</code>
     </property>
     <property>
