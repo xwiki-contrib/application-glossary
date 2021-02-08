@@ -19,21 +19,37 @@
  */
 package org.xwiki.contrib.glossary.internal;
 
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.contrib.glossary.GlossaryException;
 import org.xwiki.contrib.glossary.GlossaryModel;
+import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
+import org.xwiki.model.reference.EntityReference;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.query.QueryManager;
+import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.parser.ParseException;
+import org.xwiki.rendering.parser.Parser;
+import org.xwiki.rendering.syntax.Syntax;
+
+import com.xpn.xwiki.XWikiContext;
+import com.xpn.xwiki.XWikiException;
+import com.xpn.xwiki.doc.XWikiDocument;
+import com.xpn.xwiki.objects.BaseObject;
 
 /**
  * Default implementation using the Query Manager to find all Glossary entries in the database, for the current wiki.
@@ -44,11 +60,23 @@ import org.xwiki.query.QueryManager;
 @Singleton
 public class DefaultGlossaryModel implements GlossaryModel
 {
+    private static final EntityReference GLOSSARY_XCLASS_REFERENCE =
+        new EntityReference("GlossaryClass", EntityType.DOCUMENT,
+            new EntityReference("Code", EntityType.SPACE,
+                new EntityReference("Glossary", EntityType.SPACE)));
+
     @Inject
     private QueryManager queryManager;
 
     @Inject
     private DocumentReferenceResolver<String> defaultDocumentReferenceResolver;
+
+    @Inject
+    private Provider<XWikiContext> xwikiContextProvider;
+
+    @Inject
+    @Named("context")
+    private Provider<ComponentManager> componentManagerProvider;
 
     @Override
     public Map<String, DocumentReference> getGlossaryEntries() throws GlossaryException
@@ -75,5 +103,32 @@ public class DefaultGlossaryModel implements GlossaryModel
         }
 
         return glossaryMap;
+    }
+
+    @Override
+    public XDOM getGlossaryContent(DocumentReference reference) throws GlossaryException
+    {
+        XWikiContext xwikiContext = this.xwikiContextProvider.get();
+        XWikiDocument xwikiDocument;
+        try {
+            xwikiDocument = xwikiContext.getWiki().getDocument(reference, xwikiContext);
+            // Get the glossary xproperty for the content
+            BaseObject bo = xwikiDocument.getXObject(GLOSSARY_XCLASS_REFERENCE);
+            String definition = bo.getLargeStringValue("definition");
+            // Parse the content, using the syntax of the document
+            return getParser(xwikiDocument.getSyntax()).parse(new StringReader(definition));
+        } catch (XWikiException | ParseException e) {
+            throw new GlossaryException(String.format("Failed to get glossary content for [%s]", reference), e);
+        }
+    }
+
+    private Parser getParser(Syntax syntax) throws GlossaryException
+    {
+        try {
+            return this.componentManagerProvider.get().getInstance(Parser.class, syntax.toIdString());
+        } catch (ComponentLookupException e) {
+            throw new GlossaryException(
+                String.format("Failed to find parser for syntax [%s] to parse glossary content", syntax), e);
+        }
     }
 }

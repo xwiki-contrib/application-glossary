@@ -1,0 +1,5 @@
+## TODO: Handle id parameter
+\gls{$latex.block.content}##
+## Save the glossary reference in memory.
+## It'll be saved to a file in the "org.xwiki.contrib.latex.XDOM.after" UIXP
+$services.latexGlossary.saveGlossaryEntryInContext($latex.block.content)

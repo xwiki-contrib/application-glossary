@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.rendering.block.XDOM;
 
 /**
  * The model for retrieving Glossary entries. The entries received will be used as a cache for the GLossary
@@ -41,4 +42,11 @@ public interface GlossaryModel
      * @throws GlossaryException when an error happens when finding Glossary entries
      */
     Map<String, DocumentReference> getGlossaryEntries() throws GlossaryException;
+
+    /**
+     * @param entryReference the reference to the glossary entry for which to get the definition/content
+     * @return the parsed content
+     * @throws GlossaryException in case of an error
+     */
+    XDOM getGlossaryContent(DocumentReference entryReference) throws GlossaryException;
 }

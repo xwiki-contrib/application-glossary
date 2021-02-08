@@ -1,0 +1,13 @@
+.runTransformations:macro
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.#-----------------------------------------------------
+Hello {{glossaryReference}}world{{/glossaryReference}}
+.#-----------------------------------------------------
+.expect|latex/1.0
+.#-----------------------------------------------------
+${{{regex:.*\\begin\{document\}}}}
+
+Hello \gls{world}
+
+\end{document}

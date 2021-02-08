@@ -55,6 +55,7 @@
   </properties>
   <modules>
     <module>application-glossary-api</module>
+    <module>application-glossary-latex</module>
     <module>application-glossary-ui</module>
   </modules>
   <profiles>

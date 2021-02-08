@@ -42,6 +42,16 @@
       <scope>runtime</scope>
     </dependency>
     <dependency>
+      <groupId>org.xwiki.contrib.glossary</groupId>
+      <artifactId>application-glossary-latex-ui</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
+      <!-- Marked optional since this is only needed when wiki pages using the glossary reference macro are exported
+           to LaTeX -->
+      <optional>true</optional>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-rendering-macro-velocity</artifactId>
       <version>${platform.version}</version>

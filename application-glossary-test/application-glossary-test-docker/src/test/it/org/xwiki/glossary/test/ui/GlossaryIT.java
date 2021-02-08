@@ -42,10 +42,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class GlossaryIT
 {
     @Test
-    public void verifyGlossary(TestUtils setup, TestInfo info) throws Exception
+    void verifyGlossary(TestUtils setup, TestInfo info) throws Exception
     {
         setup.loginAsSuperAdmin();
+        verifyGlossaryApplication(setup, info);
+        verifyGlossaryReferenceMacro();
+        verifyGlossaryTransformation();
+        verifyGlossaryLaTeXExport();
+    }
 
+    void verifyGlossaryApplication(TestUtils setup, TestInfo info) throws Exception
+    {
         // Note: we use a dot in the page name to verify it's supported by the Glossary application and we use an accent
         // to
         // verify encoding.
@@ -71,8 +78,7 @@ class GlossaryIT
         vp = entryPage.clickSaveAndView();
 
         // Go back to the home page by clicking in the breadcrumb (this verifies that the new entry has the Glossary
-        // home
-        // specified in the breadcrumb).
+        // home specified in the breadcrumb).
         vp.clickBreadcrumbLink("Glossary");
 
         // Assert Livetable:
@@ -80,5 +86,20 @@ class GlossaryIT
         // - verify that the Livetable contains our new Glossary entry
         LiveTableElement lt = homePage.getGlossaryLiveTable();
         assertTrue(lt.hasRow("Glossary Items", glossaryTestPage));
+    }
+
+    void verifyGlossaryReferenceMacro()
+    {
+        // TODO
+    }
+
+    void verifyGlossaryTransformation()
+    {
+        // TODO
+    }
+
+    void verifyGlossaryLaTeXExport()
+    {
+        // TODO
     }
 }
