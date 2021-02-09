@@ -31,7 +31,7 @@
   <name>Glossary - API</name>
   <description>Macro to reference glossary entries and API needed for the Glossary Application</description>
   <properties>
-    <xwiki.extension.name>Glossary Application API</xwiki.extension.name>
+    <xwiki.extension.name>Glossary API</xwiki.extension.name>
     <xwiki.jacoco.instructionRatio>0.27</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
