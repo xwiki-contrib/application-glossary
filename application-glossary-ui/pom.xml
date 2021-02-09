@@ -25,9 +25,10 @@
   <parent>
     <groupId>org.xwiki.contrib.glossary</groupId>
     <artifactId>application-glossary</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
   <artifactId>application-glossary-ui</artifactId>
+  <description>Glossary feature for XWiki</description>
   <name>Glossary - UI</name>
   <packaging>xar</packaging>
   <properties>
