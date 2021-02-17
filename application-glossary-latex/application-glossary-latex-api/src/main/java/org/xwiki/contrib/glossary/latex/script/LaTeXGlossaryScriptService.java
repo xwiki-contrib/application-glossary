@@ -118,19 +118,31 @@ public class LaTeXGlossaryScriptService implements ScriptService
             builder.append(String.format("    description={%s}", glossaryDatum.getValue())).append(NL);
             builder.append("}").append(NL);
         }
-
-        // Generate the glossary file if there's at least one glossary entry.
-        if (builder.length() > 0) {
-            LaTeXResourceConverter converter = getLaTeXResourceConverter();
-            try {
-                try (InputStream inputStream = IOUtils.toInputStream(builder.toString(), "UTF-8")) {
-                    converter.store(GLOSSARY_FILE, inputStream);
-                }
-            } catch (IOException e) {
-                throw new GlossaryException(String.format("Failed to write glossary entries to [%s]", GLOSSARY_FILE),
-                    e);
+        LaTeXResourceConverter converter = getLaTeXResourceConverter();
+        try {
+            try (InputStream inputStream = IOUtils.toInputStream(builder.toString(), "UTF-8")) {
+                converter.store(GLOSSARY_FILE, inputStream);
             }
+        } catch (IOException e) {
+            throw new GlossaryException(String.format("Failed to write glossary entries to [%s]", GLOSSARY_FILE),
+                e);
         }
+    }
+
+    /**
+     * @return the glossary data as a map: the map index is the entry id and the value is the description
+     */
+    public Map<String, Object> getGlossaryData()
+    {
+        ScriptContext currentScriptContext = this.scriptContextManager.getCurrentScriptContext();
+        Map<String, Object> latexBinding = (Map<String, Object>) currentScriptContext.getAttribute(SC_LATEX);
+        // Note: The LaTeX binding should never be null since the export starts by creating it.
+        Map<String, Object> glossaryData = (Map<String, Object>) latexBinding.get(SC_LATEX_GLOSSARY);
+        if (glossaryData == null) {
+            glossaryData = new HashMap<>();
+            latexBinding.put(SC_LATEX_GLOSSARY, glossaryData);
+        }
+        return glossaryData;
     }
 
     private void saveGlossaryData(String entryId, String description)
@@ -144,19 +156,6 @@ public class LaTeXGlossaryScriptService implements ScriptService
         ScriptContext currentScriptContext = this.scriptContextManager.getCurrentScriptContext();
         Map<String, Object> latexBinding = (Map<String, Object>) currentScriptContext.getAttribute(SC_LATEX);
         return (LaTeXResourceConverter) latexBinding.get(LATEX_BINDING_RESOURCE_CONVERTER);
-    }
-
-    private Map<String, Object> getGlossaryData()
-    {
-        ScriptContext currentScriptContext = this.scriptContextManager.getCurrentScriptContext();
-        Map<String, Object> latexBinding = (Map<String, Object>) currentScriptContext.getAttribute(SC_LATEX);
-        // Note: The LaTeX binding should never be null since the export starts by creating it.
-        Map<String, Object> glossaryData = (Map<String, Object>) latexBinding.get(SC_LATEX_GLOSSARY);
-        if (glossaryData == null) {
-            glossaryData = new HashMap<>();
-            latexBinding.put(SC_LATEX_GLOSSARY, glossaryData);
-        }
-        return glossaryData;
     }
 
     private String getRenderedDocumentContent(DocumentReference reference) throws GlossaryException

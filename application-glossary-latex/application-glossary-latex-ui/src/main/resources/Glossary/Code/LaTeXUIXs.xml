@@ -449,10 +449,13 @@
     <property>
       <content>{{velocity}}
 {{raw syntax="latex/1.0"}}
-## Generate glossary.tex file containing all glossary entries
+## Generate glossary.tex file containing all glossary entries (we generate an empty glossary.tex file if there's no
+## glossary entries so that the \loadglsentries{glossary} part in the Preamble doesnt fail).
 $services.latexGlossary.saveGlossaryEntriesToFile()
-%% Display glossary
-\printglossaries
+#if (!$services.latexGlossary.glossaryData.isEmpty())
+  %% Display glossary
+  \printglossaries
+#end
 {{/raw}}
 
 {{/velocity}}</content>
