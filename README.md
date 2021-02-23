@@ -2,12 +2,13 @@
 
 A Glossary Application
 
-* Project Lead: [Sarthak Gupta](http://www.xwiki.org/xwiki/bin/view/XWiki/sgc_072)
-* [Issue Tracker](http://jira.xwiki.org/browse/GLOSSARY)
-* Communication: [Mailing List](http://dev.xwiki.org/xwiki/bin/view/Community/MailingLists), [IRC](http://dev.xwiki.org/xwiki/bin/view/Community/IRC)
-* [Development Practices](http://dev.xwiki.org)
+* Project Lead: [Vincent Massol](https://www.xwiki.org/xwiki/bin/view/XWiki/VincentMassol)
+* [Documentation & Downloads](https://extensions.xwiki.org/xwiki/bin/view/Extension/Glossary)
+* [Issue Tracker](https://jira.xwiki.org/browse/GLOSSARY)
+* Communication: [Forum](https://dev.xwiki.org/xwiki/bin/view/Community/Discuss), [Chat](https://dev.xwiki.org/xwiki/bin/view/Community/Chat)
+* [Development Practices](https://dev.xwiki.org)
 * Minimal XWiki version supported: XWiki 12.10
 * License: LGPL 2.1
 * Translations: N/A
 * Sonar Dashboard: N/A
-* Continuous Integration Status: [![Build Status](http://ci.xwiki.org/buildStatus/icon?job=XWiki%20Contrib/application-glossary/master)](http://ci.xwiki.org/view/Contrib/job/XWiki%20Contrib/job/application-glossary/job/master/)
+* Continuous Integration Status: [![Build Status](https://ci.xwiki.org/buildStatus/icon?job=XWiki%20Contrib/application-glossary/master)](https://ci.xwiki.org/view/Contrib/job/XWiki%20Contrib/job/application-glossary/job/master/)
