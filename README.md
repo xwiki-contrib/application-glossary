@@ -1,6 +1,6 @@
 # Glossary Application
 
-A Glossary Application
+Glossary feature for XWiki: ability to define glossary terms and have them highlighted in content with links pointing to their definitions.
 
 * Project Lead: [Vincent Massol](https://www.xwiki.org/xwiki/bin/view/XWiki/VincentMassol)
 * [Documentation & Downloads](https://extensions.xwiki.org/xwiki/bin/view/Extension/Glossary)
