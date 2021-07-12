@@ -48,6 +48,10 @@
       <id>vmassol</id>
       <name>Vincent Massol</name>
     </developer>
+    <developer>
+      <id>slauriere</id>
+      <name>slauriere</name>
+    </developer>
   </developers>
   <properties>
     <xwiki.release.jira.skip>false</xwiki.release.jira.skip>

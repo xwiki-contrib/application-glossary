@@ -30,6 +30,7 @@ import org.xwiki.cache.CacheManager;
 import org.xwiki.cache.config.CacheConfiguration;
 import org.xwiki.cache.eviction.LRUEvictionConfiguration;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.phase.Disposable;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.contrib.glossary.GlossaryCache;
@@ -44,7 +45,7 @@ import org.xwiki.model.reference.DocumentReference;
  */
 @Component
 @Singleton
-public class DefaultGlossaryCache implements GlossaryCache, Initializable
+public class DefaultGlossaryCache implements GlossaryCache, Initializable, Disposable
 {
     /**
      * Identifier for the glossary cache.
@@ -104,5 +105,13 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable
     public void remove(String key)
     {
         this.cache.remove(key);
+    }
+
+    @Override
+    public void dispose()
+    {
+        if (this.cache != null) {
+            this.cache.dispose();
+        }
     }
 }
