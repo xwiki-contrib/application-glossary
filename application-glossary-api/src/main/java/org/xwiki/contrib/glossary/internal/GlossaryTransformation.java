@@ -27,6 +27,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.GlossaryCache;
+import org.xwiki.contrib.glossary.GlossaryConstants;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.rendering.block.Block;
@@ -91,6 +92,8 @@ public class GlossaryTransformation extends AbstractTransformation
             String referenceAsString = serializer.serialize(reference);
             ResourceReference linkReference = new DocumentResourceReference(referenceAsString);
             newBlock = new LinkBlock(wordBlock.getChildren(), linkReference, false);
+            newBlock
+                .setParameter(GlossaryConstants.CSS_CLASS_ATTRIBUTE_NAME, GlossaryConstants.GLOSSARY_ENTRY_CSS_CLASS);
             wordBlock.getParent().replaceChild(newBlock, wordBlock);
         }
         return newBlock;

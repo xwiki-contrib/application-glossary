@@ -12,9 +12,9 @@ beginParagraph
 onWord [Hello]
 onSpace
 beginMacroMarkerInline [glossaryReference] [] [world]
-beginLink [Typed = [true] Type = [doc] Reference = [xwiki:Glossary.world]] [false]
+beginLink [Typed = [true] Type = [doc] Reference = [xwiki:Glossary.world]] [false] [[class]=[glossary-entry]]
 onWord [world]
-endLink [Typed = [true] Type = [doc] Reference = [xwiki:Glossary.world]] [false]
+endLink [Typed = [true] Type = [doc] Reference = [xwiki:Glossary.world]] [false] [[class]=[glossary-entry]]
 endMacroMarkerInline [glossaryReference] [] [world]
 endParagraph
 endDocument

@@ -27,6 +27,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.glossary.GlossaryConstants;
 import org.xwiki.contrib.glossary.GlossaryReferenceMacroParameters;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
@@ -105,7 +106,9 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
 
         // Generate a link to the Glossary entry
         ResourceReference resourceReference = getGlossaryEntryReference(glossaryId, entryId);
-        List<Block> result = Arrays.asList(new LinkBlock(children, resourceReference, !macroContext.isInline()));
+        LinkBlock block = new LinkBlock(children, resourceReference, !macroContext.isInline());
+        block.setParameter(GlossaryConstants.CSS_CLASS_ATTRIBUTE_NAME, GlossaryConstants.GLOSSARY_ENTRY_CSS_CLASS);
+        List<Block> result = Arrays.asList(block);
 
         return result;
     }
