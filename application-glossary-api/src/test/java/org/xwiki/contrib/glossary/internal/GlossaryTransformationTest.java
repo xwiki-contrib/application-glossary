@@ -117,6 +117,7 @@ public class GlossaryTransformationTest
             + "onSpace\n"
             + "beginLink [Typed = [true] Type = [doc] Reference = [wiki:space.foo]] [false] "
             + "[[class]=[glossary-entry]]\n"
+            + "onWord [foo]\n"
             + "endLink [Typed = [true] Type = [doc] Reference = [wiki:space.foo]] [false] "
             + "[[class]=[glossary-entry]]\n"
             + "onSpace\n"

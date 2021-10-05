@@ -3,7 +3,7 @@
 .input|xwiki/2.1
 .# With glossary id parameter specified.
 .#-----------------------------------------------------
-Hello {{glossaryReference glossaryId="myglossary"}}world{{/glossaryReference}}
+Hello {{glossaryReference glossaryId="myglossary"}}world2{{/glossaryReference}}
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -11,10 +11,10 @@ beginDocument
 beginParagraph
 onWord [Hello]
 onSpace
-beginMacroMarkerInline [glossaryReference] [glossaryId=myglossary] [world]
-beginLink [Typed = [true] Type = [doc] Reference = [xwiki:myglossary.world]] [false] [[class]=[glossary-entry]]
-onWord [world]
-endLink [Typed = [true] Type = [doc] Reference = [xwiki:myglossary.world]] [false] [[class]=[glossary-entry]]
-endMacroMarkerInline [glossaryReference] [glossaryId=myglossary] [world]
+beginMacroMarkerInline [glossaryReference] [glossaryId=myglossary] [world2]
+beginLink [Typed = [true] Type = [doc] Reference = [xwiki:myglossary.world2]] [false] [[class]=[glossary-entry]]
+onWord [world2]
+endLink [Typed = [true] Type = [doc] Reference = [xwiki:myglossary.world2]] [false] [[class]=[glossary-entry]]
+endMacroMarkerInline [glossaryReference] [glossaryId=myglossary] [world2]
 endParagraph
 endDocument

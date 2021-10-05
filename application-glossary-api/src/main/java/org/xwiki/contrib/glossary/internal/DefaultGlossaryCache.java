@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.cache.Cache;
@@ -38,6 +39,8 @@ import org.xwiki.contrib.glossary.GlossaryCache;
 import org.xwiki.contrib.glossary.GlossaryException;
 import org.xwiki.contrib.glossary.GlossaryModel;
 import org.xwiki.model.reference.DocumentReference;
+
+import com.xpn.xwiki.XWikiContext;
 
 /**
  * Cache of Glossary data to speed up the transformation.
@@ -67,6 +70,9 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Inject
     private GlossaryModel glossaryModel;
 
+    @Inject
+    private Provider<XWikiContext> xWikiContextProvider;
+
     @Override
     public void initialize() throws InitializationException
     {
@@ -95,7 +101,7 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Override
     public DocumentReference get(String key)
     {
-        return get(key, Locale.getDefault());
+        return get(key, xWikiContextProvider.get().getLocale());
     }
 
     @Override
@@ -107,7 +113,7 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Override
     public void set(String key, DocumentReference value)
     {
-        set(key, Locale.getDefault(), value);
+        set(key, xWikiContextProvider.get().getLocale(), value);
     }
 
     @Override
@@ -119,7 +125,7 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Override
     public void remove(String key)
     {
-        remove(key, Locale.getDefault());
+        remove(key, xWikiContextProvider.get().getLocale());
     }
 
     @Override

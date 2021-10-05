@@ -69,7 +69,7 @@ public class DefaultGlossaryModel implements GlossaryModel
         try {
             Query query = this.queryManager.createQuery("select doc.fullName, doc.title, doc.language, "
                 + "doc.defaultLanguage, doc.translation from XWikiDocument doc, BaseObject obj where "
-                + "obj.className = 'Glossary.Code.GlossaryClass' and obj.name = doc.name", Query.HQL);
+                + "obj.className = 'Glossary.Code.GlossaryClass' and obj.name = doc.fullName", Query.HQL);
             List<Object[]> documents = query.execute();
             for (Object[] document : documents) {
                 DocumentReference reference = this.defaultDocumentReferenceResolver.resolve((String) document[0]);

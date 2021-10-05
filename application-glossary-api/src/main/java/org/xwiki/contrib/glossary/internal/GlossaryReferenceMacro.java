@@ -27,12 +27,10 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.glossary.GlossaryCache;
 import org.xwiki.contrib.glossary.GlossaryConstants;
 import org.xwiki.contrib.glossary.GlossaryReferenceMacroParameters;
-import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
-import org.xwiki.model.reference.SpaceReference;
-import org.xwiki.model.reference.SpaceReferenceResolver;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
@@ -70,11 +68,10 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
     private MacroContentParser contentParser;
 
     @Inject
-    @Named("current")
-    private SpaceReferenceResolver<String> spaceReferenceResolver;
+    private EntityReferenceSerializer<String> serializer;
 
     @Inject
-    private EntityReferenceSerializer<String> serializer;
+    private GlossaryCache glossaryCache;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -95,17 +92,12 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
                 + "the glossary reference link");
         }
 
-        // Note 1: We ask the user to specify in which glossary the entry is located, both for performance reasons
-        // (as otherwise we would need to do some querying which is expensive) and to allow duplicate glossary entries
-        // in different glossaries.
-        // Note 2: If the user doesn't specify the glossary id, we use a default one located in the Glossary space.
-        String glossaryId = parameters.getGlossaryId() != null ? parameters.getGlossaryId() : "Glossary";
         String entryId = parameters.getEntryId() != null ? parameters.getEntryId() : content.trim();
 
         List<Block> children = this.contentParser.parse(content, macroContext, false, true).getChildren();
 
         // Generate a link to the Glossary entry
-        ResourceReference resourceReference = getGlossaryEntryReference(glossaryId, entryId);
+        ResourceReference resourceReference = getGlossaryEntryReference(entryId);
         LinkBlock block = new LinkBlock(children, resourceReference, !macroContext.isInline());
         block.setParameter(GlossaryConstants.CSS_CLASS_ATTRIBUTE_NAME, GlossaryConstants.GLOSSARY_ENTRY_CSS_CLASS);
         List<Block> result = Arrays.asList(block);
@@ -119,11 +111,9 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
         return true;
     }
 
-    private ResourceReference getGlossaryEntryReference(String glossaryId, String entryId)
+    private ResourceReference getGlossaryEntryReference(String entryId)
     {
-        SpaceReference spaceReference = this.spaceReferenceResolver.resolve(glossaryId);
-        DocumentReference documentReference = new DocumentReference(entryId, spaceReference);
-        String documentReferenceString = this.serializer.serialize(documentReference);
+        String documentReferenceString = this.serializer.serialize(glossaryCache.get(entryId));
         return new DocumentResourceReference(documentReferenceString);
     }
 }

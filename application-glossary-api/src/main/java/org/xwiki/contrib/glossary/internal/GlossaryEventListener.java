@@ -21,6 +21,7 @@ package org.xwiki.contrib.glossary.internal;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -88,23 +89,13 @@ public class GlossaryEventListener implements EventListener
                 && document.getOriginalDocument().getXObject(GLOSSARY_XCLASS_REFERENCE) != null))
         {
             DocumentReference glossaryDocumentReference = document.getDocumentReference();
-            String glossaryName = getGlossaryName(glossaryDocumentReference);
+            String glossaryName = document.getTitle();
+            Locale locale = document.getLocale();
             if (event instanceof DocumentCreatedEvent) {
-                this.cache.get().set(glossaryName, glossaryDocumentReference);
+                this.cache.get().set(glossaryName, locale, glossaryDocumentReference);
             } else if (event instanceof DocumentDeletedEvent) {
-                this.cache.get().remove(glossaryName);
+                this.cache.get().remove(glossaryName, locale);
             }
         }
-    }
-
-    private String getGlossaryName(DocumentReference reference)
-    {
-        String name;
-        if ("WebHome".equals(reference.getName())) {
-            name = reference.getParent().getName();
-        } else {
-            name = reference.getName();
-        }
-        return name;
     }
 }

@@ -43,8 +43,7 @@ public class GlossaryReferenceMacroParameters
     }
 
     /**
-     * @return the id of the glossary entry (corresponds to the page name where the glossary entry is stored,
-     *         e.g. for a {@code Glossary.My Entry}, the id is {@code My Entry}.
+     * @return the id of the glossary entry (corresponds to the page title where the glossary entry is stored
      */
     public String getEntryId()
     {
@@ -61,6 +60,7 @@ public class GlossaryReferenceMacroParameters
     }
 
     /**
+     * @deprecated since 1.1, the glossary ID is not needed anymore as the macro uses the glossary cache
      * @return the id of the glossary (corresponds to the space reference where the glossary is located,
      *         e.g. for a {@code A.B.MyGlossary.WebHome} glossary home page, the id is {@code A.B.MyGlossary}. When not
      *         specified, {@code Glossary} is used.

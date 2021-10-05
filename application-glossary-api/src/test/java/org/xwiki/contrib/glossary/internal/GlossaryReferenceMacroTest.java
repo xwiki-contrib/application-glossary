@@ -20,13 +20,28 @@
 package org.xwiki.contrib.glossary.internal;
 
 import java.util.Arrays;
+import java.util.Locale;
 
+import javax.inject.Provider;
+
+import org.junit.Rule;
 import org.junit.runner.RunWith;
+import org.xwiki.contrib.glossary.GlossaryCache;
+import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
+import org.xwiki.rendering.macro.MacroContentParser;
+import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.test.integration.RenderingTestSuite;
 import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.mockito.MockitoComponentManager;
+import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
+import com.xpn.xwiki.XWikiContext;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -49,5 +64,15 @@ public class GlossaryReferenceMacroTest
         // is unnecessary.
         RenderingConfiguration configuration = componentManager.registerMockComponent(RenderingConfiguration.class);
         when(configuration.getTransformationNames()).thenReturn(Arrays.asList("macro"));
+
+        DocumentReference worldDocumentReference = new DocumentReference("xwiki", "Glossary", "world");
+        DocumentReference world2DocumentReference = new DocumentReference("xwiki", "myglossary", "world2");
+        DocumentReference testDocumentReference = new DocumentReference("xwiki", "myglossary", "test");
+        DocumentReference test2DocumentReference = new DocumentReference("xwiki", "Glossary", "test2");
+        GlossaryCache glossaryCache = componentManager.registerMockComponent(GlossaryCache.class);
+        when(glossaryCache.get("world")).thenReturn(worldDocumentReference);
+        when(glossaryCache.get("world2")).thenReturn(world2DocumentReference);
+        when(glossaryCache.get("test")).thenReturn(testDocumentReference);
+        when(glossaryCache.get("test2")).thenReturn(test2DocumentReference);
     }
 }

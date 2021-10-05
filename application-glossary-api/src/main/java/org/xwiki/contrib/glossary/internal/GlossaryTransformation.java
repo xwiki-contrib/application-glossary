@@ -19,6 +19,7 @@
  */
 package org.xwiki.contrib.glossary.internal;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -99,7 +100,7 @@ public class GlossaryTransformation extends AbstractTransformation
             DocumentReference reference = this.glossaryCache.get(word, locale);
             String referenceAsString = serializer.serialize(reference);
             ResourceReference linkReference = new DocumentResourceReference(referenceAsString);
-            newBlock = new LinkBlock(wordBlock.getChildren(), linkReference, false);
+            newBlock = new LinkBlock(Arrays.asList(new WordBlock(word)), linkReference, false);
             newBlock
                 .setParameter(GlossaryConstants.CSS_CLASS_ATTRIBUTE_NAME, GlossaryConstants.GLOSSARY_ENTRY_CSS_CLASS);
             wordBlock.getParent().replaceChild(newBlock, wordBlock);
