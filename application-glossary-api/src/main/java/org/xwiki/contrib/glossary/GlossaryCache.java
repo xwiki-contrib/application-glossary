@@ -19,6 +19,8 @@
  */
 package org.xwiki.contrib.glossary;
 
+import java.util.Locale;
+
 import org.xwiki.component.annotation.Role;
 import org.xwiki.model.reference.DocumentReference;
 
@@ -37,17 +39,43 @@ public interface GlossaryCache
     DocumentReference get(String key);
 
     /**
+     * Get the value associated with the provided key in the cache.
+     *
+     * @param key of type String
+     * @param locale the locale to use when searching for the entry
+     * @return the DocumentReference
+     */
+    DocumentReference get(String key, Locale locale);
+
+    /**
      * Sets the key and value in the cache.
      *
      * @param key represents the glossaryItem.
-     * @param value representing the DocumentReference of glossary Document.
+     * @param value representing the reference to the glossary Document.
      */
     void set(String key, DocumentReference value);
 
     /**
-     * Remove the key and value pair from the cache.
+     * Sets the key and value in the cache.
+     *
+     * @param key represents the glossaryItem.
+     * @param locale the locale to use for the entry
+     * @param value representing the reference to the glossary Document.
+     */
+    void set(String key, Locale locale, DocumentReference value);
+
+    /**
+     * Remove the key and value from the cache.
      *
      * @param key represents the glossaryItem.
      */
     void remove(String key);
+
+    /**
+     * Remove the key and value from the cache.
+     *
+     * @param key represents the glossaryItem.
+     * @param locale represents the locale for which the item should be removed
+     */
+    void remove(String key, Locale locale);
 }

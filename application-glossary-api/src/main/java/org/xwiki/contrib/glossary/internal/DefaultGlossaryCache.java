@@ -19,6 +19,7 @@
  */
 package org.xwiki.contrib.glossary.internal;
 
+import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -77,12 +78,14 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
             cacheConfiguration.put(LRUEvictionConfiguration.CONFIGURATIONID, lru);
             this.cache = this.cacheManager.createNewCache(cacheConfiguration);
 
-            Map<String, DocumentReference> glossaryEntries;
+            Map<Locale, Map<String, DocumentReference>> glossaryEntries;
 
             // Load existing Glossary entries in the current wiki and save them in the cache
             glossaryEntries = this.glossaryModel.getGlossaryEntries();
-            for (Map.Entry<String, DocumentReference> entry : glossaryEntries.entrySet()) {
-                this.cache.set(entry.getKey(), entry.getValue());
+            for (Map.Entry<Locale, Map<String, DocumentReference>> localeEntry : glossaryEntries.entrySet()) {
+                for (Map.Entry<String, DocumentReference> entry : localeEntry.getValue().entrySet()) {
+                    set(entry.getKey(), localeEntry.getKey(), entry.getValue());
+                }
             }
         } catch (CacheException | GlossaryException e) {
             throw new InitializationException("Failed to initialize Glossary cache", e);
@@ -92,19 +95,37 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Override
     public DocumentReference get(String key)
     {
-        return this.cache.get(key);
+        return get(key, Locale.getDefault());
+    }
+
+    @Override
+    public DocumentReference get(String key, Locale locale)
+    {
+        return this.cache.get(computeCacheKey(key, locale));
     }
 
     @Override
     public void set(String key, DocumentReference value)
     {
-        this.cache.set(key, value);
+        set(key, Locale.getDefault(), value);
+    }
+
+    @Override
+    public void set(String key, Locale locale, DocumentReference value)
+    {
+        this.cache.set(computeCacheKey(key, locale), value);
     }
 
     @Override
     public void remove(String key)
     {
-        this.cache.remove(key);
+        remove(key, Locale.getDefault());
+    }
+
+    @Override
+    public void remove(String key, Locale locale)
+    {
+        this.cache.remove(computeCacheKey(key, locale));
     }
 
     @Override
@@ -113,5 +134,10 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
         if (this.cache != null) {
             this.cache.dispose();
         }
+    }
+
+    private String computeCacheKey(String key, Locale locale)
+    {
+        return String.format("%s-%s", locale.toString(), key);
     }
 }

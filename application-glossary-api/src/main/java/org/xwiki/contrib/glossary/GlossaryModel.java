@@ -19,6 +19,7 @@
  */
 package org.xwiki.contrib.glossary;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.xwiki.component.annotation.Role;
@@ -26,7 +27,7 @@ import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.rendering.block.XDOM;
 
 /**
- * The model for retrieving Glossary entries. The entries received will be used as a cache for the GLossary
+ * The model for retrieving Glossary entries. The entries received will be used as a cache for the Glossary
  * transformation to speed up execution.
  *
  * @version $Id$
@@ -41,12 +42,13 @@ public interface GlossaryModel
      * @return the map containing the glossary entries with the index being the Glossary page name
      * @throws GlossaryException when an error happens when finding Glossary entries
      */
-    Map<String, DocumentReference> getGlossaryEntries() throws GlossaryException;
+    Map<Locale, Map<String, DocumentReference>> getGlossaryEntries() throws GlossaryException;
 
     /**
      * @param entryReference the reference to the glossary entry for which to get the definition/content
+     * @param locale the locale to be used when loading the entry
      * @return the parsed content
      * @throws GlossaryException in case of an error
      */
-    XDOM getGlossaryContent(DocumentReference entryReference) throws GlossaryException;
+    XDOM getGlossaryContent(DocumentReference entryReference, Locale locale) throws GlossaryException;
 }

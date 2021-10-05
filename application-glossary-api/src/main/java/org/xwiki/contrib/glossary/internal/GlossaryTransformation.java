@@ -20,9 +20,11 @@
 package org.xwiki.contrib.glossary.internal;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -38,6 +40,8 @@ import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.transformation.AbstractTransformation;
 import org.xwiki.rendering.transformation.TransformationContext;
+
+import com.xpn.xwiki.XWikiContext;
 
 /**
  * Find Glossary words in the passed XDOM and replace them with links when a Glossary entries exist for the words.
@@ -57,6 +61,9 @@ public class GlossaryTransformation extends AbstractTransformation
 
     @Inject
     private EntityReferenceSerializer<String> serializer;
+
+    @Inject
+    private Provider<XWikiContext> xWikiContextProvider;
 
     @Override
     public void transform(Block block, TransformationContext context)
@@ -87,8 +94,9 @@ public class GlossaryTransformation extends AbstractTransformation
     {
         Block newBlock = wordBlock;
         String word = wordBlock.getWord();
-        if (this.glossaryCache.get(word) != null) {
-            DocumentReference reference = this.glossaryCache.get(word);
+        Locale locale = xWikiContextProvider.get().getLocale();
+        if (this.glossaryCache.get(word, locale) != null) {
+            DocumentReference reference = this.glossaryCache.get(word, locale);
             String referenceAsString = serializer.serialize(reference);
             ResourceReference linkReference = new DocumentResourceReference(referenceAsString);
             newBlock = new LinkBlock(wordBlock.getChildren(), linkReference, false);

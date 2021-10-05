@@ -21,6 +21,9 @@ package org.xwiki.contrib.glossary.internal;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Locale;
+
+import javax.inject.Provider;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -43,9 +46,14 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.test.annotation.ComponentList;
+import org.xwiki.test.junit5.mockito.InjectComponentManager;
+import org.xwiki.test.mockito.MockitoComponentManager;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
+import com.xpn.xwiki.XWikiContext;
+
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 /**
@@ -72,8 +80,12 @@ public class GlossaryTransformationTest
         DocumentReference reference1 = new DocumentReference("wiki", "space", "foo");
         DocumentReference reference2 = new DocumentReference("wiki", "space", "XWiki");
 
-        when(glossaryCache.get("foo")).thenReturn(reference1);
-        when(glossaryCache.get("XWiki")).thenReturn(reference2);
+        XWikiContext xWikiContext =
+            ((Provider<XWikiContext>) this.mocker.getInstance(XWikiContext.TYPE_PROVIDER)).get();
+        when(xWikiContext.getLocale()).thenReturn(Locale.CANADA_FRENCH);
+
+        when(glossaryCache.get("foo", Locale.CANADA_FRENCH)).thenReturn(reference1);
+        when(glossaryCache.get("XWiki", Locale.CANADA_FRENCH)).thenReturn(reference2);
 
         EntityReferenceSerializer<String> serializer = this.mocker.getInstance(EntityReferenceSerializer.TYPE_STRING);
         when(serializer.serialize(reference1)).thenReturn("wiki:space.foo");

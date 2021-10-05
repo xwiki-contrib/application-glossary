@@ -22,6 +22,7 @@ package org.xwiki.contrib.glossary.latex.script;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -160,7 +161,8 @@ public class LaTeXGlossaryScriptService implements ScriptService
 
     private String getRenderedDocumentContent(DocumentReference reference) throws GlossaryException
     {
-        XDOM xdom = this.glossaryModel.getGlossaryContent(reference);
+        Locale locale = xwikiContextProvider.get().getLocale();
+        XDOM xdom = this.glossaryModel.getGlossaryContent(reference, locale);
         // TODO: Render it as latex/1.0 content. Note that for this to work we need to implement a new simplified
         // latex/1.0 renderer that doesn't render any preamble.
         WikiPrinter printer = new DefaultWikiPrinter();
