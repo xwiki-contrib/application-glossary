@@ -52,10 +52,15 @@ import com.xpn.xwiki.objects.BaseObject;
  * @version $Id$
  */
 @Component
-@Named("glossaryEventListener")
+@Named(GlossaryEntriesEventListener.LISTENER_NAME)
 @Singleton
-public class GlossaryEventListener implements EventListener
+public class GlossaryEntriesEventListener implements EventListener
 {
+    /**
+     * The name of the listener.
+     */
+    public static final String LISTENER_NAME = "glossaryEntriesEventListener";
+
     private static final List<Event> EVENTS = Arrays.asList(new DocumentCreatedEvent(),
         new DocumentUpdatedEvent(), new DocumentDeletedEvent());
 
@@ -82,7 +87,7 @@ public class GlossaryEventListener implements EventListener
     @Override
     public String getName()
     {
-        return "glossaryEventListener";
+        return LISTENER_NAME;
     }
 
     @Override

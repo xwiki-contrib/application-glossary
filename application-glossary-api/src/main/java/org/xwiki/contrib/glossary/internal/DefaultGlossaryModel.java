@@ -31,6 +31,8 @@ import javax.inject.Singleton;
 
 import org.apache.commons.lang.StringUtils;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.glossary.GlossaryCache;
+import org.xwiki.contrib.glossary.GlossaryConfiguration;
 import org.xwiki.contrib.glossary.GlossaryException;
 import org.xwiki.contrib.glossary.GlossaryModel;
 import org.xwiki.model.reference.DocumentReference;
@@ -39,7 +41,11 @@ import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.query.QueryManager;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.MacroBlock;
+import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.block.match.ClassBlockMatcher;
 
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
@@ -54,11 +60,6 @@ import com.xpn.xwiki.doc.XWikiDocument;
 @Singleton
 public class DefaultGlossaryModel implements GlossaryModel
 {
-    /**
-     * The default glossary ID for any glossary entry is the Glossary space.
-     */
-    public static final String DEFAULT_GLOSSARY_ID = "Glossary";
-
     @Inject
     private QueryManager queryManager;
 
@@ -71,6 +72,12 @@ public class DefaultGlossaryModel implements GlossaryModel
     @Inject
     @Named("local")
     private EntityReferenceSerializer<String> entityReferenceSerializer;
+
+    @Inject
+    private Provider<GlossaryCache> glossaryCacheProvider;
+
+    @Inject
+    private GlossaryConfiguration glossaryConfiguration;
 
     @Override
     public Map<Locale, Map<String, DocumentReference>> getGlossaryEntries() throws GlossaryException
@@ -136,5 +143,45 @@ public class DefaultGlossaryModel implements GlossaryModel
     {
         // See the GlossaryReferenceMacroParameters#getGlossaryId() for a definition of the glossary ID
         return entityReferenceSerializer.serialize(entryReference.getLastSpaceReference());
+    }
+
+    @Override
+    public boolean transformGlossaryEntries(XDOM xdom)
+    {
+        return transformGlossaryEntries(xdom, xwikiContextProvider.get().getLocale());
+    }
+
+    @Override
+    public boolean transformGlossaryEntries(XDOM xdom, Locale locale)
+    {
+        return transformGlossaryEntries(xdom, locale, glossaryConfiguration.defaultGlossaryId());
+    }
+
+    @Override
+    public boolean transformGlossaryEntries(XDOM xdom, Locale locale, String glossaryId)
+    {
+        boolean xdomModified = false;
+        GlossaryCache glossaryCache = glossaryCacheProvider.get();
+
+        for (Block block : xdom.getBlocks(new ClassBlockMatcher(WordBlock.class), Block.Axes.DESCENDANT_OR_SELF)) {
+            WordBlock wordBlock = (WordBlock) block;
+
+            DocumentReference glossaryEntryReference = glossaryCache.get(wordBlock.getWord(), locale, glossaryId);
+            if (glossaryEntryReference != null) {
+                // Update the block element to put a glossary macro
+                Map<String, String> macroParameters = new HashMap<>();
+                macroParameters.put("entryId", glossaryEntryReference.getName());
+                macroParameters.put("glossaryId", getGlossaryId(glossaryEntryReference));
+
+                MacroBlock macroBlock = new MacroBlock("glossaryReference", macroParameters,
+                    wordBlock.getWord(), true);
+
+                wordBlock.getParent().replaceChild(macroBlock, wordBlock);
+
+                xdomModified = true;
+            }
+        }
+
+        return xdomModified;
     }
 }

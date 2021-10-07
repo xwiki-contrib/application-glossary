@@ -36,6 +36,7 @@ import org.xwiki.component.phase.Disposable;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.contrib.glossary.GlossaryCache;
+import org.xwiki.contrib.glossary.GlossaryConfiguration;
 import org.xwiki.contrib.glossary.GlossaryException;
 import org.xwiki.contrib.glossary.GlossaryModel;
 import org.xwiki.model.reference.DocumentReference;
@@ -73,6 +74,9 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Inject
     private Provider<XWikiContext> xWikiContextProvider;
 
+    @Inject
+    private GlossaryConfiguration glossaryConfiguration;
+
     @Override
     public void initialize() throws InitializationException
     {
@@ -107,7 +111,7 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Override
     public DocumentReference get(String key, Locale locale)
     {
-        return get(key, locale, DefaultGlossaryModel.DEFAULT_GLOSSARY_ID);
+        return get(key, locale, glossaryConfiguration.defaultGlossaryId());
     }
 
     @Override
@@ -141,7 +145,7 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Override
     public void remove(String key, Locale locale)
     {
-        remove(key, locale, DefaultGlossaryModel.DEFAULT_GLOSSARY_ID);
+        remove(key, locale, glossaryConfiguration.defaultGlossaryId());
     }
 
     @Override

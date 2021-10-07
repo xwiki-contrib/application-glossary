@@ -57,4 +57,36 @@ public interface GlossaryModel
      * @return the glossary ID corresponding to the given reference
      */
     String getGlossaryId(DocumentReference entryReference);
+
+    /**
+     * Transform the provided {@link XDOM} to look for glossary entries. Use the default glossary ID and the current
+     * context locale.
+     *
+     * @param xdom the xdom to be modified
+     * @return true if the xdom has been modified
+     * @since 1.1
+     */
+    boolean transformGlossaryEntries(XDOM xdom);
+
+    /**
+     * Transform the provided {@link XDOM} to look for glossary entries. Use the default glossary ID.
+     *
+     * @param xdom the xdom to be modified
+     * @param locale the locale to be used when searching for glossary entries
+     * @return true if the xdom has been modified
+     * @since 1.1
+     */
+    boolean transformGlossaryEntries(XDOM xdom, Locale locale);
+
+    /**
+     * Will go through the provided {@link XDOM} to look for glossary entries. If a glossary entry is found, it gets
+     * replaced by a Glossary Macro configured to display the entry.
+     *
+     * @param xdom the xdom to be modified
+     * @param locale the locale to be used when searching for glossary entries.
+     * @param glossaryId the ID of the glossary to be used when looking for entries
+     * @return true if the xdom has been modified
+     * @since 1.1
+     */
+    boolean transformGlossaryEntries(XDOM xdom, Locale locale, String glossaryId);
 }
