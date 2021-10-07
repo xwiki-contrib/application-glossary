@@ -1,0 +1,207 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="Glossary.Code.Migrations.11DescriptionToContent" locale="">
+  <web>Glossary.Code.Migrations</web>
+  <name>11DescriptionToContent</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>11DescriptionToContent</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content/>
+  <object>
+    <name>Glossary.Code.Migrations.11DescriptionToContent</name>
+    <number>0</number>
+    <className>Migrator.Migrators.ClassMigrationClass</className>
+    <guid>c5dd1a56-d2f6-4b18-be2f-c1030b79a580</guid>
+    <class>
+      <name>Migrator.Migrators.ClassMigrationClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <createNewVersion>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>checkbox</displayType>
+        <name>createNewVersion</name>
+        <number>12</number>
+        <prettyName>Create a new document version ?</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </createNewVersion>
+      <extensionId>
+        <disabled>0</disabled>
+        <name>extensionId</name>
+        <number>3</number>
+        <prettyName>Extension ID</prettyName>
+        <size>64</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </extensionId>
+      <extensionVersion>
+        <disabled>0</disabled>
+        <name>extensionVersion</name>
+        <number>4</number>
+        <prettyName>Extension version</prettyName>
+        <size>64</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </extensionVersion>
+      <inPlace>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>checkbox</displayType>
+        <name>inPlace</name>
+        <number>5</number>
+        <prettyName>Is the migration on the same XClass ?</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </inPlace>
+      <migrationDescription>
+        <disabled>0</disabled>
+        <name>migrationDescription</name>
+        <number>2</number>
+        <prettyName>Migration description</prettyName>
+        <size>128</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </migrationDescription>
+      <migrationName>
+        <disabled>0</disabled>
+        <name>migrationName</name>
+        <number>1</number>
+        <prettyName>Migration name</prettyName>
+        <size>64</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </migrationName>
+      <newClass>
+        <disabled>0</disabled>
+        <name>newClass</name>
+        <number>7</number>
+        <prettyName>New XClass reference</prettyName>
+        <size>128</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </newClass>
+      <oldClass>
+        <disabled>0</disabled>
+        <name>oldClass</name>
+        <number>6</number>
+        <prettyName>Old XClass reference</prettyName>
+        <size>128</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </oldClass>
+      <propertiesMapping>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>propertiesMapping</name>
+        <number>10</number>
+        <prettyName>Properties mapping</prettyName>
+        <rows>20</rows>
+        <size>120</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </propertiesMapping>
+      <removeOldXClass>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>checkbox</displayType>
+        <name>removeOldXClass</name>
+        <number>8</number>
+        <prettyName>Remove old XClass?</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </removeOldXClass>
+      <removeOldXObjects>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>checkbox</displayType>
+        <name>removeOldXObjects</name>
+        <number>9</number>
+        <prettyName>Remove old XObjects?</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </removeOldXObjects>
+      <saveComment>
+        <disabled>0</disabled>
+        <name>saveComment</name>
+        <number>11</number>
+        <prettyName>Savec comment</prettyName>
+        <size>256</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </saveComment>
+    </class>
+    <property>
+      <createNewVersion>0</createNewVersion>
+    </property>
+    <property>
+      <extensionId>org.xwiki.contrib:application-glossary-ui</extensionId>
+    </property>
+    <property>
+      <extensionVersion>1.1</extensionVersion>
+    </property>
+    <property>
+      <inPlace>1</inPlace>
+    </property>
+    <property>
+      <migrationDescription>Migration of the glossary entry descriptions to document content</migrationDescription>
+    </property>
+    <property>
+      <migrationName>11DescriptionToContent</migrationName>
+    </property>
+    <property>
+      <newClass>Glossary.Code.GlossaryClass</newClass>
+    </property>
+    <property>
+      <oldClass>Glossary.Code.GlossaryClass</oldClass>
+    </property>
+    <property>
+      <propertiesMapping>definition=document:content</propertiesMapping>
+    </property>
+    <property>
+      <removeOldXClass>0</removeOldXClass>
+    </property>
+    <property>
+      <removeOldXObjects>0</removeOldXObjects>
+    </property>
+    <property>
+      <saveComment/>
+    </property>
+  </object>
+</xwikidoc>
