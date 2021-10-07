@@ -51,7 +51,7 @@ public class GlossaryReferenceMacroParameters
     }
 
     /**
-     * @param glossaryId see {@link #getEntryId()}
+     * @param glossaryId see {@link #getGlossaryId()}
      */
     @PropertyDescription("The glossary id (there can be several glossaries). Defaults to 'Glossary'")
     public void setGlossaryId(String glossaryId)
@@ -60,7 +60,6 @@ public class GlossaryReferenceMacroParameters
     }
 
     /**
-     * @deprecated since 1.1, the glossary ID is not needed anymore as the macro uses the glossary cache
      * @return the id of the glossary (corresponds to the space reference where the glossary is located,
      *         e.g. for a {@code A.B.MyGlossary.WebHome} glossary home page, the id is {@code A.B.MyGlossary}. When not
      *         specified, {@code Glossary} is used.

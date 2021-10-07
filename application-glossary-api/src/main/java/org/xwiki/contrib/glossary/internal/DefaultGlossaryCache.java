@@ -107,19 +107,29 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Override
     public DocumentReference get(String key, Locale locale)
     {
-        return this.cache.get(computeCacheKey(key, locale));
+        return get(key, locale, DefaultGlossaryModel.DEFAULT_GLOSSARY_ID);
+    }
+
+    @Override
+    public DocumentReference get(String key, Locale locale, String glossaryId)
+    {
+        return this.cache.get(computeCacheKey(key, locale, glossaryId));
     }
 
     @Override
     public void set(String key, DocumentReference value)
     {
-        set(key, xWikiContextProvider.get().getLocale(), value);
+        Locale locale = (value.getLocale() != null) ? value.getLocale() : xWikiContextProvider.get().getLocale();
+
+        set(key, locale, value);
     }
 
     @Override
     public void set(String key, Locale locale, DocumentReference value)
     {
-        this.cache.set(computeCacheKey(key, locale), value);
+        String glossaryId = glossaryModel.getGlossaryId(value);
+
+        this.cache.set(computeCacheKey(key, locale, glossaryId), value);
     }
 
     @Override
@@ -131,7 +141,13 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Override
     public void remove(String key, Locale locale)
     {
-        this.cache.remove(computeCacheKey(key, locale));
+        remove(key, locale, DefaultGlossaryModel.DEFAULT_GLOSSARY_ID);
+    }
+
+    @Override
+    public void remove(String key, Locale locale, String glossaryId)
+    {
+        this.cache.remove(computeCacheKey(key, locale, glossaryId));
     }
 
     @Override
@@ -142,8 +158,8 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
         }
     }
 
-    private String computeCacheKey(String key, Locale locale)
+    private String computeCacheKey(String key, Locale locale, String glossaryId)
     {
-        return String.format("%s-%s", locale.toString(), key);
+        return String.format("%s-%s-%s", glossaryId, locale.toString(), key);
     }
 }

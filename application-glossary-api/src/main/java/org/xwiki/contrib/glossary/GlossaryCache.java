@@ -32,6 +32,8 @@ public interface GlossaryCache
 {
     /**
      * Get the value associated with the provided key in the cache.
+     * When called, the cache will look for the entry corresponding to the current locale, in the default
+     * glossary ID.
      *
      * @param key of type String
      * @return the DocumentReference
@@ -48,7 +50,18 @@ public interface GlossaryCache
     DocumentReference get(String key, Locale locale);
 
     /**
-     * Sets the key and value in the cache.
+     * Get the value associated with the provided key and glossary id in the cache.
+     *
+     * @param key of type String
+     * @param locale the locale to use when searching for the entry
+     * @param glossaryId the ID of the glossary, which corresponds to the space the glossary entry is in
+     * @return the DocumentReference
+     */
+    DocumentReference get(String key, Locale locale, String glossaryId);
+
+    /**
+     * Sets the key and value in the cache. If the provided document reference has a locale, the locale will be used
+     * in the cache key. Else, the locale will be taken from the current context.
      *
      * @param key represents the glossaryItem.
      * @param value representing the reference to the glossary Document.
@@ -78,4 +91,13 @@ public interface GlossaryCache
      * @param locale represents the locale for which the item should be removed
      */
     void remove(String key, Locale locale);
+
+    /**
+     * Remove the key and value from the cache.
+     *
+     * @param key represents the glossaryItem.
+     * @param locale represents the locale for which the item should be removed
+     * @param glossaryId the ID of the glossary that should be used
+     */
+    void remove(String key, Locale locale, String glossaryId);
 }

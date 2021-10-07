@@ -51,4 +51,10 @@ public interface GlossaryModel
      * @throws GlossaryException in case of an error
      */
     XDOM getGlossaryContent(DocumentReference entryReference, Locale locale) throws GlossaryException;
+
+    /**
+     * @param entryReference the reference of the glossary entry
+     * @return the glossary ID corresponding to the given reference
+     */
+    String getGlossaryId(DocumentReference entryReference);
 }

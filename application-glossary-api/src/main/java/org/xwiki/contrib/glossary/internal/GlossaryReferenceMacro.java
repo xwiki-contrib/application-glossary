@@ -24,12 +24,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.GlossaryCache;
 import org.xwiki.contrib.glossary.GlossaryConstants;
 import org.xwiki.contrib.glossary.GlossaryReferenceMacroParameters;
+import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.LinkBlock;
@@ -40,6 +42,8 @@ import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+
+import com.xpn.xwiki.XWikiContext;
 
 /**
  * References a glosssary entry by creating a link to that glossary definition. The entry is defined either by
@@ -71,7 +75,10 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
     private EntityReferenceSerializer<String> serializer;
 
     @Inject
-    private GlossaryCache glossaryCache;
+    private Provider<GlossaryCache> glossaryCache;
+
+    @Inject
+    private Provider<XWikiContext> xWikiContextProvider;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -93,11 +100,12 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
         }
 
         String entryId = parameters.getEntryId() != null ? parameters.getEntryId() : content.trim();
+        String glossaryId = parameters.getGlossaryId();
 
         List<Block> children = this.contentParser.parse(content, macroContext, false, true).getChildren();
 
         // Generate a link to the Glossary entry
-        ResourceReference resourceReference = getGlossaryEntryReference(entryId);
+        ResourceReference resourceReference = getGlossaryEntryReference(entryId, glossaryId);
         LinkBlock block = new LinkBlock(children, resourceReference, !macroContext.isInline());
         block.setParameter(GlossaryConstants.CSS_CLASS_ATTRIBUTE_NAME, GlossaryConstants.GLOSSARY_ENTRY_CSS_CLASS);
         List<Block> result = Arrays.asList(block);
@@ -111,9 +119,15 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
         return true;
     }
 
-    private ResourceReference getGlossaryEntryReference(String entryId)
+    private ResourceReference getGlossaryEntryReference(String entryId, String glossaryId)
     {
-        String documentReferenceString = this.serializer.serialize(glossaryCache.get(entryId));
-        return new DocumentResourceReference(documentReferenceString);
+        DocumentReference documentReference;
+        if (glossaryId != null) {
+            documentReference = glossaryCache.get().get(entryId, xWikiContextProvider.get().getLocale(), glossaryId);
+        } else {
+            documentReference = glossaryCache.get().get(entryId, xWikiContextProvider.get().getLocale());
+        }
+
+        return new DocumentResourceReference(this.serializer.serialize(documentReference));
     }
 }

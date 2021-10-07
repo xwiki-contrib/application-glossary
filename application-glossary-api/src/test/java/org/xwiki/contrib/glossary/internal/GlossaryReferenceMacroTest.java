@@ -65,14 +65,20 @@ public class GlossaryReferenceMacroTest
         RenderingConfiguration configuration = componentManager.registerMockComponent(RenderingConfiguration.class);
         when(configuration.getTransformationNames()).thenReturn(Arrays.asList("macro"));
 
+        Provider<XWikiContext> xWikiContextProvider =
+            componentManager.registerMockComponent(XWikiContext.TYPE_PROVIDER);
+        XWikiContext xWikiContext = mock(XWikiContext.class);
+        when(xWikiContextProvider.get()).thenReturn(xWikiContext);
+        when(xWikiContext.getLocale()).thenReturn(Locale.CANADA_FRENCH);
+
         DocumentReference worldDocumentReference = new DocumentReference("xwiki", "Glossary", "world");
         DocumentReference world2DocumentReference = new DocumentReference("xwiki", "myglossary", "world2");
         DocumentReference testDocumentReference = new DocumentReference("xwiki", "myglossary", "test");
         DocumentReference test2DocumentReference = new DocumentReference("xwiki", "Glossary", "test2");
         GlossaryCache glossaryCache = componentManager.registerMockComponent(GlossaryCache.class);
-        when(glossaryCache.get("world")).thenReturn(worldDocumentReference);
-        when(glossaryCache.get("world2")).thenReturn(world2DocumentReference);
-        when(glossaryCache.get("test")).thenReturn(testDocumentReference);
-        when(glossaryCache.get("test2")).thenReturn(test2DocumentReference);
+        when(glossaryCache.get("world", Locale.CANADA_FRENCH)).thenReturn(worldDocumentReference);
+        when(glossaryCache.get("world2", Locale.CANADA_FRENCH, "myglossary")).thenReturn(world2DocumentReference);
+        when(glossaryCache.get("test", Locale.CANADA_FRENCH, "myglossary")).thenReturn(testDocumentReference);
+        when(glossaryCache.get("test2", Locale.CANADA_FRENCH)).thenReturn(test2DocumentReference);
     }
 }

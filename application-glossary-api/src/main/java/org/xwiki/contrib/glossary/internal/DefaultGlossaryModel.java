@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
@@ -34,6 +35,7 @@ import org.xwiki.contrib.glossary.GlossaryException;
 import org.xwiki.contrib.glossary.GlossaryModel;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
+import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.query.QueryManager;
@@ -52,6 +54,11 @@ import com.xpn.xwiki.doc.XWikiDocument;
 @Singleton
 public class DefaultGlossaryModel implements GlossaryModel
 {
+    /**
+     * The default glossary ID for any glossary entry is the Glossary space.
+     */
+    public static final String DEFAULT_GLOSSARY_ID = "Glossary";
+
     @Inject
     private QueryManager queryManager;
 
@@ -60,6 +67,10 @@ public class DefaultGlossaryModel implements GlossaryModel
 
     @Inject
     private Provider<XWikiContext> xwikiContextProvider;
+
+    @Inject
+    @Named("local")
+    private EntityReferenceSerializer<String> entityReferenceSerializer;
 
     @Override
     public Map<Locale, Map<String, DocumentReference>> getGlossaryEntries() throws GlossaryException
@@ -118,5 +129,12 @@ public class DefaultGlossaryModel implements GlossaryModel
         } catch (XWikiException e) {
             throw new GlossaryException(String.format("Failed to get glossary content for [%s]", reference), e);
         }
+    }
+
+    @Override
+    public String getGlossaryId(DocumentReference entryReference)
+    {
+        // See the GlossaryReferenceMacroParameters#getGlossaryId() for a definition of the glossary ID
+        return entityReferenceSerializer.serialize(entryReference.getLastSpaceReference());
     }
 }

@@ -21,18 +21,17 @@ package org.xwiki.contrib.glossary.internal;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
-import org.slf4j.Logger;
 import org.xwiki.bridge.event.DocumentCreatedEvent;
 import org.xwiki.bridge.event.DocumentDeletedEvent;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.GlossaryCache;
+import org.xwiki.contrib.glossary.GlossaryModel;
 import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReference;
@@ -62,7 +61,7 @@ public class GlossaryEventListener implements EventListener
     private Provider<GlossaryCache> cache;
 
     @Inject
-    private Logger logger;
+    private GlossaryModel glossaryModel;
 
     @Override
     public List<Event> getEvents()
@@ -88,13 +87,13 @@ public class GlossaryEventListener implements EventListener
             || (event instanceof DocumentDeletedEvent
                 && document.getOriginalDocument().getXObject(GLOSSARY_XCLASS_REFERENCE) != null))
         {
-            DocumentReference glossaryDocumentReference = document.getDocumentReference();
+            DocumentReference glossaryDocumentReference = document.getDocumentReferenceWithLocale();
             String glossaryName = document.getTitle();
-            Locale locale = document.getLocale();
             if (event instanceof DocumentCreatedEvent) {
-                this.cache.get().set(glossaryName, locale, glossaryDocumentReference);
+                this.cache.get().set(glossaryName, glossaryDocumentReference);
             } else if (event instanceof DocumentDeletedEvent) {
-                this.cache.get().remove(glossaryName, locale);
+                this.cache.get().remove(glossaryName, document.getLocale(),
+                    glossaryModel.getGlossaryId(glossaryDocumentReference));
             }
         }
     }
