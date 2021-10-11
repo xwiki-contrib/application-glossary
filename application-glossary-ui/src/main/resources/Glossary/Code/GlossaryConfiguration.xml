@@ -85,7 +85,7 @@
       <defaultGlossaryId>Glossary</defaultGlossaryId>
     </property>
     <property>
-      <updateDocumentsOnSave>1</updateDocumentsOnSave>
+      <updateDocumentsOnSave>0</updateDocumentsOnSave>
     </property>
   </object>
   <object>
