@@ -128,6 +128,12 @@
           <visibleTechnicalPages>
             <visibleTechnicalPage>.*/Glossary/WebHome\.xml</visibleTechnicalPage>
           </visibleTechnicalPages>
+          <entries>
+            <entry>
+              <document>Glossary.Code.GlossaryConfiguration</document>
+              <type>configuration</type>
+            </entry>
+          </entries>
         </configuration>
       </plugin>
     </plugins>
