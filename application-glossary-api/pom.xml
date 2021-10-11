@@ -33,6 +33,7 @@
   <properties>
     <xwiki.extension.name>Glossary API</xwiki.extension.name>
     <xwiki.jacoco.instructionRatio>0.27</xwiki.jacoco.instructionRatio>
+    <checkstyle.suppressions.location>${basedir}/src/checkstyle/checkstyle-suppressions.xml</checkstyle.suppressions.location>
   </properties>
   <dependencies>
     <dependency>

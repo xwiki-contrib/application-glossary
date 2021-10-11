@@ -54,10 +54,15 @@ import com.xpn.xwiki.XWikiContext;
  * @since 1.0
  */
 @Component
-@Named("glossaryReference")
+@Named(GlossaryReferenceMacro.MACRO_NAME)
 @Singleton
 public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacroParameters>
 {
+    /**
+     * The name of the macro.
+     */
+    public static final String MACRO_NAME = "glossaryReference";
+
     /**
      * The description of the macro.
      */
