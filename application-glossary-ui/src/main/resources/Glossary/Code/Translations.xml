@@ -57,7 +57,13 @@ glossary.technical = Contains technical pages for the Glossary application.
 glossary.list = Pages
 
 Glossary.Code.GlossaryClass_title=Title
-Glossary.Code.GlossaryClass_definition=Definition</content>
+Glossary.Code.GlossaryClass_definition=Definition
+
+# Configuration keys
+admin.glossary=Glossary
+
+Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId=Default Glossary ID
+Glossary.Code.GlossaryConfigurationClass_updateDocumentsOnSave=Update documents on save ?</content>
   <object>
     <name>Glossary.Code.Translations</name>
     <number>0</number>
