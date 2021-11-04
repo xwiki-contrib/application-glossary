@@ -35,6 +35,7 @@ import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.LinkBlock;
+import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.macro.AbstractMacro;
@@ -113,7 +114,11 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
         ResourceReference resourceReference = getGlossaryEntryReference(entryId, glossaryId);
         LinkBlock block = new LinkBlock(children, resourceReference, !macroContext.isInline());
         block.setParameter(GlossaryConstants.CSS_CLASS_ATTRIBUTE_NAME, GlossaryConstants.GLOSSARY_ENTRY_CSS_CLASS);
+
         List<Block> result = Arrays.asList(block);
+        if (!macroContext.isInline()) {
+            result = Arrays.asList(new ParagraphBlock(result));
+        }
 
         return result;
     }
