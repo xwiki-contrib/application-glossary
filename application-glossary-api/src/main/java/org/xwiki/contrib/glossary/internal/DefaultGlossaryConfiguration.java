@@ -19,6 +19,7 @@
  */
 package org.xwiki.contrib.glossary.internal;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +31,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.contrib.glossary.GlossaryConfiguration;
+import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.EntityReference;
+import org.xwiki.model.reference.EntityReferenceResolver;
+import org.xwiki.model.reference.SpaceReference;
 
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiContext;
@@ -58,11 +63,20 @@ public class DefaultGlossaryConfiguration implements GlossaryConfiguration
 
     private static final List<String> GLOSSARY_CODE_SPACE = Arrays.asList(GLOSSARY, "Code");
 
+    private static final String ACTIVATE_TRANSFORMATION_JOB = "activateTransformationJob";
+
+    private static final String INCREMENT_VERSION_ON_TRANSFORMATION_JOB = "incrementVersionOnTransformationJob";
+
+    private static final String TRANSFORMATION_JOB_INCLUDE_SPACES = "transformationJobIncludeSpaces";
+
     @Inject
     private ConfigurationSource configurationSource;
 
     @Inject
     private Provider<XWikiContext> xWikiContextProvider;
+
+    @Inject
+    private EntityReferenceResolver<String> entityReferenceResolver;
 
     @Override
     public boolean updateDocumentsOnSave()
@@ -102,6 +116,68 @@ public class DefaultGlossaryConfiguration implements GlossaryConfiguration
         }
 
         return defaultValue;
+    }
+
+    @Override
+    public boolean isActivateTransformationJob()
+    {
+        boolean defaultValue = configurationSource.getProperty(CONFIGURATION_PREFIX + ACTIVATE_TRANSFORMATION_JOB,
+            false);
+
+        try {
+            BaseObject baseObject = getConfigurationObject();
+
+            if (baseObject != null) {
+                int defaultIntValue = (defaultValue) ? 1 : 0;
+                return (baseObject.getIntValue(ACTIVATE_TRANSFORMATION_JOB, defaultIntValue) == 1);
+            }
+        } catch (Exception e) {
+            // Fail silently
+        }
+
+        return defaultValue;
+    }
+
+    @Override
+    public boolean isIncrementVersionOnTransformationJob()
+    {
+        boolean defaultValue =
+            configurationSource.getProperty(CONFIGURATION_PREFIX + INCREMENT_VERSION_ON_TRANSFORMATION_JOB, true);
+
+        try {
+            BaseObject baseObject = getConfigurationObject();
+
+            if (baseObject != null) {
+                int defaultIntValue = (defaultValue) ? 1 : 0;
+                return (baseObject.getIntValue(INCREMENT_VERSION_ON_TRANSFORMATION_JOB, defaultIntValue) == 1);
+            }
+        } catch (Exception e) {
+            // Fail silently
+        }
+
+        return defaultValue;
+    }
+
+    @Override
+    public List<SpaceReference> getTransformationJobIncludeSpaces()
+    {
+
+        List<SpaceReference> spaceReferences = new ArrayList<>();
+
+        try {
+            BaseObject baseObject = getConfigurationObject();
+            if (baseObject != null) {
+                String spaces = baseObject.getStringValue(TRANSFORMATION_JOB_INCLUDE_SPACES);
+                for (String space : spaces.split(",")) {
+                    EntityReference entityReference = entityReferenceResolver.resolve(space.trim(), EntityType.SPACE);
+                    spaceReferences.add(new SpaceReference(entityReference));
+                }
+            }
+        } catch (Exception e) {
+            // Fail silently
+        }
+
+        return spaceReferences;
     }
 
     private BaseObject getConfigurationObject() throws XWikiException

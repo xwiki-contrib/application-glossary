@@ -19,44 +19,26 @@
  */
 package org.xwiki.contrib.glossary;
 
-import java.util.List;
+import java.util.Locale;
 
 import org.xwiki.component.annotation.Role;
-import org.xwiki.model.reference.SpaceReference;
+import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * Configuration for the Glossary application.
+ * Transforms an XDOM by replacing glossary entry strings into glossary macro calls.
  *
- * @version $Id$
- * @since 1.1
+ *  @version $Id$
  */
 @Role
-public interface GlossaryConfiguration
+public interface GlossaryEntriesTransformer
 {
     /**
-     * @return true if documents should be updated at save time if they contain words referring to the glossary.
+     * Transforms an XDOM by replacing glossary entry strings into glossary entry macro calls.
+     * @param xdom an XDOM
+     * @param syntax wiki syntax
+     * @param locale document locale
+     * @return true if the XDOM was modified, false otherwise
      */
-    boolean updateDocumentsOnSave();
-
-    /**
-     * @return the default glossary ID to be used when not specified.
-     */
-    String defaultGlossaryId();
-
-    /**
-     * @return true if the periodic transformation job should be active.
-     */
-    boolean isActivateTransformationJob();
-
-    /**
-     * @return true if page version should be incremented when a link to a glossary entry is added or removed by the
-     * periodic transformation job.
-     */
-    boolean isIncrementVersionOnTransformationJob();
-
-    /**
-     * @return list of SpaceReferences where the periodic transformation job should perform transformations
-     */
-    List<SpaceReference> getTransformationJobIncludeSpaces();
-
+    boolean transformGlossaryEntries(XDOM xdom, Syntax syntax, Locale locale);
 }

@@ -5,3 +5,4 @@ org.xwiki.contrib.glossary.internal.GlossaryDocumentSaveEventListener
 org.xwiki.contrib.glossary.internal.GlossaryEntriesEventListener
 org.xwiki.contrib.glossary.internal.DefaultGlossaryCache
 org.xwiki.contrib.glossary.internal.GlossaryReferenceMacro
+org.xwiki.contrib.glossary.internal.DefaultGlossaryEntriesTransformer
