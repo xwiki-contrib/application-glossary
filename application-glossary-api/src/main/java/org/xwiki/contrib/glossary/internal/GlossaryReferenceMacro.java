@@ -28,11 +28,13 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.glossary.GlossaryCache;
+import org.xwiki.contrib.glossary.GlossaryConfiguration;
 import org.xwiki.contrib.glossary.GlossaryConstants;
 import org.xwiki.contrib.glossary.GlossaryReferenceMacroParameters;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
+import org.xwiki.model.reference.SpaceReference;
+import org.xwiki.model.reference.SpaceReferenceResolver;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
@@ -78,10 +80,14 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
     private MacroContentParser contentParser;
 
     @Inject
+    @Named("current")
+    private SpaceReferenceResolver<String> spaceReferenceResolver;
+
+    @Inject
     private EntityReferenceSerializer<String> serializer;
 
     @Inject
-    private Provider<GlossaryCache> glossaryCache;
+    private GlossaryConfiguration glossaryConfiguration;
 
     @Inject
     private Provider<XWikiContext> xWikiContextProvider;
@@ -131,13 +137,14 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
 
     private ResourceReference getGlossaryEntryReference(String entryId, String glossaryId)
     {
-        DocumentReference documentReference;
+        SpaceReference spaceReference = null;
         if (glossaryId != null) {
-            documentReference = glossaryCache.get().get(entryId, xWikiContextProvider.get().getLocale(), glossaryId);
+            spaceReference = this.spaceReferenceResolver.resolve(glossaryId);
         } else {
-            documentReference = glossaryCache.get().get(entryId, xWikiContextProvider.get().getLocale());
+            spaceReference = this.spaceReferenceResolver.resolve(glossaryConfiguration.defaultGlossaryId());
         }
-
-        return new DocumentResourceReference(this.serializer.serialize(documentReference));
+        DocumentReference documentReference = new DocumentReference(entryId, spaceReference);
+        String documentReferenceString = this.serializer.serialize(documentReference);
+        return new DocumentResourceReference(documentReferenceString);
     }
 }
