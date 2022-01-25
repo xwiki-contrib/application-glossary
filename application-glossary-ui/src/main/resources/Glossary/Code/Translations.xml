@@ -62,8 +62,18 @@ Glossary.Code.GlossaryClass_definition=Definition
 # Configuration keys
 admin.glossary=Glossary
 
-Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId=Default Glossary ID
-Glossary.Code.GlossaryConfigurationClass_updateDocumentsOnSave=Update documents on save ?</content>
+Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId=Default Glossary space
+Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId.hint=Space where the default glossary entries are located
+Glossary.Code.GlossaryConfigurationClass_updateDocumentsOnSave=Update documents on save
+Glossary.Code.GlossaryConfigurationClass_updateDocumentsOnSave.hint=Indicates whether glossary entries found in page content should be transformed to links to the glossary on save
+Glossary.Code.GlossaryConfigurationClass_activateTransformationJob=Activate the periodic transformation of glossary entries into links
+Glossary.Code.GlossaryConfigurationClass_activateTransformationJob.hint=If activated, pages get updated periodically with links to the glossary entries found in their content. The default period is one day, it can be controlled from the Scheduler space.
+Glossary.Code.GlossaryConfigurationClass_transformationJobIncludeSpaces=List of spaces where the periodic transformation is active
+Glossary.Code.GlossaryConfigurationClass_transformationJobIncludeSpaces.hint=List of space names separated by a comma where glossary entries are periodically turned into links.
+Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob=Increment page version when links get added by the periodic transformation
+Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob.hint=Indicates whether a new page version should be created when links to glossary entries get automatically added by the periodic transformation.
+
+glossary.transformationJob.save.message=Update links to glossary</content>
   <object>
     <name>Glossary.Code.Translations</name>
     <number>0</number>

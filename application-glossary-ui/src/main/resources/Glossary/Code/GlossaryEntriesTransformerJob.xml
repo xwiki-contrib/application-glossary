@@ -20,9 +20,9 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.Code.GlossaryEntriesTransformer" locale="">
+<xwikidoc version="1.4" reference="Glossary.Code.GlossaryEntriesTransformerJob" locale="">
   <web>Glossary.Code</web>
-  <name>GlossaryEntriesTransformer</name>
+  <name>GlossaryEntriesTransformerJob</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -31,17 +31,17 @@
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>GlossaryEntriesTransformer</title>
+  <title>Glossary Entries Transformer</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <content/>
   <object>
-    <name>Glossary.Code.GlossaryEntriesTransformer</name>
+    <name>Glossary.Code.GlossaryEntriesTransformerJob</name>
     <number>0</number>
     <className>XWiki.SchedulerJobClass</className>
-    <guid>e80ab199-9fcc-44fe-886a-1b1e8e93e756</guid>
+    <guid>ccba10b0-742e-463f-a0df-0cef224435df</guid>
     <class>
       <name>XWiki.SchedulerJobClass</name>
       <customClass/>
@@ -138,7 +138,7 @@
       </status>
     </class>
     <property>
-      <contextDatabase/>
+      <contextDatabase>xwiki</contextDatabase>
     </property>
     <property>
       <contextLang>en</contextLang>
@@ -160,76 +160,61 @@
     </property>
     <property>
       <script>/** This job inserts references to glossary entries in page contents. */
-import org.xwiki.component.util.DefaultParameterizedType;
-import org.xwiki.model.reference.DocumentReferenceResolver;
-import org.apache.solr.common.SolrDocument;
-
-import org.xwiki.contrib.glossary.GlossaryEntriesTransformer;
-import org.xwiki.contrib.glossary.GlossaryModel;
 import org.xwiki.contrib.glossary.GlossaryConfiguration;
+import org.xwiki.contrib.glossary.GlossaryEntriesTransformer;
 
-def logger = services.logging.getLogger('Glossary.Code.GlossaryEntriesTransformer');
+
+def logger = services.logging.getLogger('Glossary.Code.GlossaryEntriesTransformerJob');
 try {
   def glossaryConfiguration = services.component.getContextComponentManager().getInstance(GlossaryConfiguration.class, 'default');
   logger.debug('Transformation is activated: ' + glossaryConfiguration.isActivateTransformationJob());
   logger.debug('Target spaces: ' + glossaryConfiguration.getTransformationJobIncludeSpaces());
   logger.debug('Version increment: ' + glossaryConfiguration.isIncrementVersionOnTransformationJob());
+  def start = System.currentTimeMillis();
 
   def spaceReferences = glossaryConfiguration.getTransformationJobIncludeSpaces();
 
   if (glossaryConfiguration.isActivateTransformationJob() &amp;&amp; spaceReferences.size() &gt; 0) {
-    def spaceQueryClause = "(";
+    def transformer = services.component.getContextComponentManager().getInstance(GlossaryEntriesTransformer.class, 'default');
+    def hql = 'select distinct doc.fullName from XWikiDocument as doc where ';
     spaceReferences.eachWithIndex { spaceReference, index -&gt;
       if (index &gt; 0)
-        spaceQueryClause += " OR ";
-      def spaceName = services.model.serialize(spaceReference);
-      spaceQueryClause += "space:(" + spaceName + "*)";
+        hql += " OR ";
+      hql += "doc.fullName like :like${index}"
     }
-    spaceQueryClause += ")";
-    def glossaryModel = services.component.getContextComponentManager().getInstance(GlossaryModel.class, 'default');
-    def entries = glossaryModel.getGlossaryEntries();
-
-    def transformer = services.component.getContextComponentManager().getInstance(GlossaryEntriesTransformer.class, 'default');
-    def parameterizedType = new DefaultParameterizedType(null, DocumentReferenceResolver.class, SolrDocument.class);
-    def solrDocumentResolver = services.component.getContextComponentManager().getInstance(parameterizedType, 'default');
-
-    def wikiDescriptor = services.wiki.currentWikiDescriptor;
-    def wikiId = wikiDescriptor.getId();
-    entries.each { language, languageEntries -&gt;
-      logger.debug("Language: $language")
-      languageEntries.each { entryTitle, reference -&gt;
-        logger.debug("Entry: [{}] [{}]", entryTitle, reference);
-        def solrStatement = "type:DOCUMENT AND \"$entryTitle\" AND $spaceQueryClause AND locale:$language AND wiki:$wikiId";
-        logger.debug("Solr statement: [{}]", solrStatement);
-        def query = services.query.createQuery(solrStatement, "solr");
-        def response = query.execute();
-        if (response != null &amp;&amp; response.size() &gt; 0) {
-          def searchResponse = response.get(0);
-          def results = searchResponse.getResults();
-          results.each {
-            result -&gt;
-            logger.debug("Match: [{}] - locale: {}", result.fullname, result.locale)
-            def documentReference = solrDocumentResolver.resolve(result);
-            def page = xwiki.getDocument(documentReference);
-            def translatedPage = page.getTranslatedDocument(result.locale).getDocument().clone();
-            def content = translatedPage.getContent();
-            def syntax = translatedPage.getSyntax();
-            def xdom = services.rendering.parse(content, syntax.toIdString());
-            def locale = services.localization.toLocale(result.locale)
-            def transformed = transformer.transformGlossaryEntries(xdom, syntax, locale);
-            if (transformed) {
-              def transformedContent = services.rendering.render(xdom, syntax.toIdString());
-              translatedPage.setContent(transformedContent);
-              if (!glossaryConfiguration.isIncrementVersionOnTransformationJob()) {
-                translatedPage.setContentDirty(false);
-                translatedPage.setMetaDataDirty(false);
-              }
-              xwiki.getXWiki().saveDocument(translatedPage, services.localization.render('glossary.transformationJob.save.message'), true, xcontext);
-            }
+    def query = services.query.hql(hql);
+    spaceReferences.eachWithIndex { spaceReference, index -&gt;
+       query.bindValue("like$index", services.model.serialize(spaceReference) + ".%")
+    }
+    def pages = query.execute();
+    pages.each { pageName -&gt;
+      def documentReference = services.model.resolveDocument(pageName);
+      def page = xwiki.getDocument(documentReference).getDocument().clone();
+      def locales = page.getTranslationLocales(xcontext);
+      def defaultLocale = page.getDefaultLocale();
+      if ("$defaultLocale" != '')
+        locales.add(defaultLocale);
+      logger.debug("Page: [{}] - Locales: [{}] ({})", documentReference, locales, locales.size());
+      locales.each { locale -&gt;
+        def translatedPage = page.getTranslatedDocument(locale, xcontext);
+        def content = translatedPage.getContent();
+        def syntax = translatedPage.getSyntax();
+        def xdom = services.rendering.parse(content, syntax.toIdString());
+        def transformed = transformer.transformGlossaryEntries(xdom, syntax, locale);
+        if (transformed) {
+          def transformedContent = services.rendering.render(xdom, syntax.toIdString());
+          translatedPage.setContent(transformedContent);
+          if (!glossaryConfiguration.isIncrementVersionOnTransformationJob()) {
+            translatedPage.setContentDirty(false);
+            translatedPage.setMetaDataDirty(false);
           }
+          xwiki.getXWiki().saveDocument(translatedPage, services.localization.render('glossary.transformationJob.save.message'), true, xcontext);
         }
       }
     }
+    def end = System.currentTimeMillis();
+    def duration = end - start;
+    logger.debug("Duration: {} ms", duration)
   }
 } catch (Exception e) {
   logger.error('An error occurred while running the glossary transformation job: [{}]', e.getMessage(), e);

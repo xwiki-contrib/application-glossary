@@ -348,7 +348,7 @@
       <configureGlobally>1</configureGlobally>
     </property>
     <property>
-      <displayBeforeCategory></displayBeforeCategory>
+      <displayBeforeCategory/>
     </property>
     <property>
       <displayInCategory>content</displayInCategory>
@@ -360,10 +360,10 @@
       <heading>Glossary</heading>
     </property>
     <property>
-      <iconAttachment></iconAttachment>
+      <iconAttachment/>
     </property>
     <property>
-      <linkPrefix></linkPrefix>
+      <linkPrefix/>
     </property>
     <property>
       <propertiesToShow/>

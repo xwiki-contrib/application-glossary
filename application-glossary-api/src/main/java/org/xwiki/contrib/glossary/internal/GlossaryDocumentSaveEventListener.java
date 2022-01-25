@@ -32,6 +32,7 @@ import org.xwiki.bridge.event.DocumentUpdatingEvent;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.GlossaryConfiguration;
 import org.xwiki.contrib.glossary.GlossaryEntriesTransformer;
+import org.xwiki.contrib.glossary.GlossaryException;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.Event;
 import org.xwiki.rendering.block.XDOM;
@@ -84,15 +85,20 @@ public class GlossaryDocumentSaveEventListener implements EventListener
             XWikiDocument document = (XWikiDocument) source;
 
             // Compute the locale of the document that should be used to resolve glossary entries
-            Locale locale = (Locale.ROOT.equals(document.getLocale()))
-                ? document.getDefaultLocale() : document.getLocale();
+            Locale locale = (Locale.ROOT.equals(document.getLocale()))  ? document.getDefaultLocale() :
+                document.getLocale();
 
             try {
                 XDOM xdom = document.getXDOM();
+                long start = System.currentTimeMillis();
                 if (glossaryEntriesTransformer.transformGlossaryEntries(xdom, document.getSyntax(), locale)) {
+                    long end = System.currentTimeMillis();
+                    long duration = end - start;
+                    logger.debug("Glossary transformation duration for [{}]: [{}] ", document.getDocumentReference(),
+                        duration);
                     document.setContent(xdom);
                 }
-            } catch (XWikiException e) {
+            } catch (XWikiException | GlossaryException e) {
                 logger.error("Failed to transform content for document [{}] to look for Glossary entries.",
                     document.getDocumentReference(), e);
             }

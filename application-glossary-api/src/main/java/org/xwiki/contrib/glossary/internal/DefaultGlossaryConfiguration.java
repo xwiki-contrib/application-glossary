@@ -169,8 +169,11 @@ public class DefaultGlossaryConfiguration implements GlossaryConfiguration
             if (baseObject != null) {
                 String spaces = baseObject.getStringValue(TRANSFORMATION_JOB_INCLUDE_SPACES);
                 for (String space : spaces.split(",")) {
-                    EntityReference entityReference = entityReferenceResolver.resolve(space.trim(), EntityType.SPACE);
-                    spaceReferences.add(new SpaceReference(entityReference));
+                    if (space != null && space.length() > 0) {
+                        EntityReference entityReference = entityReferenceResolver.resolve(space.trim(),
+                            EntityType.SPACE);
+                        spaceReferences.add(new SpaceReference(entityReference));
+                    }
                 }
             }
         } catch (Exception e) {
