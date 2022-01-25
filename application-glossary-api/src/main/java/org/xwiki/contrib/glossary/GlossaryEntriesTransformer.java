@@ -40,5 +40,5 @@ public interface GlossaryEntriesTransformer
      * @param locale document locale
      * @return true if the XDOM was modified, false otherwise
      */
-    boolean transformGlossaryEntries(XDOM xdom, Syntax syntax, Locale locale);
+    boolean transformGlossaryEntries(XDOM xdom, Syntax syntax, Locale locale) throws GlossaryException;
 }

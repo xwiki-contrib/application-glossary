@@ -20,12 +20,17 @@
 package org.xwiki.contrib.glossary.internal;
 
 import java.io.StringReader;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
@@ -37,13 +42,17 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.contrib.glossary.GlossaryCache;
 import org.xwiki.contrib.glossary.GlossaryConfiguration;
 import org.xwiki.contrib.glossary.GlossaryEntriesTransformer;
+import org.xwiki.contrib.glossary.GlossaryException;
 import org.xwiki.contrib.glossary.GlossaryModel;
+import org.xwiki.contrib.xdom.regex.Matcher;
+import org.xwiki.contrib.xdom.regex.Pattern;
+import org.xwiki.contrib.xdom.regex.PatternBuilder;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.EntityReference;
+import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.CompositeBlock;
-import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.MacroBlock;
-import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.parser.ParseException;
@@ -54,7 +63,7 @@ import org.xwiki.rendering.util.ParserUtils;
 /**
  * Default GlossaryEntriesTransformer.
  *
- *  @version $Id$
+ * @version $Id$
  */
 @Component
 @Singleton
@@ -79,19 +88,21 @@ public class DefaultGlossaryEntriesTransformer implements GlossaryEntriesTransfo
     @Inject
     private ComponentManager componentManager;
 
+    @Inject
+    @Named("local")
+    private EntityReferenceSerializer<String> referenceSerializer;
+
     @Override
-    public boolean transformGlossaryEntries(XDOM xdom, Syntax syntax, Locale locale)
+    public boolean transformGlossaryEntries(XDOM xdom, Syntax syntax, Locale locale) throws GlossaryException
     {
-        GlossaryCache glossaryCache = glossaryCacheProvider.get();
-
-        boolean xdomModified = removeGlossaryEntries(xdom, syntax, locale, glossaryCache);
-        xdomModified = addGlossaryEntries(xdom, locale, glossaryCache) || xdomModified;
-
+        boolean xdomModified = removeGlossaryReferenceMacroBlocks(xdom, syntax, locale);
+        xdomModified = addGlossaryReferenceMacroBlocks(xdom, locale) || xdomModified;
         return xdomModified;
     }
 
-    private boolean removeGlossaryEntries(XDOM xdom, Syntax syntax, Locale locale, GlossaryCache glossaryCache)
+    private boolean removeGlossaryReferenceMacroBlocks(XDOM xdom, Syntax syntax, Locale locale)
     {
+        GlossaryCache glossaryCache = glossaryCacheProvider.get();
         boolean modified = false;
 
         // Try to load a parser for the current document syntax. If it fails, we won't be able to remove glossary
@@ -139,34 +150,48 @@ public class DefaultGlossaryEntriesTransformer implements GlossaryEntriesTransfo
         return modified;
     }
 
-    private boolean addGlossaryEntries(XDOM xdom, Locale locale, GlossaryCache glossaryCache)
+    private boolean addGlossaryReferenceMacroBlocks(XDOM xdom, Locale locale) throws GlossaryException
     {
-        boolean modified = false;
-
-        // Look in the document content for any glossary entries that could be added.
-        for (Block block : xdom.getBlocks(new ClassBlockMatcher(WordBlock.class), Block.Axes.DESCENDANT_OR_SELF)) {
-            WordBlock wordBlock = (WordBlock) block;
-
-            DocumentReference glossaryEntryReference = glossaryCache.get(wordBlock.getWord(), locale,
-                glossaryConfiguration.defaultGlossaryId());
-
-            if (glossaryEntryReference != null && !(block.getParent() instanceof LinkBlock)) {
-                // Update the block element to put a glossary macro
-                Map<String, String> macroParameters = new HashMap<>();
-                macroParameters.put(ENTRY_ID, glossaryEntryReference.getName());
-                macroParameters.put(GLOSSARY_ID, glossaryModel.getGlossaryId(glossaryEntryReference));
-
-                MacroBlock macroBlock = new MacroBlock(GlossaryReferenceMacro.MACRO_NAME, macroParameters,
-                    wordBlock.getWord(), true);
-
-                wordBlock.getParent().replaceChild(macroBlock, wordBlock);
-
-                modified = true;
-            }
+        AtomicBoolean modified = new AtomicBoolean(false);
+        Map<Locale, Map<String, DocumentReference>> entries = glossaryModel.getGlossaryEntries();
+        Map<String, DocumentReference> localeEntries = entries.get(locale);
+        if (localeEntries != null) {
+            // TODO: order entries by descending length to match first the longest ones eg "Workers Committee",
+            //  then only "Committee"
+            Set<Map.Entry<String, DocumentReference>> set = localeEntries.entrySet();
+            Comparator<Map.Entry<String, DocumentReference>> entryLengthComparator =
+                (h1, h2) -> h2.getKey().length() - h1.getKey().length();
+            Stream<Map.Entry<String, DocumentReference>> sortedStream =
+                set.stream().sorted(entryLengthComparator);
+            sortedStream.forEach((Map.Entry<String, DocumentReference> entry) -> {
+                PatternBuilder builder = new PatternBuilder();
+                String title = entry.getKey();
+                // Surround all words with signs "^" at the start and "$" at the end
+                String regex = title.replaceAll("([^\\-\\s()]+)", "^$1\\$");
+                regex = regex.replaceAll("\\(", "\\\\(");
+                regex = regex.replaceAll("\\)", "\\\\)");
+                Pattern pattern = builder.build(regex);
+                Class<? extends Block> primaryBlockClass = pattern.getPrimaryBlockPattern().getBlockClass();
+                ClassBlockMatcher classBlockMatcher = new ClassBlockMatcher(primaryBlockClass);
+                for (Block block : xdom.getBlocks(classBlockMatcher, Block.Axes.DESCENDANT)) {
+                    Matcher matcher = pattern.getMatcher(block);
+                    if (matcher.matches()) {
+                        Map<String, String> parameters = new HashMap<>();
+                        // Currently a glossary entry is necessarily a terminal page, and the glossary it belongs to is
+                        // its direct parent reference.
+                        EntityReference glossaryReference = entry.getValue().getParent();
+                        // TODO: check if the EntityReferenceSerializer should be used instead
+                        parameters.put(ENTRY_ID, entry.getValue().getName());
+                        parameters.put(GLOSSARY_ID, referenceSerializer.serialize(glossaryReference));
+                        MacroBlock glossaryEntryMacroBlock =
+                            new MacroBlock("glossaryReference", parameters, entry.getKey(),
+                                true);
+                        matcher.replace(glossaryEntryMacroBlock);
+                        modified.set(true);
+                    }
+                }
+            });
         }
-
-        return modified;
+        return modified.get();
     }
-
-
 }

@@ -52,6 +52,10 @@
       <id>slauriere</id>
       <name>slauriere</name>
     </developer>
+    <developer>
+      <id>aubincleme</id>
+      <name>Clément Aubin</name>
+    </developer>
   </developers>
   <properties>
     <xwiki.release.jira.skip>false</xwiki.release.jira.skip>
