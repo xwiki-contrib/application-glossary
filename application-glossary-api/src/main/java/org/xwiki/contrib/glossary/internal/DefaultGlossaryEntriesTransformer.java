@@ -52,6 +52,7 @@ import org.xwiki.model.reference.EntityReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.CompositeBlock;
+import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
@@ -114,6 +115,8 @@ public class DefaultGlossaryEntriesTransformer implements GlossaryEntriesTransfo
 
             // Check the document content for any entry that could be removed as they are not part of the glossary cache
             // anymore
+            // We'll also check if the entry is part of a LinkBlock, in which case we explicitly want to remove the
+            // glossary entry (if it was added previously)
             for (Block block : xdom.getBlocks(new ClassBlockMatcher(MacroBlock.class), Block.Axes.DESCENDANT_OR_SELF)) {
                 MacroBlock macroBlock = (MacroBlock) block;
 
@@ -122,7 +125,7 @@ public class DefaultGlossaryEntriesTransformer implements GlossaryEntriesTransfo
                         ? glossaryConfiguration.defaultGlossaryId() : macroBlock.getParameter(GLOSSARY_ID);
                     String macroEntryId = macroBlock.getParameter(ENTRY_ID);
 
-                    if (glossaryCache.get(macroEntryId, locale, macroGlossaryId) == null) {
+                    if (glossaryCache.get(macroEntryId, locale, macroGlossaryId) == null || hasParentLink(macroBlock)) {
                         // Replace the block by a set of blocks ; for this, we need to parse the content of the macro
                         try {
                             XDOM replacementXDOM = syntaxParser.parse(new StringReader(macroBlock.getContent()));
@@ -173,9 +176,10 @@ public class DefaultGlossaryEntriesTransformer implements GlossaryEntriesTransfo
                 Pattern pattern = builder.build(regex);
                 Class<? extends Block> primaryBlockClass = pattern.getPrimaryBlockPattern().getBlockClass();
                 ClassBlockMatcher classBlockMatcher = new ClassBlockMatcher(primaryBlockClass);
+
                 for (Block block : xdom.getBlocks(classBlockMatcher, Block.Axes.DESCENDANT)) {
                     Matcher matcher = pattern.getMatcher(block);
-                    if (matcher.matches()) {
+                    if (matcher.matches() && !hasParentLink(block)) {
                         Map<String, String> parameters = new HashMap<>();
                         // Currently a glossary entry is necessarily a terminal page, and the glossary it belongs to is
                         // its direct parent reference.
@@ -193,5 +197,20 @@ public class DefaultGlossaryEntriesTransformer implements GlossaryEntriesTransfo
             });
         }
         return modified.get();
+    }
+
+    private boolean hasParentLink(Block block)
+    {
+        boolean hasParentLink = false;
+        Block currentBlock = block;
+        while (!hasParentLink && currentBlock.getParent() != null) {
+            if (currentBlock instanceof LinkBlock) {
+                hasParentLink = true;
+            } else {
+                currentBlock = currentBlock.getParent();
+            }
+        }
+
+        return hasParentLink;
     }
 }
