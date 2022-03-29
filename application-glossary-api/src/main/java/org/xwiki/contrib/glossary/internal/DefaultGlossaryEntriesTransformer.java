@@ -159,20 +159,21 @@ public class DefaultGlossaryEntriesTransformer implements GlossaryEntriesTransfo
         Map<Locale, Map<String, DocumentReference>> entries = glossaryModel.getGlossaryEntries();
         Map<String, DocumentReference> localeEntries = entries.get(locale);
         if (localeEntries != null) {
-            // TODO: order entries by descending length to match first the longest ones eg "Workers Committee",
-            //  then only "Committee"
+            // Order entries by descending length to match first the longest ones eg "Workers Committee",
+            // then only "Committee"
             Set<Map.Entry<String, DocumentReference>> set = localeEntries.entrySet();
             Comparator<Map.Entry<String, DocumentReference>> entryLengthComparator =
                 (h1, h2) -> h2.getKey().length() - h1.getKey().length();
             Stream<Map.Entry<String, DocumentReference>> sortedStream =
                 set.stream().sorted(entryLengthComparator);
+
             sortedStream.forEach((Map.Entry<String, DocumentReference> entry) -> {
                 PatternBuilder builder = new PatternBuilder();
                 String title = entry.getKey();
+
                 // Surround all words with signs "^" at the start and "$" at the end
-                String regex = title.replaceAll("([^\\-\\s()]+)", "^$1\\$");
-                regex = regex.replaceAll("\\(", "\\\\(");
-                regex = regex.replaceAll("\\)", "\\\\)");
+                String regex = title.replaceAll("([a-zA-Z0-9]+)", "^$1\\$");
+                regex = regex.replaceAll("\\?", "\\?");
                 Pattern pattern = builder.build(regex);
                 Class<? extends Block> primaryBlockClass = pattern.getPrimaryBlockPattern().getBlockClass();
                 ClassBlockMatcher classBlockMatcher = new ClassBlockMatcher(primaryBlockClass);
