@@ -74,6 +74,16 @@ public class DefaultGlossaryEntriesTransformer implements GlossaryEntriesTransfo
 
     private static final String GLOSSARY_ID = "glossaryId";
 
+    /**
+     * Capturing group of characters that are parsed as special symbol blocks according to
+     * https://github.com/xwiki/xwiki-rendering/blob/22eac2b1d38fbe259fa72e45df30f78eab553325/
+     * xwiki-rendering-syntaxes/xwiki-rendering-syntax-plain/src/main/java/org/xwiki/rendering/
+     * internal/parser/plain/PlainTextStreamParser.java#L52
+     *
+     * We don't do a direct reference to the static variable of the PlainTextStreamParser as it's an internal class.
+     */
+    private static final String SPECIAL_SYMBOLS = "!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~";
+
     @Inject
     private Logger logger;
 
@@ -172,7 +182,8 @@ public class DefaultGlossaryEntriesTransformer implements GlossaryEntriesTransfo
                 String title = entry.getKey();
 
                 // Surround all words with signs "^" at the start and "$" at the end
-                String regex = title.replaceAll("([a-zA-Z0-9]+)", "^$1\\$");
+                String regex = title.replaceAll(
+                    String.format("([^\\s%s]+)", SPECIAL_SYMBOLS), "^$1\\$");
                 regex = regex.replaceAll("\\?", "\\?");
                 Pattern pattern = builder.build(regex);
                 Class<? extends Block> primaryBlockClass = pattern.getPrimaryBlockPattern().getBlockClass();
