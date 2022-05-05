@@ -21,6 +21,7 @@ package org.xwiki.contrib.glossary.test.po;
 
 import java.util.Arrays;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
@@ -90,9 +91,9 @@ public class GlossaryHomePage extends ViewPage
      */
     public GlossaryEntryEditPage addGlossaryEntry(String glossaryName)
     {
-        WebElement glossaryNameField = getDriver().findElementByName("glossaryItem");
-        WebElement glossaryNameButton = getDriver().findElementByXPath(
-            "//div[contains(@class, 'glossary-link add-glossary')]//input[contains(@class, 'btn btn-success')]");
+        WebElement glossaryNameField = getDriver().findElement(By.name("glossaryItem"));
+        WebElement glossaryNameButton = getDriver().findElement(By.xpath(
+            "//div[contains(@class, 'glossary-link add-glossary')]//input[contains(@class, 'btn btn-success')]"));
         glossaryNameField.clear();
         glossaryNameField.sendKeys(glossaryName);
         glossaryNameButton.click();
