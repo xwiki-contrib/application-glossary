@@ -52,16 +52,6 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.contrib.latex</groupId>
-      <artifactId>latex-pdf-docker</artifactId>
-      <version>${latex.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.contrib.latex</groupId>
-      <artifactId>latex-pdf-process</artifactId>
-      <version>${latex.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.contrib.latex</groupId>
       <artifactId>latex-export</artifactId>
       <version>${latex.version}</version>
       <scope>runtime</scope>

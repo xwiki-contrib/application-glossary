@@ -36,6 +36,8 @@
   </properties>
   <modules>
     <module>application-glossary-latex-api</module>
+    <module>application-glossary-latex-pdf-docker</module>
+    <module>application-glossary-latex-pdf-process</module>
     <module>application-glossary-latex-ui</module>
   </modules>
 </project>

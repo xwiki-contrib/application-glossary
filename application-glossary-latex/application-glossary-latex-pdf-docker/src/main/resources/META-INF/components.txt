@@ -1,0 +1,1 @@
+500:org.xwiki.contrib.glossary.internal.latex.pdf.docker.GlossaryLaTeX2PDFConfiguration
