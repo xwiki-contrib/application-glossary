@@ -7,7 +7,7 @@ Glossary feature for XWiki: ability to define glossary terms and have them highl
 * [Issue Tracker](https://jira.xwiki.org/browse/GLOSSARY)
 * Communication: [Forum](https://dev.xwiki.org/xwiki/bin/view/Community/Discuss), [Chat](https://dev.xwiki.org/xwiki/bin/view/Community/Chat)
 * [Development Practices](https://dev.xwiki.org)
-* Minimal XWiki version supported: XWiki 12.10
+* Minimal XWiki version supported: XWiki 13.10
 * License: LGPL 2.1
 * Translations: N/A
 * Sonar Dashboard: N/A

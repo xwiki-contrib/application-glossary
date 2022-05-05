@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.contrib.glossary.internal;
+package org.xwiki.contrib.glossary.internal.docker;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,10 +28,10 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.configuration.ConfigurationSource;
-import org.xwiki.contrib.latex.pdf.LaTeX2PDFConfiguration;
+import org.xwiki.contrib.latex.pdf.docker.LaTeX2PDFConfiguration;
 
 /**
- * Overriden configuration to execute {@code makeglossaries} in the docker image.
+ * Overridden configuration to execute {@code makeglossaries} in the docker image.
  *
  * @version $Id$
  * @since 1.0
@@ -40,7 +40,7 @@ import org.xwiki.contrib.latex.pdf.LaTeX2PDFConfiguration;
 @Singleton
 public class GlossaryLaTeX2PDFConfiguration implements LaTeX2PDFConfiguration
 {
-    private static final String PREFIX = "latex.pdf.";
+    private static final String PREFIX = "latex.pdf.docker.";
 
     @Inject
     @Named("xwikiproperties")
@@ -49,7 +49,7 @@ public class GlossaryLaTeX2PDFConfiguration implements LaTeX2PDFConfiguration
     @Override
     public String getDockerImageName()
     {
-        return this.configurationSource.getProperty(PREFIX + "dockerImageName", "blang/latex:ubuntu");
+        return this.configurationSource.getProperty(PREFIX + "imageName", "blang/latex:ubuntu");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class GlossaryLaTeX2PDFConfiguration implements LaTeX2PDFConfiguration
         // Note 1: we run the compilation twice so that the TOC is generated properly (it requires two passes from
         // pdflatex).
         // Note 2: we run makeglossaries to generate glossary gls file
-        return Arrays.asList("sh", "-c", this.configurationSource.getProperty(PREFIX + "dockerCommands",
+        return Arrays.asList("sh", "-c", this.configurationSource.getProperty(PREFIX + "commands",
             "pdflatex -shell-escape index.tex; makeglossaries index; pdflatex -shell-escape index.tex"));
     }
 }

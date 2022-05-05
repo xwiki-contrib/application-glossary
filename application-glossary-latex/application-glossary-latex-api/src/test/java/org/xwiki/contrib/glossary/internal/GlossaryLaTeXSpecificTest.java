@@ -22,6 +22,7 @@ package org.xwiki.contrib.glossary.internal;
 import java.util.Arrays;
 
 import org.junit.runner.RunWith;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.context.ExecutionContextInitializer;
 import org.xwiki.contrib.glossary.GlossaryCache;
 import org.xwiki.contrib.glossary.GlossaryModel;
@@ -48,7 +49,7 @@ public class GlossaryLaTeXSpecificTest
     @RenderingTestSuite.Initialized
     public void initialize(MockitoComponentManager componentManager) throws Exception
     {
-        // By default the GlossaryTransformation will be registered since DefaultRenderingConfiguration's
+        // By default, the GlossaryTransformation will be registered since DefaultRenderingConfiguration's
         // implementation registers all transformation in the classpath for the test. However, in this test we don't
         // want the "glossary" transformation since we're testing a macro that is supposed to be used especially when
         // the transformation is not enabled. Also, enabling the transformation would require to setup more mocks which
@@ -58,6 +59,7 @@ public class GlossaryLaTeXSpecificTest
 
         // Avoid having to draw WikiDescriptorManager component and setup.
         componentManager.registerMockComponent(ExecutionContextInitializer.class, "threadclassloader");
+        componentManager.registerComponent(ComponentManager.class, "context", componentManager);
 
         componentManager.registerMockComponent(GlossaryCache.class);
         componentManager.registerMockComponent(GlossaryModel.class);

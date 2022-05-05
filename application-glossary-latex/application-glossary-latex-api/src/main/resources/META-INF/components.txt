@@ -1,3 +1,3 @@
 org.xwiki.contrib.glossary.latex.script.LaTeXGlossaryScriptService
-2000:org.xwiki.contrib.glossary.internal.RawMacro
-500:org.xwiki.contrib.glossary.internal.GlossaryLaTeX2PDFConfiguration
+500:org.xwiki.contrib.glossary.internal.docker.GlossaryLaTeX2PDFConfiguration
+500:org.xwiki.contrib.glossary.internal.process.GlossaryLaTeX2PDFConfiguration

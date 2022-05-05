@@ -32,7 +32,7 @@
   <packaging>pom</packaging>
   <description>Glossary - LaTeX Export - Parent POM</description>
   <properties>
-    <latex.version>1.13</latex.version>
+    <latex.version>1.18.1</latex.version>
   </properties>
   <modules>
     <module>application-glossary-latex-api</module>
