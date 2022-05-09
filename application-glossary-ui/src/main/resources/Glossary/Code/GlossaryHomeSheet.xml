@@ -56,7 +56,7 @@
     ## If there's no glossaryItem then issue a warning below
     #if (!$stringtool.isBlank($glossaryItem))
  #set ($newGlossaryReference = $services.model.createDocumentReference('', '', "$glossaryItem"))
- $response.sendRedirect($xwiki.getURL($newGlossaryReference, 'inline', "$!{request.queryString}&amp;title=${escapetool.url($glossaryItem)}"))
+ $response.sendRedirect($xwiki.getURL($newGlossaryReference, 'edit', "$!{request.queryString}&amp;title=${escapetool.url($glossaryItem)}"))
 
     #end
   #end
