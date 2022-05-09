@@ -21,11 +21,13 @@ package org.xwiki.contrib.glossary.internal;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.cache.Cache;
 import org.xwiki.cache.CacheException;
 import org.xwiki.cache.CacheManager;
@@ -57,29 +59,35 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
      */
     private static final String NAME = "cache.glossaryCache";
 
-    /**
-     * Used to initialize the actual cache component.
-     */
+    @Inject
+    private Logger logger;
+
     @Inject
     private CacheManager cacheManager;
+
+    @Inject
+    private GlossaryModel glossaryModel;
+
+    @Inject
+    private Provider<XWikiContext> xwikiContextProvider;
+
+    @Inject
+    private GlossaryConfiguration glossaryConfiguration;
 
     /**
      * The actual cache object.
      */
     private Cache<DocumentReference> cache;
 
-    @Inject
-    private GlossaryModel glossaryModel;
-
-    @Inject
-    private Provider<XWikiContext> xWikiContextProvider;
-
-    @Inject
-    private GlossaryConfiguration glossaryConfiguration;
+    /**
+     * Keeps track of which wiki has been initialized, for lazy loading of all glossary entries per wiki.
+     */
+    private Map<String, Boolean> initializedWikis;
 
     @Override
     public void initialize() throws InitializationException
     {
+        this.initializedWikis = new ConcurrentHashMap<>();
         try {
             CacheConfiguration cacheConfiguration = new CacheConfiguration();
             cacheConfiguration.setConfigurationId(NAME);
@@ -87,17 +95,7 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
             lru.setMaxEntries(1000);
             cacheConfiguration.put(LRUEvictionConfiguration.CONFIGURATIONID, lru);
             this.cache = this.cacheManager.createNewCache(cacheConfiguration);
-
-            Map<Locale, Map<String, DocumentReference>> glossaryEntries;
-
-            // Load existing Glossary entries in the current wiki and save them in the cache
-            glossaryEntries = this.glossaryModel.getGlossaryEntries();
-            for (Map.Entry<Locale, Map<String, DocumentReference>> localeEntry : glossaryEntries.entrySet()) {
-                for (Map.Entry<String, DocumentReference> entry : localeEntry.getValue().entrySet()) {
-                    set(entry.getKey(), localeEntry.getKey(), entry.getValue());
-                }
-            }
-        } catch (CacheException | GlossaryException e) {
+        } catch (CacheException e) {
             throw new InitializationException("Failed to initialize Glossary cache", e);
         }
     }
@@ -105,25 +103,27 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Override
     public DocumentReference get(String key)
     {
-        return get(key, xWikiContextProvider.get().getLocale());
+        return get(key, this.xwikiContextProvider.get().getLocale());
     }
 
     @Override
     public DocumentReference get(String key, Locale locale)
     {
-        return get(key, locale, glossaryConfiguration.defaultGlossaryId());
+        return get(key, locale, this.glossaryConfiguration.defaultGlossaryId());
     }
 
     @Override
     public DocumentReference get(String key, Locale locale, String glossaryId)
     {
-        return this.cache.get(computeCacheKey(key, locale, glossaryId));
+        String currentWikiId = this.xwikiContextProvider.get().getWikiId();
+        loadCache(currentWikiId);
+        return this.cache.get(computeCacheKey(key, locale, glossaryId, currentWikiId));
     }
 
     @Override
     public void set(String key, DocumentReference value)
     {
-        Locale locale = (value.getLocale() != null) ? value.getLocale() : xWikiContextProvider.get().getLocale();
+        Locale locale = (value.getLocale() != null) ? value.getLocale() : this.xwikiContextProvider.get().getLocale();
 
         set(key, locale, value);
     }
@@ -131,27 +131,28 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Override
     public void set(String key, Locale locale, DocumentReference value)
     {
-        String glossaryId = glossaryModel.getGlossaryId(value);
-
-        this.cache.set(computeCacheKey(key, locale, glossaryId), value);
+        String glossaryId = this.glossaryModel.getGlossaryId(value);
+        String currentWikiId = this.xwikiContextProvider.get().getWikiId();
+        this.cache.set(computeCacheKey(key, locale, glossaryId, currentWikiId), value);
     }
 
     @Override
     public void remove(String key)
     {
-        remove(key, xWikiContextProvider.get().getLocale());
+        remove(key, this.xwikiContextProvider.get().getLocale());
     }
 
     @Override
     public void remove(String key, Locale locale)
     {
-        remove(key, locale, glossaryConfiguration.defaultGlossaryId());
+        remove(key, locale, this.glossaryConfiguration.defaultGlossaryId());
     }
 
     @Override
     public void remove(String key, Locale locale, String glossaryId)
     {
-        this.cache.remove(computeCacheKey(key, locale, glossaryId));
+        String currentWikiId = this.xwikiContextProvider.get().getWikiId();
+        this.cache.remove(computeCacheKey(key, locale, glossaryId, currentWikiId));
     }
 
     @Override
@@ -162,8 +163,28 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
         }
     }
 
-    private String computeCacheKey(String key, Locale locale, String glossaryId)
+    private void loadCache(String wikiId)
     {
-        return String.format("%s-%s-%s", glossaryId, locale.toString(), key);
+        if (!this.initializedWikis.containsKey(wikiId)) {
+            // Load existing Glossary entries in the current wiki and save them in the cache
+            Map<Locale, Map<String, DocumentReference>> glossaryEntries;
+            try {
+                glossaryEntries = this.glossaryModel.getGlossaryEntries();
+                for (Map.Entry<Locale, Map<String, DocumentReference>> localeEntry : glossaryEntries.entrySet()) {
+                    for (Map.Entry<String, DocumentReference> entry : localeEntry.getValue().entrySet()) {
+                        set(entry.getKey(), localeEntry.getKey(), entry.getValue());
+                    }
+                }
+                this.initializedWikis.put(wikiId, true);
+            } catch (GlossaryException e) {
+                // Don't break the flow, just return an empty result but log an error since something is wrong.
+                this.logger.error("Failed to initialize Glossary cache for wiki [{}]", wikiId, e);
+            }
+        }
+    }
+
+    private String computeCacheKey(String key, Locale locale, String glossaryId, String wikiId)
+    {
+        return String.format("%s-%s-%s-%s", wikiId, glossaryId, locale.toString(), key);
     }
 }
