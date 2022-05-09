@@ -30,5 +30,8 @@ node('docker') {
         goals = 'clean deploy jacoco:report sonar:sonar'
         profiles = 'quality,integration-tests,docker'
         sonar = true
+        // Force Java 11 even though we depend on XS requiring only Java 8 because we run SonarQube and this requires
+        // Java 11.
+        javaTool = 'java11'
     }
 }
