@@ -30,7 +30,7 @@ import org.xwiki.test.ui.po.InlinePage;
  */
 public class GlossaryEntryEditPage extends InlinePage
 {
-    @FindBy(id = "Glossary.Code.GlossaryClass_0_definition")
+    @FindBy(id = "content")
     private WebElement definitionElement;
 
     /**
