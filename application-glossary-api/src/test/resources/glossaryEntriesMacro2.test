@@ -1,0 +1,13 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.# Empty glossary provided.
+.#-----------------------------------------------------
+{{glossaryEntries glossaryId="empty"/}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [glossaryEntries] [glossaryId=empty]
+endMacroMarkerStandalone [glossaryEntries] [glossaryId=empty]
+endDocument

@@ -1,0 +1,51 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.# Two glossary entries, with one pointing to the glossary listed at the end of the document.
+.#-----------------------------------------------------
+{{glossaryReference glossaryId="myglossary" entryId="test"}}Anchor{{/glossaryReference}}
+
+{{glossaryReference entryId="test2"}}Link{{/glossaryReference}}
+
+{{glossaryEntries glossaryId="myglossary"/}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [glossaryReference] [glossaryId=myglossary|entryId=test] [Anchor]
+beginParagraph
+beginLink [Typed = [true] Type = [path] Reference = [#GlossaryEntryxwiki:myglossary.test]] [true] [[class]=[glossary-entry]]
+onWord [Anchor]
+endLink [Typed = [true] Type = [path] Reference = [#GlossaryEntryxwiki:myglossary.test]] [true] [[class]=[glossary-entry]]
+endParagraph
+endMacroMarkerStandalone [glossaryReference] [glossaryId=myglossary|entryId=test] [Anchor]
+beginMacroMarkerStandalone [glossaryReference] [entryId=test2] [Link]
+beginParagraph
+beginLink [Typed = [true] Type = [doc] Reference = [xwiki:Glossary.test2]] [true] [[class]=[glossary-entry]]
+onWord [Link]
+endLink [Typed = [true] Type = [doc] Reference = [xwiki:Glossary.test2]] [true] [[class]=[glossary-entry]]
+endParagraph
+endMacroMarkerStandalone [glossaryReference] [entryId=test2] [Link]
+beginMacroMarkerStandalone [glossaryEntries] [glossaryId=myglossary]
+beginGroup [[class]=[glossary-entries-entry]]
+beginHeader [2, null] [[class]=[glossary-entries-entry-name][id]=[GlossaryEntryxwiki:myglossary.test]]
+onWord [test]
+endHeader [2, null] [[class]=[glossary-entries-entry-name][id]=[GlossaryEntryxwiki:myglossary.test]]
+beginGroup [[class]=[glossary-entries-entry-definition]]
+onWord [Test]
+onSpace
+onWord [1]
+endGroup [[class]=[glossary-entries-entry-definition]]
+endGroup [[class]=[glossary-entries-entry]]
+beginGroup [[class]=[glossary-entries-entry]]
+beginHeader [2, null] [[class]=[glossary-entries-entry-name][id]=[GlossaryEntryxwiki:myglossary.world2]]
+onWord [world2]
+endHeader [2, null] [[class]=[glossary-entries-entry-name][id]=[GlossaryEntryxwiki:myglossary.world2]]
+beginGroup [[class]=[glossary-entries-entry-definition]]
+onWord [World]
+onSpace
+onWord [2]
+endGroup [[class]=[glossary-entries-entry-definition]]
+endGroup [[class]=[glossary-entries-entry]]
+endMacroMarkerStandalone [glossaryEntries] [glossaryId=myglossary]
+endDocument

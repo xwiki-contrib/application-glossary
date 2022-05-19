@@ -1,0 +1,33 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.# Custom header level.
+.#-----------------------------------------------------
+{{glossaryEntries glossaryId="myglossary" entryNameHeaderLevel="5"/}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [glossaryEntries] [glossaryId=myglossary|entryNameHeaderLevel=5]
+beginGroup [[class]=[glossary-entries-entry]]
+beginHeader [5, null] [[class]=[glossary-entries-entry-name][id]=[GlossaryEntryxwiki:myglossary.test]]
+onWord [test]
+endHeader [5, null] [[class]=[glossary-entries-entry-name][id]=[GlossaryEntryxwiki:myglossary.test]]
+beginGroup [[class]=[glossary-entries-entry-definition]]
+onWord [Test]
+onSpace
+onWord [1]
+endGroup [[class]=[glossary-entries-entry-definition]]
+endGroup [[class]=[glossary-entries-entry]]
+beginGroup [[class]=[glossary-entries-entry]]
+beginHeader [5, null] [[class]=[glossary-entries-entry-name][id]=[GlossaryEntryxwiki:myglossary.world2]]
+onWord [world2]
+endHeader [5, null] [[class]=[glossary-entries-entry-name][id]=[GlossaryEntryxwiki:myglossary.world2]]
+beginGroup [[class]=[glossary-entries-entry-definition]]
+onWord [World]
+onSpace
+onWord [2]
+endGroup [[class]=[glossary-entries-entry-definition]]
+endGroup [[class]=[glossary-entries-entry]]
+endMacroMarkerStandalone [glossaryEntries] [glossaryId=myglossary|entryNameHeaderLevel=5]
+endDocument
