@@ -40,11 +40,13 @@ import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.rendering.util.IdGenerator;
 
 import com.xpn.xwiki.XWikiContext;
 
@@ -107,17 +109,32 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
         MacroTransformationContext macroContext) throws MacroExecutionException
     {
         if (content == null) {
-            throw new MacroExecutionException("You must specify some content which will be used as the label off "
+            throw new MacroExecutionException("You must specify some content which will be used as the label of "
                 + "the glossary reference link");
         }
 
         String entryId = parameters.getEntryId() != null ? parameters.getEntryId() : content.trim();
         String glossaryId = parameters.getGlossaryId();
+        if (glossaryId == null) {
+            glossaryId = glossaryConfiguration.defaultGlossaryId();
+        }
+
+        String entryStringReference = getGlossaryEntryStringReference(entryId, glossaryId);
 
         List<Block> children = this.contentParser.parse(content, macroContext, false, true).getChildren();
 
         // Generate a link to the Glossary entry
-        ResourceReference resourceReference = getGlossaryEntryReference(entryId, glossaryId);
+        ResourceReference resourceReference;
+        if ((Boolean) xWikiContextProvider.get().getOrDefault(
+            String.format(GlossaryEntriesMacro.GLOSSARY_ANCHORS_CONTEXT_KEY_TEMPLATE, glossaryId), false)) {
+            String id = new IdGenerator().generateUniqueId(GlossaryEntriesMacro.GLOSSARY_ENTRY_ID_PREFIX,
+                entryStringReference);
+
+            resourceReference = new ResourceReference(String.format("#%s", id), ResourceType.PATH);
+        } else {
+            resourceReference = new DocumentResourceReference(entryStringReference);
+        }
+
         LinkBlock block = new LinkBlock(children, resourceReference, !macroContext.isInline());
         block.setParameter(GlossaryConstants.CSS_CLASS_ATTRIBUTE_NAME, GlossaryConstants.GLOSSARY_ENTRY_CSS_CLASS);
 
@@ -135,16 +152,10 @@ public class GlossaryReferenceMacro extends AbstractMacro<GlossaryReferenceMacro
         return true;
     }
 
-    private ResourceReference getGlossaryEntryReference(String entryId, String glossaryId)
+    private String getGlossaryEntryStringReference(String entryId, String glossaryId)
     {
-        SpaceReference spaceReference = null;
-        if (glossaryId != null) {
-            spaceReference = this.spaceReferenceResolver.resolve(glossaryId);
-        } else {
-            spaceReference = this.spaceReferenceResolver.resolve(glossaryConfiguration.defaultGlossaryId());
-        }
+        SpaceReference spaceReference = this.spaceReferenceResolver.resolve(glossaryId);
         DocumentReference documentReference = new DocumentReference(entryId, spaceReference);
-        String documentReferenceString = this.serializer.serialize(documentReference);
-        return new DocumentResourceReference(documentReferenceString);
+        return this.serializer.serialize(documentReference);
     }
 }
