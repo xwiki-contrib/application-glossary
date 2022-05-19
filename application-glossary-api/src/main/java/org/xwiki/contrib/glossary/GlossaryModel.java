@@ -45,6 +45,15 @@ public interface GlossaryModel
     Map<Locale, Map<String, DocumentReference>> getGlossaryEntries() throws GlossaryException;
 
     /**
+     * Find all existing Glossary definition for the given Glossary ID.
+     *
+     * @return the map containing the glossary entries with the index being the Glossary page name
+     * @throws GlossaryException when an error happens when finding Glossary entries
+     * @since 1.3
+     */
+    Map<Locale, Map<String, DocumentReference>> getGlossaryEntries(String glossaryId) throws GlossaryException;
+
+    /**
      * @param entryReference the reference to the glossary entry for which to get the definition/content
      * @param locale the locale to be used when loading the entry
      * @return the parsed content

@@ -97,6 +97,7 @@ public class DefaultGlossaryModelTest
         Object[] entry1 = { "test.fullName1", "title1", "en", "en", 0 };
         Object[] entry2 = { "test.fullName1", "title2", "fr", "en", 1 };
         List<Object> queryResults = Arrays.asList(entry1, entry2);
+        when(query.bindValue(any(String.class), any(String.class))).thenReturn(query);
         when(query.execute()).thenReturn(queryResults);
         when(documentResolver.resolve("test.fullName1")).thenReturn(documentReference);
 

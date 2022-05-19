@@ -70,13 +70,24 @@ public class DefaultGlossaryModel implements GlossaryModel
     @Override
     public Map<Locale, Map<String, DocumentReference>> getGlossaryEntries() throws GlossaryException
     {
+        return this.getGlossaryEntries(null);
+    }
+
+    @Override
+    public Map<Locale, Map<String, DocumentReference>> getGlossaryEntries(String glossaryId) throws GlossaryException
+    {
         // Find all existing glossary entries and save them in a cache for fast transformation execution.
         Map<Locale, Map<String, DocumentReference>> glossaryMap = new HashMap<>();
+
+        glossaryId = (StringUtils.isBlank(glossaryId)) ? "%" : String.format("%s%%", glossaryId);
+
         try {
             Query query = this.queryManager.createQuery("select doc.fullName, doc.title, doc.language, "
                 + "doc.defaultLanguage, doc.translation from XWikiDocument doc, BaseObject obj where "
-                + "obj.className = 'Glossary.Code.GlossaryClass' and obj.name = doc.fullName", Query.HQL);
-            List<Object[]> documents = query.execute();
+                + "obj.className = 'Glossary.Code.GlossaryClass' and obj.name = doc.fullName "
+                + "and doc.fullName like :glossaryId", Query.HQL);
+            List<Object[]> documents = query.bindValue("glossaryId", glossaryId).execute();
+
             for (Object[] document : documents) {
                 DocumentReference reference = this.defaultDocumentReferenceResolver.resolve((String) document[0]);
                 String title = (String) document[1];
