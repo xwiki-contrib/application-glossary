@@ -43,80 +43,68 @@
 #if($glossaryHome)
   ## Don't display doc extra tabs for Glossary home pages
   #set($docextras=[])
- $doc.use("Glossary.Code.GlossaryHomeClass")
- $xwiki.jsx.use('Glossary.Code.SkinExtension')
- $xwiki.ssx.use('Glossary.Code.SkinExtension')
-
- ## The space where to add and search for Glossary Entries
- #set ($glossarySpace = $doc.space)
- ## If this page is called with createGlossary=true then create a new page using the GlossaryTemplate template
+  $doc.use("Glossary.Code.GlossaryHomeClass")
+  $xwiki.jsx.use('Glossary.Code.SkinExtension')
+  $xwiki.ssx.use('Glossary.Code.SkinExtension')
+  ## The space where to add and search for Glossary Entries
+  #set ($glossarySpace = $doc.space)
+  ## If this page is called with createGlossary=true then create a new page using the GlossaryTemplate template
   #if ($request.createGlossary == 'true')
     ## Remove the "?" if it's the last character since the Glossary sheet adds one automatically
     #set ($glossaryItem = $!{request.glossaryItem})
     ## If there's no glossaryItem then issue a warning below
     #if (!$stringtool.isBlank($glossaryItem))
- #set ($newGlossaryReference = $services.model.createDocumentReference('', '', "$glossaryItem"))
- $response.sendRedirect($xwiki.getURL($newGlossaryReference, 'edit', "$!{request.queryString}&amp;title=${escapetool.url($glossaryItem)}"))
-
+      #set ($newGlossaryReference = $services.model.createDocumentReference('', '', "$glossaryItem"))
+      $response.sendRedirect($xwiki.getURL($newGlossaryReference, 'edit', "$!{request.queryString}&amp;title=${escapetool.url($glossaryItem)}"))
     #end
   #end
 
+  {{box title = "== $services.localization.render('glossary.about') ==" cssClass="glossaryAbout"}}
+  {{/box}}
 
-{{box title = "== $services.localization.render('glossary.about') ==" cssClass="glossaryAbout"}}
-    {{/box}}
-
-   
-##Adding the Search box on main page.
-(% class="glossary-link search-glossary box" %)(((
-=== #if($services.icon)$services.icon.render('find')#end $services.localization.render('glossary.search.title') ===
-(((
-
-{{html}}
-  &lt;form action="$xwiki.getURL('Glossary.SearchGlossary')" class="xformInline"&gt;
- &lt;div&gt;
-    ## Lucene search needs the $request.space param
-    &lt;input type="hidden" name="space" value="${glossarySpace}" /&gt;
-    ## Lucene search needs the $request.wikinames param
-    &lt;input type="hidden" name="wikinames" value="${xcontext.database}" /&gt;
-    ## Both Lucene and SOLR searches obey the $request.text param
-    &lt;input type="text" name="text" value="$services.localization.render('glossary.search.text')" size="16" class="withTip"/&gt;
- 
-&lt;span class="buttonwrapper"&gt;
-        &lt;input class="button" type="submit" value="$services.localization.render('glossary.search.submit')" /&gt;
-      &lt;/span&gt;
-  &lt;/div&gt;
+  ## Adding the Search box on main page.
+  (% class="glossary-link search-glossary box" %)(((
+    === #if($services.icon)$services.icon.render('find')#end $services.localization.render('glossary.search.title') ===
+    {{html}}
+      &lt;form action="$xwiki.getURL('Glossary.SearchGlossary')" class="xformInline"&gt;
+        ## Lucene search needs the $request.space param
+        &lt;input type="hidden" name="space" value="${glossarySpace}" /&gt;
+        ## Lucene search needs the $request.wikinames param
+        &lt;input type="hidden" name="wikinames" value="${xcontext.database}" /&gt;
+        ## Both Lucene and SOLR searches obey the $request.text param
+        &lt;input type="text" name="text" value="$services.localization.render('glossary.search.text')" size="16" class="withTip"/&gt;
+        &lt;span class="buttonwrapper"&gt;
+          &lt;input class="button" type="submit" value="$services.localization.render('glossary.search.submit')" /&gt;
+        &lt;/span&gt;
      &lt;/form&gt;
     {{/html}}
   )))
-)))
-(% class="glossary-link add-glossary box" %)(((
-##Adding 'Add Glossary' button on the main page
-=== #if($services.icon)$services.icon.render('add')#end $services.localization.render('glossary.add.title') ===
-(((
 
-{{html wiki = "true"}}
-#if ($isGuest)
-      #set($login = ${escapetool.xml($doc.getURL("login", "xredirect=$doc.externalURL"))})
-      #set($register = ${escapetool.xml($xwiki.getURL($services.model.resolveDocument('', 'default'), "register", "xredirect=$doc.externalURL"))})
-      $services.localization.render('glossary.need', ["&lt;a href=$login&gt;","&lt;/a&gt;","&lt;a href=$register&gt;","&lt;/a&gt;"])
-    #else
- &lt;form action="$doc.getURL()" id="newglossary" class="xformInline"&gt;
-        &lt;div&gt;
-          &lt;input type="hidden" name="parent" value="${glossarySpace}.WebHome" /&gt;
-          &lt;input type="hidden" name="template" value="Glossary.Code.GlossaryTemplate" /&gt;
-          &lt;input type="hidden" name="createGlossary" value="true" /&gt;
-          #if ($request.createGlossary == 'true' &amp;&amp; $stringtool.isBlank($glossaryItem))
-            {{error}}$services.localization.render('platform.glossary.create.empty'){{/error}}
-          #end
-          &lt;input class="withTip" type="text" name="glossaryItem" value="$services.localization.render('glossary.add.searchHint')" size="16"/&gt;
-          &lt;span class="buttonwrapper"&gt;
-            &lt;input class="btn btn-success button" type="submit" value="$services.localization.render('glossary.add.submit')" /&gt;
-          &lt;/span&gt;
-        &lt;/div&gt;
-      &lt;/form&gt;
-    #end
-    {{/html}}
-    )))
+  ## Adding 'Add Glossary' button on the main page
+  (% class="glossary-link add-glossary box" %)(((
+    === #if($services.icon)$services.icon.render('add')#end $services.localization.render('glossary.add.title') ===
+    {{html wiki="true"}}
+      #if ($isGuest)
+        #set($login = ${escapetool.xml($doc.getURL("login", "xredirect=$doc.externalURL"))})
+        #set($register = ${escapetool.xml($xwiki.getURL($services.model.resolveDocument('', 'default'), "register", "xredirect=$doc.externalURL"))})
+        $services.localization.render('glossary.need', ["&lt;a href=$login&gt;","&lt;/a&gt;","&lt;a href=$register&gt;","&lt;/a&gt;"])
+      #else
+        &lt;form action="$doc.getURL()" id="newglossary" class="xformInline"&gt;
+          &lt;div&gt;
+            &lt;input type="hidden" name="parent" value="${glossarySpace}.WebHome" /&gt;
+            &lt;input type="hidden" name="template" value="Glossary.Code.GlossaryTemplate" /&gt;
+            &lt;input type="hidden" name="createGlossary" value="true" /&gt;
+            #if ($request.createGlossary == 'true' &amp;&amp; $stringtool.isBlank($glossaryItem))
+              {{error}}$services.localization.render('platform.glossary.create.empty'){{/error}}
+            #end
+            &lt;input class="withTip" type="text" name="glossaryItem" value="$services.localization.render('glossary.add.searchHint')" size="16"/&gt;
+            &lt;span class="buttonwrapper"&gt;
+              &lt;input class="btn btn-success button" type="submit" value="$services.localization.render('glossary.add.submit')" /&gt;
+            &lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/form&gt;
+      #end
+   {{/html}}
   )))
 
   (% class="clearfloats" %)((()))(%%)
