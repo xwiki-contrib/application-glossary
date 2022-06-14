@@ -77,6 +77,8 @@ Glossary.Code.GlossaryConfigurationClass_transformationJobIncludeSpaces=List of 
 Glossary.Code.GlossaryConfigurationClass_transformationJobIncludeSpaces.hint=List of space names separated by a comma where glossary entries are periodically turned into links.
 Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob=Increment page version when links get added by the periodic transformation
 Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob.hint=Indicates whether a new page version should be created when links to glossary entries get automatically added by the periodic transformation.
+Glossary.Code.GlossaryConfigurationClass_excludedClassesFromTransformations=Excluded classes from automated transformations
+Glossary.Code.GlossaryConfigurationClass_excludedClassesFromTransformations.hint=Will exclude any document containing one of the given classes from the document update on save or the automated glossary transformation.
 
 glossary.transformationJob.save.message=Update links to glossary</content>
   <object>

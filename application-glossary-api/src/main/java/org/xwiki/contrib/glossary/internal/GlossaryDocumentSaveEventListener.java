@@ -20,6 +20,7 @@
 package org.xwiki.contrib.glossary.internal;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -33,6 +34,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.GlossaryConfiguration;
 import org.xwiki.contrib.glossary.GlossaryEntriesTransformer;
 import org.xwiki.contrib.glossary.GlossaryException;
+import org.xwiki.model.reference.EntityReference;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.Event;
 import org.xwiki.rendering.block.XDOM;
@@ -84,23 +86,33 @@ public class GlossaryDocumentSaveEventListener implements EventListener
         if (glossaryConfiguration.updateDocumentsOnSave()) {
             XWikiDocument document = (XWikiDocument) source;
 
-            // Compute the locale of the document that should be used to resolve glossary entries
-            Locale locale = (Locale.ROOT.equals(document.getLocale()))  ? document.getDefaultLocale() :
-                document.getLocale();
+            // Check if the given document has at least one object from the excluded classes
+            boolean hasExcludedObject = false;
+            for (Iterator<EntityReference> it = glossaryConfiguration.excludedClassesFromTransformations().iterator();
+                it.hasNext() && !hasExcludedObject;) {
+                hasExcludedObject = (document.getXObjects(it.next()).size() > 0);
+            }
 
-            try {
-                XDOM xdom = document.getXDOM();
-                long start = System.currentTimeMillis();
-                if (glossaryEntriesTransformer.transformGlossaryEntries(xdom, document.getSyntax(), locale)) {
-                    long end = System.currentTimeMillis();
-                    long duration = end - start;
-                    logger.debug("Glossary transformation duration for [{}]: [{}] ", document.getDocumentReference(),
-                        duration);
-                    document.setContent(xdom);
+            if (!hasExcludedObject) {
+                // Compute the locale of the document that should be used to resolve glossary entries
+                Locale locale = (Locale.ROOT.equals(document.getLocale())) ? document.getDefaultLocale() :
+                    document.getLocale();
+
+                try {
+                    XDOM xdom = document.getXDOM();
+                    long start = System.currentTimeMillis();
+                    if (glossaryEntriesTransformer.transformGlossaryEntries(xdom, document.getSyntax(), locale)) {
+                        long end = System.currentTimeMillis();
+                        long duration = end - start;
+                        logger.debug("Glossary transformation duration for [{}]: [{}] ",
+                            document.getDocumentReference(),
+                            duration);
+                        document.setContent(xdom);
+                    }
+                } catch (XWikiException | GlossaryException e) {
+                    logger.error("Failed to transform content for document [{}] to look for Glossary entries.",
+                        document.getDocumentReference(), e);
                 }
-            } catch (XWikiException | GlossaryException e) {
-                logger.error("Failed to transform content for document [{}] to look for Glossary entries.",
-                    document.getDocumentReference(), e);
             }
         }
     }

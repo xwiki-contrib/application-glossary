@@ -22,6 +22,7 @@ package org.xwiki.contrib.glossary;
 import java.util.List;
 
 import org.xwiki.component.annotation.Role;
+import org.xwiki.model.reference.EntityReference;
 import org.xwiki.model.reference.SpaceReference;
 
 /**
@@ -37,6 +38,11 @@ public interface GlossaryConfiguration
      * @return true if documents should be updated at save time if they contain words referring to the glossary.
      */
     boolean updateDocumentsOnSave();
+
+    /**
+     * @return a list of class references which should be excluded from document update on save.
+     */
+    List<EntityReference> excludedClassesFromTransformations();
 
     /**
      * @return the default glossary ID to be used when not specified.

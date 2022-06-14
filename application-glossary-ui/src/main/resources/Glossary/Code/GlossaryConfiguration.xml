@@ -80,6 +80,51 @@
         <validationRegExp/>
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </defaultGlossaryId>
+      <excludedClassesFromTransformations>
+        <cache>0</cache>
+        <customDisplay>{{velocity}}&#xd;
+#set ($id = $escapetool.xml("${prefix}${name}"))&#xd;
+#if ($type == 'edit' || $type == 'search')&#xd;
+  {{html clean="false"}}&#xd;
+  #classPicker({&#xd;
+    'id': $id,&#xd;
+    'name': $id,&#xd;
+    'multiple': 'multiple',&#xd;
+    'value': $value&#xd;
+  })&#xd;
+  {{/html}}&#xd;
+#elseif ($type == 'view' || $type == 'rendered')&#xd;
+  $value&#xd;
+#elseif ($type == 'hidden')&#xd;
+  &lt;input type="hidden" id="$!id" name="$!id" value="$!escapetool.xml($value)" />&#xd;
+#else&#xd;
+  ## In order for the custom displayer to be taken into account, the result of its evaluation with an unknown display&#xd;
+  ## mode must not be empty. Let's output something.&#xd;
+  Unknown display mode.&#xd;
+#end&#xd;
+{{/velocity}}</customDisplay>
+        <defaultValue/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <freeText/>
+        <hint/>
+        <largeStorage>0</largeStorage>
+        <multiSelect>1</multiSelect>
+        <name>excludedClassesFromTransformations</name>
+        <number>6</number>
+        <picker>0</picker>
+        <prettyName>excludedClassesFromTransformations</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </excludedClassesFromTransformations>
       <incrementVersionOnTransformationJob>
         <customDisplay/>
         <defaultValue/>
@@ -130,6 +175,10 @@
     </property>
     <property>
       <defaultGlossaryId>Glossary</defaultGlossaryId>
+    </property>
+    <property>
+      <excludedClassesFromTransformations>
+      </excludedClassesFromTransformations>
     </property>
     <property>
       <incrementVersionOnTransformationJob>0</incrementVersionOnTransformationJob>

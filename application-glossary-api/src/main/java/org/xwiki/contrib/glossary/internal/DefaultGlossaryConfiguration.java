@@ -22,6 +22,7 @@ package org.xwiki.contrib.glossary.internal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -56,6 +57,8 @@ public class DefaultGlossaryConfiguration implements GlossaryConfiguration
     private static final String CONFIGURATION_PREFIX = "glossary.";
 
     private static final String UPDATE_DOCUMENTS_ON_SAVE = "updateDocumentsOnSave";
+
+    private static final String EXCLUDED_CLASSES_FROM_TRANSFORMATIONS = "excludedClassesFromTransformations";
 
     private static final String DEFAULT_GLOSSARY_ID = "defaultGlossaryId";
 
@@ -95,6 +98,33 @@ public class DefaultGlossaryConfiguration implements GlossaryConfiguration
         }
 
         return defaultValue;
+    }
+
+    @Override
+    public List<EntityReference> excludedClassesFromTransformations()
+    {
+        List<String> rawDefaultValues = Arrays.asList(configurationSource.getProperty(
+            CONFIGURATION_PREFIX + EXCLUDED_CLASSES_FROM_TRANSFORMATIONS, StringUtils.EMPTY).split(","));
+        List<EntityReference> defaultValues =
+            rawDefaultValues.stream().map(x -> entityReferenceResolver.resolve(x, EntityType.DOCUMENT))
+                .collect(Collectors.toList());
+
+        try {
+            BaseObject baseObject = getConfigurationObject();
+
+            if (baseObject != null) {
+                List<String> rawPropertyValues = baseObject.getListValue(EXCLUDED_CLASSES_FROM_TRANSFORMATIONS);
+                List<EntityReference> propertyValues = rawPropertyValues.stream().map(
+                    x -> entityReferenceResolver.resolve(x, EntityType.DOCUMENT)).collect(Collectors.toList());
+                if (propertyValues.size() > 0) {
+                    return propertyValues;
+                }
+            }
+        } catch (Exception e) {
+            // Fail silently
+        }
+
+        return defaultValues;
     }
 
     @Override

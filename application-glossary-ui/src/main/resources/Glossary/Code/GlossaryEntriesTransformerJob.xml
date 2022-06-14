@@ -190,25 +190,34 @@ try {
     pages.each { pageName -&gt;
       def documentReference = services.model.resolveDocument(pageName);
       def page = xwiki.getDocument(documentReference).getDocument().clone();
-      def locales = page.getTranslationLocales(xcontext);
-      def defaultLocale = page.getDefaultLocale();
-      if ("$defaultLocale" != '')
-        locales.add(defaultLocale);
-      logger.debug("Page: [{}] - Locales: [{}] ({})", documentReference, locales, locales.size());
-      locales.each { locale -&gt;
-        def translatedPage = page.getTranslatedDocument(locale, xcontext);
-        def content = translatedPage.getContent();
-        def syntax = translatedPage.getSyntax();
-        def xdom = services.rendering.parse(content, syntax.toIdString());
-        def transformed = transformer.transformGlossaryEntries(xdom, syntax, locale);
-        if (transformed) {
-          def transformedContent = services.rendering.render(xdom, syntax.toIdString());
-          translatedPage.setContent(transformedContent);
-          if (!glossaryConfiguration.isIncrementVersionOnTransformationJob()) {
-            translatedPage.setContentDirty(false);
-            translatedPage.setMetaDataDirty(false);
+      
+      // Check if the page has no objects that could exclude it from being transformed
+      boolean hasExcludedObject = false;
+      glossaryConfiguration.excludedClassesFromTransformations().each { it -&gt;
+        hasExcludedObject = (hasExcludedObject || page.getXObjects(it).size() &gt; 0);
+      }
+      
+      if (!hasExcludedObject) {
+        def locales = page.getTranslationLocales(xcontext);
+        def defaultLocale = page.getDefaultLocale();
+        if ("$defaultLocale" != '')
+          locales.add(defaultLocale);
+        logger.debug("Page: [{}] - Locales: [{}] ({})", documentReference, locales, locales.size());
+        locales.each { locale -&gt;
+          def translatedPage = page.getTranslatedDocument(locale, xcontext);
+          def content = translatedPage.getContent();
+          def syntax = translatedPage.getSyntax();
+          def xdom = services.rendering.parse(content, syntax.toIdString());
+          def transformed = transformer.transformGlossaryEntries(xdom, syntax, locale);
+          if (transformed) {
+            def transformedContent = services.rendering.render(xdom, syntax.toIdString());
+            translatedPage.setContent(transformedContent);
+            if (!glossaryConfiguration.isIncrementVersionOnTransformationJob()) {
+              translatedPage.setContentDirty(false);
+              translatedPage.setMetaDataDirty(false);
+            }
+            xwiki.getXWiki().saveDocument(translatedPage, services.localization.render('glossary.transformationJob.save.message'), true, xcontext);
           }
-          xwiki.getXWiki().saveDocument(translatedPage, services.localization.render('glossary.transformationJob.save.message'), true, xcontext);
         }
       }
     }
