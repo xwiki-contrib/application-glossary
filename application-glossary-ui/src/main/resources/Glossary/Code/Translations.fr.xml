@@ -1,0 +1,80 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="Glossary.Code.Translations" locale="fr">
+  <web>Glossary.Code</web>
+  <name>Translations</name>
+  <language>fr</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>Glossary.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content>### Missing: glossary.doc.title=Glossary Items
+### Missing: glossary.doc.creationDate=Created On
+glossary.doc.date=Dernière modification
+glossary.applicationsPanelEntryLabel=Glossaire
+glossary._actions=Actions
+glossary.search.text=Rechercher…
+glossary.search.submit=Rechercher
+glossary.search.title=Rechercher dans le glossaire…
+glossary.add.title=Ajouter une entrée au glossaire…
+glossary.add.searchHint=Entrée du glossaire…
+glossary.add.submit=Ajouter une entrée au glossaire
+glossary.export.title=Exporter le glossaire…
+glossary.export.submit.csv=Exporter en CSV
+glossary.export.id=ID du glossaire
+glossary.export.locale.default=Langue par défaut
+glossary.export.csv.content=Contenu en {0}
+glossary.about=Application Glossaire
+### Missing: glossary.need=Please login or register
+### Missing: glossary.noAnswer=No answer has been provided yet for this Glossary entry. Be the first to provide one! Register on this wiki and edit this page to add an answer to this Glossary entry.
+### Missing: glossary.sheet=This class sheet must be applied on a page containing a GlossaryCode.GlossaryClass object
+### Missing: glossary.technical=Contains technical pages for the Glossary application.
+### Missing: glossary.list=Pages
+### Missing: Glossary.Code.GlossaryClass_title=Title
+### Missing: Glossary.Code.GlossaryClass_definition=Definition
+
+# Configuration keys
+### Missing: admin.glossary=Glossary
+### Missing: Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId=Default Glossary space
+### Missing: Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId.hint=Space where the default glossary entries are located
+### Missing: Glossary.Code.GlossaryConfigurationClass_updateDocumentsOnSave=Update documents on save
+### Missing: Glossary.Code.GlossaryConfigurationClass_updateDocumentsOnSave.hint=Indicates whether glossary entries found in page content should be transformed to links to the glossary on save
+### Missing: Glossary.Code.GlossaryConfigurationClass_activateTransformationJob=Activate the periodic transformation of glossary entries into links
+### Missing: Glossary.Code.GlossaryConfigurationClass_activateTransformationJob.hint=If activated, pages get updated periodically with links to the glossary entries found in their content. The default period is one day, it can be controlled from the Scheduler space.
+### Missing: Glossary.Code.GlossaryConfigurationClass_transformationJobIncludeSpaces=List of spaces where the periodic transformation is active
+### Missing: Glossary.Code.GlossaryConfigurationClass_transformationJobIncludeSpaces.hint=List of space names separated by a comma where glossary entries are periodically turned into links.
+### Missing: Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob=Increment page version when links get added by the periodic transformation
+### Missing: Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob.hint=Indicates whether a new page version should be created when links to glossary entries get automatically added by the periodic transformation.
+### Missing: Glossary.Code.GlossaryConfigurationClass_excludedClassesFromTransformations=Excluded classes from automated transformations
+### Missing: Glossary.Code.GlossaryConfigurationClass_excludedClassesFromTransformations.hint=Will exclude any document containing one of the given classes from the document update on save or the automated glossary transformation.
+### Missing: glossary.transformationJob.save.message=Update links to glossary
+</content>
+  </xwikidoc>
