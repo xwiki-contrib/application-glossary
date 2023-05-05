@@ -39,34 +39,30 @@
   <content>glossary.doc.title=Glossary Items
 glossary.doc.creationDate=Created On
 glossary.doc.date=Last Modified
-glossary.applicationsPanelEntryLabel = Glossary
+glossary.applicationsPanelEntryLabel=Glossary
 glossary._actions=Actions
-
-glossary.search.text=Search...
-glossary.search.submit = Search
-glossary.search.title = Search Glossary...
-glossary.add.title = Add Glossary Item...
-glossary.add.searchHint = Glossary Item....
-glossary.add.submit = Add Glossary Item
-glossary.export.title=Export the Glossary...
+glossary.search.text=Search…
+glossary.search.submit=Search
+glossary.search.title=Search Glossary…
+glossary.add.title=Add Glossary Item…
+glossary.add.searchHint=Glossary Item…
+glossary.add.submit=Add Glossary Item
+glossary.export.title=Export the Glossary…
 glossary.export.submit.csv=Export as CSV
 glossary.export.id=Glossary ID
 glossary.export.locale.default=Default language
 glossary.export.csv.content=Content in {0}
-glossary.about= Glossary Application
-glossary.need = Please login or register
-glossary.noAnswer = No answer has been provided yet for this Glossary entry. Be the first to provide one! Register on this wiki and edit this page to add an answer to this Glossary entry.
-glossary.sheet = This class sheet must be applied on a page containing a GlossaryCode.GlossaryClass object
-
-glossary.technical = Contains technical pages for the Glossary application.
-glossary.list = Pages
-
+glossary.about=Glossary Application
+glossary.need=Please login or register
+glossary.noAnswer=No answer has been provided yet for this Glossary entry. Be the first to provide one! Register on this wiki and edit this page to add an answer to this Glossary entry.
+glossary.sheet=This class sheet must be applied on a page containing a GlossaryCode.GlossaryClass object
+glossary.technical=Contains technical pages for the Glossary application.
+glossary.list=Pages
 Glossary.Code.GlossaryClass_title=Title
 Glossary.Code.GlossaryClass_definition=Definition
 
 # Configuration keys
 admin.glossary=Glossary
-
 Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId=Default Glossary space
 Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId.hint=Space where the default glossary entries are located
 Glossary.Code.GlossaryConfigurationClass_updateDocumentsOnSave=Update documents on save
@@ -79,8 +75,8 @@ Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob=Inc
 Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob.hint=Indicates whether a new page version should be created when links to glossary entries get automatically added by the periodic transformation.
 Glossary.Code.GlossaryConfigurationClass_excludedClassesFromTransformations=Excluded classes from automated transformations
 Glossary.Code.GlossaryConfigurationClass_excludedClassesFromTransformations.hint=Will exclude any document containing one of the given classes from the document update on save or the automated glossary transformation.
-
-glossary.transformationJob.save.message=Update links to glossary</content>
+glossary.transformationJob.save.message=Update links to glossary
+</content>
   <object>
     <name>Glossary.Code.Translations</name>
     <number>0</number>
