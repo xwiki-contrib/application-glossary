@@ -55,7 +55,7 @@
     ## If there's no glossaryItem then issue a warning below
     #if (!$stringtool.isBlank($glossaryItem))
       #set ($newGlossaryReference = $services.model.createDocumentReference('', '', "$glossaryItem"))
-      $response.sendRedirect($xwiki.getURL($newGlossaryReference, 'edit', "$!{request.queryString}&amp;title=${escapetool.url($glossaryItem)}"))
+      $response.sendRedirect($xwiki.getURL($newGlossaryReference, 'edit', "$!{request.queryString}&amp;title=${escapetool.url($glossaryItem)}&amp;form_token=${escapetool.url($services.csrf.token)}"))
     #end
   #end
 
@@ -89,6 +89,7 @@
         &lt;form action="$doc.getURL()" id="newglossary" class="xformInline"&gt;
           &lt;div&gt;
             &lt;input type="hidden" name="parent" value="${glossarySpace}.WebHome" /&gt;
+            &lt;input type="hidden" name="form_token" value="${services.csrf.token}"/&gt;
             &lt;input type="hidden" name="template" value="Glossary.Code.GlossaryTemplate" /&gt;
             &lt;input type="hidden" name="createGlossary" value="true" /&gt;
             #if ($request.createGlossary == 'true' &amp;&amp; $stringtool.isBlank($glossaryItem))
