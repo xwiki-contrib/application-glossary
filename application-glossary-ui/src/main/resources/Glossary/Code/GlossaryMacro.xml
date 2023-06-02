@@ -185,7 +185,7 @@
       <contentType>No content</contentType>
     </property>
     <property>
-      <defaultCategory/>
+      <defaultCategory>Navigation</defaultCategory>
     </property>
     <property>
       <description>Lists all the Glossary Entries located under the current page, in a table</description>
