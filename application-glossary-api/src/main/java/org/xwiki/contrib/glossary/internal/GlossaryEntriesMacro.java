@@ -89,7 +89,7 @@ public class GlossaryEntriesMacro extends AbstractMacro<GlossaryEntriesMacroPara
     /**
      * The description of the macro.
      */
-    private static final String DESCRIPTION = "Lists every glossary entries in a glossary";
+    private static final String DESCRIPTION = "Lists all glossary entries from a glossary, as a list";
 
     @Inject
     private GlossaryModel glossaryModel;
