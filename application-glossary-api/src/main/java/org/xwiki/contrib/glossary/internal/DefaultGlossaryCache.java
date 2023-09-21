@@ -131,9 +131,14 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
     @Override
     public void set(String key, Locale locale, DocumentReference value)
     {
-        String glossaryId = this.glossaryModel.getGlossaryId(value);
         String currentWikiId = this.xwikiContextProvider.get().getWikiId();
-        this.cache.set(computeCacheKey(key, locale, glossaryId, currentWikiId), value);
+        set(key, locale, value, currentWikiId);
+    }
+
+    private void set(String key, Locale locale, DocumentReference value, String wikiId)
+    {
+        String glossaryId = this.glossaryModel.getGlossaryId(value);
+        this.cache.set(computeCacheKey(key, locale, glossaryId, wikiId), value);
     }
 
     @Override
@@ -172,7 +177,7 @@ public class DefaultGlossaryCache implements GlossaryCache, Initializable, Dispo
                 glossaryEntries = this.glossaryModel.getGlossaryEntries();
                 for (Map.Entry<Locale, Map<String, DocumentReference>> localeEntry : glossaryEntries.entrySet()) {
                     for (Map.Entry<String, DocumentReference> entry : localeEntry.getValue().entrySet()) {
-                        set(entry.getKey(), localeEntry.getKey(), entry.getValue());
+                        set(entry.getKey(), localeEntry.getKey(), entry.getValue(), wikiId);
                     }
                 }
                 this.initializedWikis.put(wikiId, true);

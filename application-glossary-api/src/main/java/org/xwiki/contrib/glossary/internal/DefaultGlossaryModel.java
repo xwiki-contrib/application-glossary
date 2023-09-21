@@ -58,6 +58,7 @@ public class DefaultGlossaryModel implements GlossaryModel
     private QueryManager queryManager;
 
     @Inject
+    @Named("currentmixed")
     private DocumentReferenceResolver<String> defaultDocumentReferenceResolver;
 
     @Inject

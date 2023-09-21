@@ -84,7 +84,7 @@ public class DefaultGlossaryModelTest
         xwiki = mock(XWiki.class);
         when(xWikiContext.getWiki()).thenReturn(xwiki);
 
-        documentResolver = mocker.registerMockComponent(DocumentReferenceResolver.TYPE_STRING);
+        documentResolver = mocker.registerMockComponent(DocumentReferenceResolver.TYPE_STRING, "currentmixed");
     }
 
     @Test
@@ -110,7 +110,7 @@ public class DefaultGlossaryModelTest
             }});
         }};
 
-        assertEquals(mocker.getComponentUnderTest().getGlossaryEntries(), expected);
+        assertEquals(expected, mocker.getComponentUnderTest().getGlossaryEntries());
     }
 
     @Test
@@ -126,6 +126,6 @@ public class DefaultGlossaryModelTest
         when(document.getTranslatedDocument(Locale.ENGLISH, xWikiContext)).thenReturn(translatedDocument);
         when(translatedDocument.getXDOM()).thenReturn(xdom);
 
-        assertEquals(mocker.getComponentUnderTest().getGlossaryContent(documentReference, Locale.ENGLISH), xdom);
+        assertEquals(xdom, mocker.getComponentUnderTest().getGlossaryContent(documentReference, Locale.ENGLISH));
     }
 }
