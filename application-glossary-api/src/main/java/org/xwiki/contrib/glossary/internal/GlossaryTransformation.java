@@ -69,7 +69,9 @@ public class GlossaryTransformation extends AbstractTransformation
     @Override
     public void transform(Block block, TransformationContext context)
     {
-        handleBlocks(block);
+        if (shouldTransform()) {
+            handleBlocks(block);
+        }
     }
 
     private void handleBlocks(Block currentBlock)
@@ -106,5 +108,21 @@ public class GlossaryTransformation extends AbstractTransformation
             wordBlock.getParent().replaceChild(newBlock, wordBlock);
         }
         return newBlock;
+    }
+
+    private boolean shouldTransform()
+    {
+        XWikiContext xwikiContext = xWikiContextProvider.get();
+        if (xwikiContext == null || xwikiContext.getDoc() == null || xwikiContext.getRequest() == null) {
+            return false;
+        }
+        if (xwikiContext.getDoc().isHidden()) {
+            return false;
+        }
+        if ("plain".equals(xwikiContext.getRequest().get("outputSyntax"))) {
+            return false;
+        }
+        // XXX: sure there are more cases where we do not want a transformation
+        return true;
     }
 }

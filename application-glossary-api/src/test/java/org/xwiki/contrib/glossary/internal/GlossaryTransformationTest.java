@@ -51,9 +51,12 @@ import org.xwiki.test.mockito.MockitoComponentManager;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
 import com.xpn.xwiki.XWikiContext;
+import com.xpn.xwiki.doc.XWikiDocument;
+import com.xpn.xwiki.web.XWikiRequest;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -72,6 +75,8 @@ public class GlossaryTransformationTest
     public MockitoComponentMockingRule<GlossaryTransformation> mocker =
         new MockitoComponentMockingRule<>(GlossaryTransformation.class);
 
+    private XWikiDocument xWikiDocMock;
+
     @Before
     public void setUp() throws Exception
     {
@@ -80,9 +85,13 @@ public class GlossaryTransformationTest
         DocumentReference reference1 = new DocumentReference("wiki", "space", "foo");
         DocumentReference reference2 = new DocumentReference("wiki", "space", "XWiki");
 
+        xWikiDocMock = mock(XWikiDocument.class);
+        XWikiRequest xWikiRequest = mock(XWikiRequest.class);
         XWikiContext xWikiContext =
             ((Provider<XWikiContext>) this.mocker.getInstance(XWikiContext.TYPE_PROVIDER)).get();
         when(xWikiContext.getLocale()).thenReturn(Locale.CANADA_FRENCH);
+        when(xWikiContext.getRequest()).thenReturn(xWikiRequest);
+        when(xWikiContext.getDoc()).thenReturn(xWikiDocMock);
 
         when(glossaryCache.get("foo", Locale.CANADA_FRENCH)).thenReturn(reference1);
         when(glossaryCache.get("XWiki", Locale.CANADA_FRENCH)).thenReturn(reference2);
@@ -130,4 +139,27 @@ public class GlossaryTransformationTest
             + "endParagraph\n"
             + "endDocument", printer.toString());
     }
+
+    @Test
+    public void doNotTransformHiddenDocuments() throws Exception
+    {
+        // one glossary word which would be changed to a link: "foo"
+        XDOM xdom = new XDOM(Arrays.asList(new ParagraphBlock(Arrays.asList(
+            new WordBlock("foo")))));
+
+        // except that we hide the mock document
+        when(xWikiDocMock.isHidden()).thenReturn(true);
+
+        this.mocker.getComponentUnderTest().transform(xdom, new TransformationContext());
+
+        WikiPrinter printer = new DefaultWikiPrinter();
+        BlockRenderer xwikiBlockRenderer = this.mocker.getInstance(BlockRenderer.class, "event/1.0");
+        xwikiBlockRenderer.render(xdom, printer);
+        assertEquals("beginDocument\n"
+            + "beginParagraph\n"
+            + "onWord [foo]\n"
+            + "endParagraph\n"
+            + "endDocument", printer.toString());
+    }
+
 }
