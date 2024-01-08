@@ -33,6 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.GlossaryException;
 import org.xwiki.contrib.glossary.GlossaryModel;
+import org.xwiki.localization.LocaleUtils;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReferenceSerializer;
@@ -99,9 +100,9 @@ public class DefaultGlossaryModel implements GlossaryModel
                 // Compute the locale of the document
                 Locale locale = Locale.getDefault();
                 if (StringUtils.isNotBlank(language)) {
-                    locale = new Locale(language);
+                    locale = LocaleUtils.toLocale(language);
                 } else if (StringUtils.isNotBlank(defaultLanguage) && isTranslation == 0) {
-                    locale = new Locale(defaultLanguage);
+                    locale = LocaleUtils.toLocale(defaultLanguage);
                 }
 
                 Map<String, DocumentReference> map;
