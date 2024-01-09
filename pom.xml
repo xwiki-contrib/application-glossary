@@ -75,24 +75,29 @@
         <module>application-glossary-test</module>
       </modules>
     </profile>
-  </profiles>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <!-- Use a more recent version of Spoon to avoid URL classloader issue with Java 17 -->
-        <plugin>
-          <groupId>fr.inria.gforge.spoon</groupId>
-          <artifactId>spoon-maven-plugin</artifactId>
-          <version>3.8.0</version>
-          <dependencies>
-            <dependency>
+    <!-- We execute SonarQube in the quality profile, and SonarQube requires building with Java 17. Thus we need a
+         version of Spoon that works with Java 17. -->
+    <profile>
+      <id>quality</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <!-- Use a more recent version of Spoon to avoid URL classloader issue with Java 17 -->
+            <plugin>
               <groupId>fr.inria.gforge.spoon</groupId>
-              <artifactId>spoon-core</artifactId>
-              <version>10.4.2</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+              <artifactId>spoon-maven-plugin</artifactId>
+              <version>3.8.0</version>
+              <dependencies>
+                <dependency>
+                  <groupId>fr.inria.gforge.spoon</groupId>
+                  <artifactId>spoon-core</artifactId>
+                  <version>10.4.2</version>
+                </dependency>
+              </dependencies>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
 </project>
