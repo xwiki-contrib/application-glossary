@@ -30,7 +30,7 @@
   <groupId>org.xwiki.contrib.glossary</groupId>
   <artifactId>application-glossary</artifactId>
   <description>Glossary feature for XWiki</description>
-  <version>1.4.7-SNAPSHOT</version>
+  <version>1.4.6-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Glossary - Parent POM</name>
   <scm>
