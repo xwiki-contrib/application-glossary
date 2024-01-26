@@ -12,3 +12,7 @@ Glossary feature for XWiki: ability to define glossary terms and have them highl
 * Translations: N/A
 * Sonar Dashboard: N/A
 * Continuous Integration Status: [![Build Status](https://ci.xwiki.org/buildStatus/icon?job=XWiki%20Contrib/application-glossary/master)](https://ci.xwiki.org/view/Contrib/job/XWiki%20Contrib/job/application-glossary/job/master/)
+
+## Release instructions
+
+When preparing and performing a release, the profiles `integration-tests` and `quality` must be activated.
