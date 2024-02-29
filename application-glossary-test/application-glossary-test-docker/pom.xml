@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.contrib.glossary</groupId>
     <artifactId>application-glossary-test</artifactId>
-    <version>1.4.7-SNAPSHOT</version>
+    <version>1.4.7</version>
   </parent>
   <artifactId>application-glossary-test-docker</artifactId>
   <name>Glossary - Tests - Docker Tests</name>
