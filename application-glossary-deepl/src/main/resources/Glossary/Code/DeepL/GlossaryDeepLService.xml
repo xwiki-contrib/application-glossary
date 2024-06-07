@@ -290,7 +290,10 @@ public class DeepLGlossaryScriptService implements ScriptService
     List&lt;GlossaryInfo&gt; GetDeeplGlossariesEntries()
     {
         getTranslator()
-        return translator.listGlossaries()
+        def glossaryNamePrefix = GetGlossaryNamePrefix()
+        return translator.listGlossaries().stream()
+            .filter { entry -&gt; entry.name.startsWith(glossaryNamePrefix)  }
+            .toList()
     }
 
     List&lt;GlossaryLanguagePair&gt; GetDeeplGlossaryiesLanguesPairs()
