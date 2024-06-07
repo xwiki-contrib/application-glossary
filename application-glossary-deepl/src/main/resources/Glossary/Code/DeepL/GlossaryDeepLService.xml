@@ -196,6 +196,19 @@ public class DeepLGlossaryScriptService implements ScriptService
         return glossaryIds
     }
 
+    private String GetGlossaryNamePrefix()
+    {
+        ConfigurationSource xwikiPropertiesConfiguration =
+            componentManager.getInstance(ConfigurationSource.class, 'xwikiproperties')
+        String glossariesPrefix = xwikiPropertiesConfiguration.getProperty('deepl.glossaries.prefix', '')
+        def wikiPrefix = xwikiContextProvider.get().getWikiId()
+
+        if (StringUtils.isBlank(glossariesPrefix)) {
+            return "${wikiPrefix}"
+        } else {
+            return "${glossariesPrefix}-${wikiPrefix}"
+        }
+    }
     // Method used by different pages
     def SynchronizeGlossaries()
     {
@@ -209,8 +222,7 @@ public class DeepLGlossaryScriptService implements ScriptService
         def preferencesObject = preferencesDoc.getXObject(new ObjectReference('XWiki.XWikiPreferences', reference))
         def missingLanguagesRaw = preferencesObject.getStringValue('languages').split(',')
 
-        ConfigurationSource xwikiPropertiesConfiguration = componentManager.getInstance(ConfigurationSource.class, 'xwikiproperties')
-        String glossariesPrefix = xwikiPropertiesConfiguration.getProperty('deepl.glossaries.prefix', '')
+        def glossaryNamePrefix = GetGlossaryNamePrefix()
 
         try {
 
@@ -233,12 +245,7 @@ public class DeepLGlossaryScriptService implements ScriptService
             languageCombinations.each { sourceLanguage, availableTargetLanguages -&gt;
                 availableTargetLanguages.each { targetLanguage -&gt;
                     // Compute the name of the glossary
-                    def glossaryName;
-                    if (StringUtils.isBlank(glossariesPrefix)) {
-                        glossaryName = "${getDeepLLanguage(sourceLanguage)}-${getDeepLLanguage(targetLanguage)}";
-                    } else {
-                        glossaryName = "${glossariesPrefix}-${getDeepLLanguage(sourceLanguage)}-${getDeepLLanguage(targetLanguage)}";
-                    }
+                    def glossaryName = "${glossaryNamePrefix}-${getDeepLLanguage(sourceLanguage)}-${getDeepLLanguage(targetLanguage)}"
 
                     logger.info('Synchronizing glossary [{}]', glossaryName)
 
