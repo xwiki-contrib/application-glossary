@@ -223,6 +223,7 @@ public class DeepLGlossaryScriptService implements ScriptService
         def missingLanguagesRaw = preferencesObject.getStringValue('languages').split(',')
 
         def glossaryNamePrefix = GetGlossaryNamePrefix()
+        def deeplScriptService = scriptServiceManager.get("translator.deepl")
 
         try {
 
@@ -232,21 +233,27 @@ public class DeepLGlossaryScriptService implements ScriptService
             logger
                 .debug('Fetched the list of supported glossary language combinations : [{}]', deeplSupportedGlossaries)
 
-            Map&lt;String, List&lt;String&gt;&gt; languageCombinations = [:]
+            Map&lt;Locale, List&lt;Locale&gt;&gt; localeCombinations = [:]
             missingLanguagesRaw.each { sourceLanguage -&gt;
-                languageCombinations[sourceLanguage] = []
+                localeCombinations[sourceLanguage] = []
                 missingLanguagesRaw.each { targetLanguage -&gt;
                     if (supportsLanguageCombination(deeplSupportedGlossaries, sourceLanguage, targetLanguage)) {
-                        languageCombinations[sourceLanguage].add(targetLanguage)
+                        localeCombinations[sourceLanguage].add(targetLanguage)
                     }
                 }
             }
 
-            languageCombinations.each { sourceLanguage, availableTargetLanguages -&gt;
+            localeCombinations.each { sourceLanguage, availableTargetLanguages -&gt;
                 availableTargetLanguages.each { targetLanguage -&gt;
                     // Compute the name of the glossary
-                    def glossaryName = "${glossaryNamePrefix}-${getDeepLLanguage(sourceLanguage)}-${getDeepLLanguage(targetLanguage)}"
+                    def glossaryName = "${glossaryNamePrefix}-${sourceLanguage}-${targetLanguage}"
+                    def deeplSrcLang = deeplScriptService.normalizeLocale(sourceLanguage)
+                    def deeplDstLang = deeplScriptService.normalizeLocale(targetLanguage)
 
+                    if (deeplSrcLang == deeplDstLang)  {
+                        // In case of the language is 'fr_FR' to 'fr_CH' which is same for deepL
+                        return
+                    }
                     logger.info('Synchronizing glossary [{}]', glossaryName)
 
                     // Create the list of terms to be added to the glossary
@@ -254,8 +261,8 @@ public class DeepLGlossaryScriptService implements ScriptService
                         queryManager.createQuery(
                             "select sourceDoc.title, targetDoc.title from XWikiDocument sourceDoc, XWikiDocument targetDoc, BaseObject glossaryObj where glossaryObj.name = sourceDoc.fullName and glossaryObj.name = targetDoc.fullName and glossaryObj.className = 'Glossary.Code.GlossaryClass' and ((sourceDoc.defaultLanguage = :sourceLanguage and sourceDoc.language = '') or sourceDoc.language = :sourceLanguage) and ((targetDoc.defaultLanguage = :targetLanguage and targetDoc.language = '') or targetDoc.language = :targetLanguage)",
                             Query.HQL)
-                            .bindValue('sourceLanguage', sourceLanguage)
-                            .bindValue('targetLanguage', targetLanguage)
+                            .bindValue('sourceLanguage', sourceLanguage.toString())
+                            .bindValue('targetLanguage', targetLanguage.toString())
                             .execute()
 
                     def glossaryEntries = new GlossaryEntries()
@@ -277,7 +284,7 @@ public class DeepLGlossaryScriptService implements ScriptService
 
                     // Create (or re-create the glossary)
                     logger.debug('Creating glossary [{}]', glossaryName)
-                    translator.createGlossary(glossaryName, sourceLanguage, targetLanguage, glossaryEntries)
+                    translator.createGlossary(glossaryName, deeplSrcLang, deeplDstLang, glossaryEntries)
                 }
             }
 
