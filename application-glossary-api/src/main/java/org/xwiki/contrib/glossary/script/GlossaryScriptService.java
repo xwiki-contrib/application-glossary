@@ -1,6 +1,4 @@
-<?xml version="1.1" encoding="UTF-8"?>
-
-<!--
+/*
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  *
@@ -18,25 +16,33 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
--->
+ */
+package org.xwiki.contrib.glossary.script;
 
-<xwikidoc version="1.4" reference="Glossary.Code.DeepL.WebHome" locale="">
-  <web>Glossary.Code.DeepL</web>
-  <name>WebHome</name>
-  <language/>
-  <defaultLanguage/>
-  <translation>0</translation>
-  <creator>xwiki:XWiki.Admin</creator>
-  <parent>Glossary.Code.WebHome</parent>
-  <author>xwiki:XWiki.Admin</author>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <version>1.1</version>
-  <title>DeepL</title>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>true</hidden>
-  <content>Code specific to the DeepL integration with the Glossary application.
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
-{{children/}}</content>
-</xwikidoc>
+import org.xwiki.component.annotation.Component;
+import org.xwiki.script.service.ScriptService;
+import org.xwiki.script.service.ScriptServiceManager;
+
+/**
+ * Provides Component-specific Scripting APIs.
+ * Used to provide the access to the service 'services.glossary.translator
+ */
+@Component
+@Named(GlossaryScriptService.HINT)
+@Singleton
+public class GlossaryScriptService implements ScriptService
+{
+    final static String HINT = "glossary";
+
+    @Inject
+    private ScriptServiceManager scriptServiceManager;
+
+    public <S extends ScriptService> S get(String serviceName)
+    {
+        return (S) this.scriptServiceManager.get(HINT + "." + serviceName);
+    }
+}

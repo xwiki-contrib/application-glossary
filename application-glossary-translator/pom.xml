@@ -27,12 +27,11 @@
     <artifactId>application-glossary</artifactId>
     <version>1.4.8-SNAPSHOT</version>
   </parent>
-  <artifactId>application-glossary-deepl</artifactId>
-  <description>Deepl glossary integration</description>
-  <name>Glossary - DeepL</name>
-  <packaging>xar</packaging>
+  <artifactId>application-glossary-translator</artifactId>
+  <description>Provide a glossary for translator application</description>
+  <name>Glossary - Translator</name>
   <properties>
-    <xwiki.extension.name>DeepL glossary integration for Glossary Application</xwiki.extension.name>
+    <xwiki.extension.name>Glossary for translator Application</xwiki.extension.name>
   </properties>
   <dependencies>
     <dependency>

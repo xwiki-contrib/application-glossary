@@ -20,14 +20,14 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.Code.DeepL.WebPreferences" locale="">
-  <web>Glossary.Code.DeepL</web>
+<xwikidoc version="1.4" reference="Glossary.Code.Translator.WebPreferences" locale="">
+  <web>Glossary.Code.Translator</web>
   <name>WebPreferences</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <parent>Glossary.Code.DeepL.WebHome</parent>
+  <parent>Glossary.Code.Translator.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
@@ -38,7 +38,7 @@
   <hidden>true</hidden>
   <content/>
   <object>
-    <name>Glossary.Code.DeepL.WebPreferences</name>
+    <name>Glossary.Code.Translator.WebPreferences</name>
     <number>0</number>
     <className>XWiki.XWikiGlobalRights</className>
     <guid>cb79d18d-678b-4995-96af-519bd011bfac</guid>
@@ -121,7 +121,7 @@
     </property>
   </object>
   <object>
-    <name>Glossary.Code.DeepL.WebPreferences</name>
+    <name>Glossary.Code.Translator.WebPreferences</name>
     <number>0</number>
     <className>XWiki.XWikiPreferences</className>
     <guid>8aeb4960-aff5-4030-a8fe-ddbc1da178dc</guid>

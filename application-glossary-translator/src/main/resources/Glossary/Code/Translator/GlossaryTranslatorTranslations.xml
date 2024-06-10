@@ -20,38 +20,37 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.Code.DeepL.GlossaryDeepLTranslations" locale="">
-  <web>Glossary.Code.DeepL</web>
-  <name>GlossaryDeepLTranslations</name>
+<xwikidoc version="1.4" reference="Glossary.Code.Translator.GlossaryTranslatorTranslations" locale="">
+  <web>Glossary.Code.Translator</web>
+  <name>GlossaryTranslatorTranslations</name>
   <language/>
   <defaultLanguage>en</defaultLanguage>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <parent>Glossary.Code.DeepL.WebHome</parent>
+  <parent>Glossary.Code.Translator.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>GlossaryDeepLTranslations</title>
+  <title>GlossaryTranslatorTranslations</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content>glossary.deepl.explorer.title=DeepL Glossaries Explorer
-glossary.deepl.explorer.forceSync=Force synchronization
-glossary.deepl.explorer.glossary=Glossary
-glossary.deepl.explorer.glossaries=Glossaries
-glossary.deepl.explorer.glossaryId=ID
-glossary.deepl.explorer.glossaryName=Name
-glossary.deepl.explorer.sourceLanguage=Source language
-glossary.deepl.explorer.targetLanguage=Target language
-glossary.deepl.explorer.isReady=Is ready ?
-glossary.deepl.explorer.entryCount=Entry count
-glossary.deepl.explorer.supportedLanguagePairs=Supported language pairs
-glossary.deepl.usage.title=DeepL Usage
-glossary.deepl.usage.charCount=Character count :
-glossary.deepl.usage.charLimit=Character limit :</content>
+  <content>glossary.translator.explorer.title=Translator Glossaries Explorer
+glossary.translator.explorer.forceSync=Force synchronization
+glossary.translator.explorer.glossary=Glossary
+glossary.translator.explorer.glossaries=Glossaries
+glossary.translator.explorer.glossaryId=ID
+glossary.translator.explorer.glossaryName=Name
+glossary.translator.explorer.sourceLanguage=Source language
+glossary.translator.explorer.targetLanguage=Target language
+glossary.translator.explorer.isReady=Is ready ?
+glossary.translator.explorer.entryCount=Entry count
+glossary.translator.explorer.supportedLanguagePairs=Supported language pairs
+glossary.translator.usage.charCount=Character count :
+glossary.translator.usage.charLimit=Character limit :</content>
   <object>
-    <name>Glossary.Code.DeepL.GlossaryDeepLTranslations</name>
+    <name>Glossary.Code.Translator.GlossaryTranslatorTranslations</name>
     <number>0</number>
     <className>XWiki.TranslationDocumentClass</className>
     <guid>ccd1b16f-0b93-4957-b24d-c92d783e588d</guid>

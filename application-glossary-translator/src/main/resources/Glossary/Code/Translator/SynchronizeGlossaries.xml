@@ -20,8 +20,8 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.Code.DeepL.SynchronizeGlossaries" locale="">
-  <web>Glossary.Code.DeepL</web>
+<xwikidoc version="1.4" reference="Glossary.Code.Translator.SynchronizeGlossaries" locale="">
+  <web>Glossary.Code.Translator</web>
   <name>SynchronizeGlossaries</name>
   <language/>
   <defaultLanguage/>
@@ -38,7 +38,7 @@
   <hidden>true</hidden>
   <content/>
   <object>
-    <name>Glossary.Code.DeepL.SynchronizeGlossaries</name>
+    <name>Glossary.Code.Translator.SynchronizeGlossaries</name>
     <number>0</number>
     <className>XWiki.SchedulerJobClass</className>
     <guid>290f402c-af51-478e-abbd-d9d8a5994ab0</guid>
@@ -153,13 +153,13 @@
       <jobClass>com.xpn.xwiki.plugin.scheduler.GroovyJob</jobClass>
     </property>
     <property>
-      <jobDescription>Will synchronize the contents of the XWiki Glossaries with DeepL</jobDescription>
+      <jobDescription>Will synchronize the contents of the XWiki Glossaries with the translator service</jobDescription>
     </property>
     <property>
-      <jobName>Synchronize DeepL Glossaries</jobName>
+      <jobName>Synchronize Glossaries</jobName>
     </property>
     <property>
-      <script>services.glossary.deepl.SynchronizeGlossaries()</script>
+      <script>services.glossary.translator.SynchronizeGlossaries()</script>
     </property>
     <property>
       <status>Normal</status>
