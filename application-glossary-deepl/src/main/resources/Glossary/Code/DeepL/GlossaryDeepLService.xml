@@ -209,6 +209,7 @@ public class DeepLGlossaryScriptService implements ScriptService
             return "${glossariesPrefix}-${wikiPrefix}"
         }
     }
+
     // Method used by different pages
     def SynchronizeGlossaries()
     {
@@ -313,6 +314,17 @@ public class DeepLGlossaryScriptService implements ScriptService
     {
         getTranslator()
         return translator.getGlossaryEntries(id)
+    }
+
+    // Used by the translator deepl extension to pass the correct glossary ID on translation
+    String GetGlossaryIdForLanguages(String srcLanguage, String dstLanguage)
+    {
+        getTranslator()
+        def glossaryNamePrefix = GetGlossaryNamePrefix()
+        def glossaryName = "${glossaryNamePrefix}-${sourceLanguage}-${targetLanguage}"
+        return translator.listGlossaries()
+            .findAll { entry -&gt; entry.name == glossaryName }
+            .first().glossaryId
     }
 }
 </script_content>
