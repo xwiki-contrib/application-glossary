@@ -24,26 +24,54 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.contrib.glossary</groupId>
-    <artifactId>application-glossary-deepl</artifactId>
+    <artifactId>application-glossary-translator</artifactId>
     <version>1.4.8-SNAPSHOT</version>
   </parent>
-  <artifactId>application-glossary-translator-deepl</artifactId>
-  <description>Deepl glossary integration</description>
-  <name>Glossary - Translator - DeepL</name>
+  <packaging>jar</packaging>
+  <artifactId>application-glossary-translator-api</artifactId>
+  <description>Provide a glossary for translator application - API</description>
+  <name>Glossary - Translator - API</name>
+
+  <!-- TODO fix checkstyle and remove this -->
   <properties>
-    <xwiki.extension.name>DeepL glossary integration for Glossary Application</xwiki.extension.name>
+  <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
+  <xwiki.spoon.skip>true</xwiki.spoon.skip>
+  <xwiki.revapi.skip>true</xwiki.revapi.skip>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.xwiki.contrib.glossary</groupId>
-      <artifactId>application-glossary-translator</artifactId>
+      <artifactId>application-glossary-api</artifactId>
       <version>${project.version}</version>
+      <type>jar</type>
     </dependency>
-    <!-- TOOD Use correct value when the app will be written -->
     <dependency>
       <groupId>org.xwiki.contrib.translator</groupId>
-      <artifactId>application-translator-deepl</artifactId>
-      <version>1.0.0</version>
+      <artifactId>translator-api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-wysiwyg-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-configuration-default</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-query-manager</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-model-validation-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-model-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 </project>

@@ -159,7 +159,7 @@
       <jobName>Synchronize Glossaries</jobName>
     </property>
     <property>
-      <script>services.glossary.translator.SynchronizeGlossaries()</script>
+      <script>services.glossary.translator.synchronizeGlossaries()</script>
     </property>
     <property>
       <status>Normal</status>

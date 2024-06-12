@@ -67,6 +67,7 @@
     <module>application-glossary-api</module>
     <module>application-glossary-latex</module>
     <module>application-glossary-ui</module>
+    <module>application-glossary-translator</module>
   </modules>
   <profiles>
     <profile>

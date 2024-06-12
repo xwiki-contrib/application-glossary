@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!--
+/*
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  *
@@ -18,22 +16,36 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
--->
+ */
+package org.xwiki.contrib.glossary.translator.model;
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.xwiki.contrib.glossary</groupId>
-    <artifactId>application-glossary</artifactId>
-    <version>1.4.8-SNAPSHOT</version>
-  </parent>
-  <artifactId>application-glossary-translator</artifactId>
-  <name>Glossary - Translator - Parent POM</name>
-  <packaging>pom</packaging>
-  <description>Glossary - Translator - Parent POM</description>
-  <modules>
-    <module>application-glossary-translator-api</module>
-    <module>application-glossary-translator-deepl</module>
-    <module>application-glossary-translator-ui</module>
-  </modules>
-</project>
+import java.util.Locale;
+
+public class TranslatorGlossaryLanguagePairs
+{
+    private final Locale sourceLanguage;
+
+    private final Locale targetLanguage;
+
+    public TranslatorGlossaryLanguagePairs(String sourceLanguage, String destinationLanguage)
+    {
+        this.sourceLanguage = new Locale(sourceLanguage);
+        this.targetLanguage = new Locale(destinationLanguage);
+    }
+
+    public TranslatorGlossaryLanguagePairs(Locale sourceLanguage, Locale destinationLanguage)
+    {
+        this.sourceLanguage = sourceLanguage;
+        this.targetLanguage = destinationLanguage;
+    }
+
+    public Locale getSourceLanguage()
+    {
+        return sourceLanguage;
+    }
+
+    public Locale getTargetLanguage()
+    {
+        return targetLanguage;
+    }
+}

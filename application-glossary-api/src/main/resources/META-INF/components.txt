@@ -7,3 +7,4 @@ org.xwiki.contrib.glossary.internal.DefaultGlossaryCache
 org.xwiki.contrib.glossary.internal.GlossaryReferenceMacro
 org.xwiki.contrib.glossary.internal.GlossaryEntriesMacro
 org.xwiki.contrib.glossary.internal.DefaultGlossaryEntriesTransformer
+org.xwiki.contrib.glossary.script.GlossaryScriptService

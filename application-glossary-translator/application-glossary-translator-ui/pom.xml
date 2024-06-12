@@ -24,16 +24,22 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.contrib.glossary</groupId>
-    <artifactId>application-glossary</artifactId>
+    <artifactId>application-glossary-translator</artifactId>
     <version>1.4.8-SNAPSHOT</version>
   </parent>
-  <artifactId>application-glossary-translator</artifactId>
-  <name>Glossary - Translator - Parent POM</name>
-  <packaging>pom</packaging>
-  <description>Glossary - Translator - Parent POM</description>
-  <modules>
-    <module>application-glossary-translator-api</module>
-    <module>application-glossary-translator-deepl</module>
-    <module>application-glossary-translator-ui</module>
-  </modules>
+  <packaging>xar</packaging>
+  <artifactId>application-glossary-translator-ui</artifactId>
+  <description>Provide a glossary for translator application</description>
+  <name>Glossary - Translator</name>
+  <properties>
+    <xwiki.extension.name>Glossary for translator Application</xwiki.extension.name>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.contrib.glossary</groupId>
+      <artifactId>application-glossary-ui</artifactId>
+      <type>xar</type>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 </project>
