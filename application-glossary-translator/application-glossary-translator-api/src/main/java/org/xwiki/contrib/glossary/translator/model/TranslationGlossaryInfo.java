@@ -19,33 +19,58 @@
  */
 package org.xwiki.contrib.glossary.translator.model;
 
-import java.util.Locale;
-
-public class TranslatorGlossaryLanguagePairs
+public class TranslationGlossaryInfo
 {
-    private final Locale sourceLanguage;
+    private final String glossaryId;
 
-    private final Locale targetLanguage;
+    private final String name;
 
-    public TranslatorGlossaryLanguagePairs(String sourceLanguage, String destinationLanguage)
+    private final boolean ready;
+
+    private final String sourceLang;
+
+    private final String targetLang;
+
+    private final long entryCount;
+
+    public TranslationGlossaryInfo(String glossaryId, String name, boolean ready, String sourceLang, String targetLang,
+        long entryCount)
     {
-        this.sourceLanguage = new Locale(sourceLanguage);
-        this.targetLanguage = new Locale(destinationLanguage);
+        this.glossaryId = glossaryId;
+        this.name = name;
+        this.ready = ready;
+        this.sourceLang = sourceLang;
+        this.targetLang = targetLang;
+        this.entryCount = entryCount;
     }
 
-    public TranslatorGlossaryLanguagePairs(Locale sourceLanguage, Locale destinationLanguage)
+    public String getGlossaryId()
     {
-        this.sourceLanguage = sourceLanguage;
-        this.targetLanguage = destinationLanguage;
+        return glossaryId;
     }
 
-    public Locale getSourceLanguage()
+    public String getName()
     {
-        return sourceLanguage;
+        return name;
     }
 
-    public Locale getTargetLanguage()
+    public boolean isReady()
     {
-        return targetLanguage;
+        return ready;
+    }
+
+    public String getSourceLang()
+    {
+        return sourceLang;
+    }
+
+    public String getTargetLang()
+    {
+        return targetLang;
+    }
+
+    public long getEntryCount()
+    {
+        return entryCount;
     }
 }

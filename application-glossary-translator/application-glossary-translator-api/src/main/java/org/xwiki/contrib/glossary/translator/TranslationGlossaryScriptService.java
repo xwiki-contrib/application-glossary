@@ -29,8 +29,8 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.glossary.translator.model.TranslatorGlossaryInfo;
-import org.xwiki.contrib.glossary.translator.model.TranslatorGlossaryLanguagePairs;
+import org.xwiki.contrib.glossary.translator.model.TranslationGlossaryInfo;
+import org.xwiki.contrib.glossary.translator.model.TranslationGlossaryLanguagePairs;
 import org.xwiki.script.service.ScriptService;
 import org.xwiki.security.authorization.ContextualAuthorizationManager;
 import org.xwiki.security.authorization.Right;
@@ -59,7 +59,7 @@ public class TranslationGlossaryScriptService implements ScriptService
         }
     }
 
-    public List<TranslatorGlossaryInfo> getGlossaries()
+    public List<TranslationGlossaryInfo> getGlossaries()
     {
         TranslationGlossary translationGlossary = translationGlossaryManager.getTranslationGlossary();
         if (this.authorizationManager.hasAccess(Right.PROGRAM)) {
@@ -79,7 +79,7 @@ public class TranslationGlossaryScriptService implements ScriptService
         }
     }
 
-    public List<TranslatorGlossaryLanguagePairs> getGlossaryLanguagePairs()
+    public List<TranslationGlossaryLanguagePairs> getGlossaryLanguagePairs()
     {
         TranslationGlossary translationGlossary = translationGlossaryManager.getTranslationGlossary();
         if (this.authorizationManager.hasAccess(Right.PROGRAM)) {

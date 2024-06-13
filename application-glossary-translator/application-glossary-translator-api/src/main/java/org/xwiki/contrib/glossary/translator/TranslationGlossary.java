@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.xwiki.component.annotation.Role;
-import org.xwiki.contrib.glossary.translator.model.TranslatorGlossaryInfo;
-import org.xwiki.contrib.glossary.translator.model.TranslatorGlossaryLanguagePairs;
+import org.xwiki.contrib.glossary.translator.model.TranslationGlossaryInfo;
+import org.xwiki.contrib.glossary.translator.model.TranslationGlossaryLanguagePairs;
 
 @Role
 public interface TranslationGlossary
@@ -39,7 +39,7 @@ public interface TranslationGlossary
     /**
      * @return a list of glossaries available on translator service
      */
-    List<TranslatorGlossaryInfo> getGlossaries();
+    List<TranslationGlossaryInfo> getGlossaries();
 
     /**
      * @param id glossary id
@@ -50,7 +50,7 @@ public interface TranslationGlossary
     /**
      * @return a list of all available language pair
      */
-    List<TranslatorGlossaryLanguagePairs> getGlossaryLanguagePairs();
+    List<TranslationGlossaryLanguagePairs> getGlossaryLanguagePairs();
 
     /**
      * Used by the translator extension to pass the correct glossary ID on translation

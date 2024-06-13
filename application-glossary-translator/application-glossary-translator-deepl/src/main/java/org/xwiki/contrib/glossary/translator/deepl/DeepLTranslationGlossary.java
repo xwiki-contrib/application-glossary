@@ -33,8 +33,8 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.translator.TranslationGlossary;
 import org.xwiki.contrib.glossary.translator.internal.AbstractTranslationGlossary;
-import org.xwiki.contrib.glossary.translator.model.TranslatorGlossaryInfo;
-import org.xwiki.contrib.glossary.translator.model.TranslatorGlossaryLanguagePairs;
+import org.xwiki.contrib.glossary.translator.model.TranslationGlossaryInfo;
+import org.xwiki.contrib.glossary.translator.model.TranslationGlossaryLanguagePairs;
 import org.xwiki.contrib.translator.deepl.DeeplTranslator;
 import org.xwiki.script.service.ScriptServiceManager;
 
@@ -87,9 +87,9 @@ public class DeepLTranslationGlossary extends AbstractTranslationGlossary
             List<GlossaryInfo> deeplGlossaries = deepLTranslator.listGlossaries();
             logger.debug("Fetched the list of registered glossaries : [{}]", deeplGlossaries);
 
-            List<TranslatorGlossaryLanguagePairs> translatorSupportedGlossaries = deepLTranslator.getGlossaryLanguages()
+            List<TranslationGlossaryLanguagePairs> translatorSupportedGlossaries = deepLTranslator.getGlossaryLanguages()
                 .stream()
-                .map(entry -> new TranslatorGlossaryLanguagePairs(entry.getSourceLanguage(),
+                .map(entry -> new TranslationGlossaryLanguagePairs(entry.getSourceLanguage(),
                     entry.getTargetLanguage()))
                 .collect(Collectors.toList());
             logger.debug("Fetched the list of supported glossary language combinations : [{}]",
@@ -130,7 +130,7 @@ public class DeepLTranslationGlossary extends AbstractTranslationGlossary
     }
 
     @Override
-    public List<TranslatorGlossaryInfo> getGlossaries()
+    public List<TranslationGlossaryInfo> getGlossaries()
     {
         Translator translator = getDeepLTranslator();
         try {
@@ -138,7 +138,7 @@ public class DeepLTranslationGlossary extends AbstractTranslationGlossary
             return translator.listGlossaries()
                 .stream()
                 .filter(entry -> entry.getName().startsWith(glossaryNamePrefix))
-                .map(item -> new TranslatorGlossaryInfo(item.getGlossaryId(), item.getName(), item.isReady(),
+                .map(item -> new TranslationGlossaryInfo(item.getGlossaryId(), item.getName(), item.isReady(),
                     item.getSourceLang(), item.getTargetLang(), item.getEntryCount()))
                 .collect(Collectors.toList());
         } catch (Exception e) {
@@ -148,12 +148,12 @@ public class DeepLTranslationGlossary extends AbstractTranslationGlossary
     }
 
     @Override
-    public List<TranslatorGlossaryLanguagePairs> getGlossaryLanguagePairs()
+    public List<TranslationGlossaryLanguagePairs> getGlossaryLanguagePairs()
     {
         Translator translator = getDeepLTranslator();
         try {
             return translator.getGlossaryLanguages().stream()
-                .map(item -> new TranslatorGlossaryLanguagePairs(item.getSourceLanguage(), item.getTargetLanguage()))
+                .map(item -> new TranslationGlossaryLanguagePairs(item.getSourceLanguage(), item.getTargetLanguage()))
                 .collect(Collectors.toList());
         } catch (Exception e) {
             logger.error("Got unexpected error while synchronizing glossaries : [{}]", e.getMessage(), e);

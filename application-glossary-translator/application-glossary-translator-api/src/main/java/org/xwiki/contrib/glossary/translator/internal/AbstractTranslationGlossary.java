@@ -32,8 +32,8 @@ import javax.inject.Provider;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.contrib.glossary.translator.model.TranslatorGlossaryInfo;
-import org.xwiki.contrib.glossary.translator.model.TranslatorGlossaryLanguagePairs;
+import org.xwiki.contrib.glossary.translator.model.TranslationGlossaryInfo;
+import org.xwiki.contrib.glossary.translator.model.TranslationGlossaryLanguagePairs;
 import org.xwiki.contrib.translator.Translator;
 import org.xwiki.contrib.translator.TranslatorManager;
 import org.xwiki.model.reference.DocumentReference;
@@ -72,16 +72,16 @@ public abstract class AbstractTranslationGlossary
     //
     public abstract void synchronizeGlossaries();
 
-    public abstract List<TranslatorGlossaryInfo> getGlossaries();
+    public abstract List<TranslationGlossaryInfo> getGlossaries();
 
-    public abstract List<TranslatorGlossaryLanguagePairs> getGlossaryLanguagePairs();
+    public abstract List<TranslationGlossaryLanguagePairs> getGlossaryLanguagePairs();
 
     public abstract Map<String, String> getGlossaryEntryDetails(String id);
 
     public abstract Optional<String> getGlossaryIdForLanguages(Locale source, Locale destination);
 
     protected Map<Locale, List<Locale>> getLocaleListMap(
-        List<TranslatorGlossaryLanguagePairs> translatorSupportedGlossaries) throws XWikiException
+        List<TranslationGlossaryLanguagePairs> translatorSupportedGlossaries) throws XWikiException
     {
         Translator translator = translatorManager.getTranslator();
         XWikiContext context = xwikiContextProvider.get();
@@ -115,10 +115,10 @@ public abstract class AbstractTranslationGlossary
     }
 
     private static boolean supportsLanguageCombination(
-        List<TranslatorGlossaryLanguagePairs> translatorSupportedGlossaries, String sourceLanguage,
+        List<TranslationGlossaryLanguagePairs> translatorSupportedGlossaries, String sourceLanguage,
         String targetLanguage)
     {
-        for (TranslatorGlossaryLanguagePairs entry : translatorSupportedGlossaries) {
+        for (TranslationGlossaryLanguagePairs entry : translatorSupportedGlossaries) {
             if (entry.getSourceLanguage().toString().equals(sourceLanguage) && entry.getTargetLanguage().toString()
                 .equals(targetLanguage))
             {
