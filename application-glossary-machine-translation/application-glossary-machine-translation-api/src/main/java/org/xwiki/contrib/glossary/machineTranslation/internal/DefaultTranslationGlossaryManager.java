@@ -27,9 +27,12 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+import javax.inject.Singleton;
 
 import org.slf4j.Logger;
+import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.contrib.glossary.machineTranslation.TranslationGlossaryManager;
 import org.xwiki.contrib.translator.Translator;
 import org.xwiki.contrib.translator.TranslatorManager;
 import org.xwiki.contrib.translator.model.GlossaryLocalePairs;
@@ -47,22 +50,21 @@ import com.xpn.xwiki.objects.BaseObject;
 /**
  * @version $Id$
  */
-public abstract class DefaultTranslationGlossaryManager
+@Component
+@Singleton
+public class DefaultTranslationGlossaryManager implements TranslationGlossaryManager
 {
     @Inject
-    protected Logger logger;
+    private Logger logger;
 
     @Inject
-    protected Provider<XWikiContext> xwikiContextProvider;
+    private Provider<XWikiContext> xwikiContextProvider;
 
     @Inject
-    protected TranslatorManager translatorManager;
+    private TranslatorManager translatorManager;
 
     @Inject
     private QueryManager queryManager;
-
-    @Inject
-    private ComponentManager componentManager;
 
     private Map<String, String> getLocalGlossaryEntries(Locale sourceLanguage, Locale targetLanguage)
         throws QueryException
@@ -78,9 +80,9 @@ public abstract class DefaultTranslationGlossaryManager
             .bindValue("targetLanguage", targetLanguage.toString()).execute();
 
         Map<String, String> glossaryEntries = new HashMap<>();
-        for (String[] entry : glossaryRawEntries) {
-            String trimmedKey = entry[0].trim();
-            String trimmedValue = entry[1].trim();
+        for (Object[] entry : glossaryRawEntries) {
+            String trimmedKey = ((String) entry[0]).trim();
+            String trimmedValue = ((String) entry[1]).trim();
             glossaryEntries.put(trimmedKey, trimmedValue);
         }
         return glossaryEntries;

@@ -28,15 +28,14 @@ import org.xwiki.script.service.ScriptService;
 import org.xwiki.script.service.ScriptServiceManager;
 
 /**
- * Provides Component-specific Scripting APIs.
- * Used to provide the access to the service 'services.glossary.translation
+ * Provides Component-specific Scripting APIs. Used to provide the access to the service 'services.glossary.translation
  */
 @Component
 @Named(GlossaryScriptService.HINT)
 @Singleton
 public class GlossaryScriptService implements ScriptService
 {
-    final static String HINT = "glossary";
+    public final static String HINT = "glossary";
 
     @Inject
     private ScriptServiceManager scriptServiceManager;

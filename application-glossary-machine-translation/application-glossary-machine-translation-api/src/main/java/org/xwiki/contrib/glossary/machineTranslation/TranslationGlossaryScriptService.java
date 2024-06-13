@@ -24,6 +24,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.glossary.script.GlossaryScriptService;
 import org.xwiki.script.service.ScriptService;
 import org.xwiki.security.authorization.ContextualAuthorizationManager;
 import org.xwiki.security.authorization.Right;
@@ -32,7 +33,7 @@ import org.xwiki.security.authorization.Right;
  * @version $Id$
  */
 @Component
-@Named(TranslationGlossaryScriptService.HINT)
+@Named(GlossaryScriptService.HINT + "." + TranslationGlossaryScriptService.HINT)
 @Singleton
 public class TranslationGlossaryScriptService implements ScriptService
 {

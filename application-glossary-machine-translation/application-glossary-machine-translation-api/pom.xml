@@ -30,7 +30,7 @@
   <packaging>jar</packaging>
   <artifactId>application-glossary-machine-translation-api</artifactId>
   <description>Provide a glossary for translator application - API</description>
-  <name>Translation glossary API</name>
+  <name>Glossary - Translation glossary - API</name>
 
   <!-- TODO fix checkstyle and remove this -->
   <properties>
