@@ -1,4 +1,6 @@
-/*
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  *
@@ -16,33 +18,21 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */
-package org.xwiki.contrib.glossary.script;
+-->
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
-import org.xwiki.component.annotation.Component;
-import org.xwiki.script.service.ScriptService;
-import org.xwiki.script.service.ScriptServiceManager;
-
-/**
- * Provides Component-specific Scripting APIs.
- * Used to provide the access to the service 'services.glossary.translation
- */
-@Component
-@Named(GlossaryScriptService.HINT)
-@Singleton
-public class GlossaryScriptService implements ScriptService
-{
-    final static String HINT = "glossary";
-
-    @Inject
-    private ScriptServiceManager scriptServiceManager;
-
-    public <S extends ScriptService> S get(String serviceName)
-    {
-        return (S) this.scriptServiceManager.get(HINT + "." + serviceName);
-    }
-}
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.xwiki.contrib.glossary</groupId>
+    <artifactId>application-glossary</artifactId>
+    <version>1.4.8-SNAPSHOT</version>
+  </parent>
+  <artifactId>application-glossary-machine-translation</artifactId>
+  <name>Translation glossary - Parent POM</name>
+  <packaging>pom</packaging>
+  <description>Translation - Glossary - Parent POM</description>
+  <modules>
+    <module>application-glossary-machine-translation-api</module>
+    <module>application-glossary-machine-translation-ui</module>
+  </modules>
+</project>

@@ -17,32 +17,15 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.contrib.glossary.script;
+package org.xwiki.contrib.glossary.machineTranslation;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
+import org.xwiki.component.annotation.Role;
 
-import org.xwiki.component.annotation.Component;
-import org.xwiki.script.service.ScriptService;
-import org.xwiki.script.service.ScriptServiceManager;
-
-/**
- * Provides Component-specific Scripting APIs.
- * Used to provide the access to the service 'services.glossary.translation
- */
-@Component
-@Named(GlossaryScriptService.HINT)
-@Singleton
-public class GlossaryScriptService implements ScriptService
+@Role
+public interface TranslationGlossaryManager
 {
-    final static String HINT = "glossary";
-
-    @Inject
-    private ScriptServiceManager scriptServiceManager;
-
-    public <S extends ScriptService> S get(String serviceName)
-    {
-        return (S) this.scriptServiceManager.get(HINT + "." + serviceName);
-    }
+    /**
+     * Force synchronisation of the glossaries with translation provider
+     */
+    void synchronizeGlossaries();
 }

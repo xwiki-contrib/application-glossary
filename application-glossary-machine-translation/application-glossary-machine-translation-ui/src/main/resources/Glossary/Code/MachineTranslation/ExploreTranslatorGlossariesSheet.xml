@@ -1,0 +1,62 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="Glossary.Code.MachineTranslation.ExploreTranslatorGlossariesSheet" locale="">
+  <web>Glossary.Code.MachineTranslation</web>
+  <name>ExploreTranslatorGlossariesSheet</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>Glossary.Code.MachineTranslation.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>$services.localization.render('glossary.machineTranslation.explorer.title')</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity}}
+[[$services.localization.render('glossary.machineTranslation.explorer.forceSync')&gt;&gt;Scheduler.WebHome||queryString="do=trigger&amp;which=Glossary.Code.MachineTranslation.SynchronizeGlossaries&amp;form_token=$services.csrf.getToken()"]]
+#if ($request.glossaryId)
+  =$services.localization.render('glossary.machineTranslation.explorer.glossary') ${request.glossaryId}=
+  |=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')"
+  #foreach ($entry in $services.translator.getGlossaryEntryDetails($request.glossaryId).entrySet())
+    |$services.rendering.escape(${entry.key}, 'xwiki/2.1')|$services.rendering.escape(${entry.value}, 'xwiki/2.1')
+  #end
+#else
+  =$services.localization.render('glossary.machineTranslation.explorer.glossaries')=
+  |=$services.localization.render('glossary.machineTranslation.explorer.glossaryId')|=$services.localization.render('glossary.machineTranslation.explorer.glossaryName')|=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.isReady')|=$services.localization.render('glossary.machineTranslation.explorer.entryCount')
+  #foreach ($glossary in $services.translator.glossaries)
+    #set ($escapedLabel = $services.rendering.escape($services.rendering.escape(${glossary.glossaryId}, 'xwiki/2.1'), 'xwiki/2.1'))
+    |[[$escapedLabel&gt;&gt;||queryString="glossaryId=$services.rendering.escape(${glossary.glossaryId}, 'xwiki/2.1')"]]|$services.rendering.escape(${glossary.name}, 'xwiki/2.1')|$services.rendering.escape(${glossary.sourceLang}, 'xwiki/2.1')|$services.rendering.escape(${glossary.targetLang}, 'xwiki/2.1')|${glossary.ready}|${glossary.entryCount}
+  #end
+  =$services.localization.render('glossary.machineTranslation.explorer.supportedLanguagePairs')=
+  |=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')
+  #foreach ($entry in $services.translator.glossaryLanguagePairs)
+    |$services.rendering.escape(${entry.sourceLanguage}, 'xwiki/2.1')|$services.rendering.escape(${entry.targetLanguage}, 'xwiki/2.1')
+  #end
+#end
+{{/velocity}}
+</content>
+</xwikidoc>

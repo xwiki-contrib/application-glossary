@@ -1,1 +1,0 @@
-org.xwiki.contrib.glossary.translator.TranslationGlossaryScriptService
