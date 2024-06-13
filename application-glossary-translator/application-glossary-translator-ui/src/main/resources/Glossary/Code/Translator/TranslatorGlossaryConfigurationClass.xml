@@ -54,7 +54,7 @@
       <name>translatorGlossaryNamePrefix</name>
       <number>1</number>
       <picker>0</picker>
-      <prettyName>translatorGlossaryNamePrefix</prettyName>
+      <prettyName>Glossary name prefix</prettyName>
       <size>30</size>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>

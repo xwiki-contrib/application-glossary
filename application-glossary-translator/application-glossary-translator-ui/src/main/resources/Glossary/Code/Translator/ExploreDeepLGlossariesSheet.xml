@@ -38,7 +38,7 @@
   <hidden>true</hidden>
   <content>{{velocity}}
 [[$services.localization.render('glossary.translator.explorer.forceSync')&gt;&gt;Scheduler.WebHome||queryString="do=trigger&amp;which=Glossary.Code.Translator.SynchronizeGlossaries&amp;form_token=$services.csrf.getToken()"]]
-#if (request.glossaryId)
+#if ($request.glossaryId)
   =$services.localization.render('glossary.translator.explorer.glossary') ${request.glossaryId}=
   |=$services.localization.render('glossary.translator.explorer.sourceLanguage')|=$services.localization.render('glossary.translator.explorer.targetLanguage')"
   #foreach ($entry in $services.glossary.translator.getGlossariesEntriesDetails($request.glossaryId).entrySet())

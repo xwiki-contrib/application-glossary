@@ -38,11 +38,9 @@
   <hidden>true</hidden>
   <content>
 
-admin.glossaryTranslator=Glossary Translator
+admin.glossarytranslator=Translation Glossary
 
-
-
-glossary.translator.explorer.title=Translator Glossaries Explorer
+glossary.translator.explorer.title=Translation Glossaries Explorer
 glossary.translator.explorer.forceSync=Force synchronization
 glossary.translator.explorer.glossary=Glossary
 glossary.translator.explorer.glossaries=Glossaries
@@ -56,8 +54,8 @@ glossary.translator.explorer.supportedLanguagePairs=Supported language pairs
 glossary.translator.usage.charCount=Character count :
 glossary.translator.usage.charLimit=Character limit :
 
-Glossary.Translator.TranslatorConfigurationClass_translatorGlossaryPrefix=Glossary name prefix
-Glossary.Translator.TranslatorConfigurationClass_translatorGlossaryPrefix.hint=Prefix of glossay name into the translator provider.</content>
+Glossary.Code.Translator.TranslatorGlossaryConfigurationClass_translatorGlossaryNamePrefix=Glossary name prefix
+Glossary.Code.Translator.TranslatorGlossaryConfigurationClass_translatorGlossaryNamePrefix.hint=Prefix of glossay name into the translator provider.</content>
   <object>
     <name>Glossary.Code.Translator.GlossaryTranslatorTranslations</name>
     <number>0</number>

@@ -49,7 +49,7 @@
   &lt;dl&gt;
     &lt;dt&gt;
       &lt;label for="Glossary.Translator.TranslatorConfigurationClass_0_translatorGlossaryPrefix"&gt;$configDoc.displayPrettyName('translatorGlossaryNamePrefix', $configObj)&lt;/label&gt;
-      &lt;span class='xHint'&gt;$services.localization.render('Glossary.Translator.TranslatorConfigurationClass_translatorGlossaryPrefix.hint')&lt;/span&gt;
+      &lt;span class='xHint'&gt;$services.localization.render('Glossary.Code.Translator.TranslatorGlossaryConfigurationClass_translatorGlossaryNamePrefix.hint')&lt;/span&gt;
     &lt;/dt&gt;
     &lt;dd&gt;
       $configDoc.display('translatorGlossaryNamePrefix', 'edit', $configObj)
@@ -303,7 +303,7 @@
       <displayInSection>glossaryTranslator</displayInSection>
     </property>
     <property>
-      <heading>Glossary Translator</heading>
+      <heading>Translation glossary</heading>
     </property>
     <property>
       <iconAttachment/>
