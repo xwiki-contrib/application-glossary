@@ -20,14 +20,18 @@
 package org.xwiki.contrib.glossary.translator.internal;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.slf4j.Logger;
+import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.contrib.glossary.translator.TranslationGlossary;
 import org.xwiki.contrib.glossary.translator.TranslationGlossaryManager;
 import org.xwiki.contrib.translator.TranslatorConfiguration;
 
+@Component
+@Singleton
 public class DefaultTranslationGlossaryManager implements TranslationGlossaryManager
 {
     @Inject
