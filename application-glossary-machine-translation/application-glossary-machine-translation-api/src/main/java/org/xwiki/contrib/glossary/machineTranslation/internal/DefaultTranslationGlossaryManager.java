@@ -70,8 +70,10 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
     {
         List<String[]> glossaryRawEntries = queryManager.createQuery("select sourceDoc.title, targetDoc.title "
                     + "from XWikiDocument sourceDoc, XWikiDocument targetDoc, BaseObject glossaryObj "
-                    + "where glossaryObj.name = sourceDoc.fullName " + "and glossaryObj.name = targetDoc.fullName "
-                    + "and glossaryObj.className = 'Glossary.Code.GlossaryClass' " + "and sourceDoc.space = 'Glossary' "
+                    + "where glossaryObj.name = sourceDoc.fullName "
+                    + "and glossaryObj.name = targetDoc.fullName "
+                    + "and glossaryObj.className = 'Glossary.Code.GlossaryClass' "
+                    + "and sourceDoc.space = 'Glossary' "
                     + "and targetDoc.space = 'Glossary' "
                     + "and ((sourceDoc.defaultLanguage = :sourceLanguage and sourceDoc.language = '') "
                     + "     or sourceDoc.language = :sourceLanguage) "
