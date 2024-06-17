@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.contrib.glossary.machineTranslation.internal;
+package org.xwiki.contrib.glossary.machinetranslation.internal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ import javax.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.glossary.machineTranslation.TranslationGlossaryManager;
+import org.xwiki.contrib.glossary.machinetranslation.TranslationGlossaryManager;
 import org.xwiki.contrib.translator.Translator;
 import org.xwiki.contrib.translator.TranslatorManager;
 import org.xwiki.contrib.translator.model.Glossary;
@@ -104,16 +104,16 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
 
             for (Locale sourceLanguage : missingLanguages) {
                 for (Locale targetLanguage : missingLanguages) {
-                    String deeplSrcLang = translator.normalizeLocale(sourceLanguage);
-                    String deeplDstLang = translator.normalizeLocale(targetLanguage);
+                    String translatorSrcLang = translator.normalizeLocale(sourceLanguage);
+                    String translatorDstLang = translator.normalizeLocale(targetLanguage);
 
                     // Check that src lang dans dstLang are not identical in case of the language is 'fr_FR' to
                     // 'fr_CH' which is same for deepL
                     boolean foundMatchingLocalePairs = translatorSupportedLocalePairs.stream()
                         .anyMatch(entry ->
-                            entry.getSourceLocale().toString().equals(deeplSrcLang)
-                                && entry.getTargetLocale().toString().equals(deeplDstLang));
-                    if (!deeplSrcLang.equals(deeplDstLang) && foundMatchingLocalePairs) {
+                            entry.getSourceLocale().toString().equals(translatorSrcLang)
+                                && entry.getTargetLocale().toString().equals(translatorDstLang));
+                    if (!translatorSrcLang.equals(translatorDstLang) && foundMatchingLocalePairs) {
                         Map<String, String> localGlossaryEntries = getLocalGlossaryEntries(sourceLanguage,
                             targetLanguage
                         );

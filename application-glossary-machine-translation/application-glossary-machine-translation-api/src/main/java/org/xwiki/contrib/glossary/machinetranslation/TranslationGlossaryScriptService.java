@@ -17,19 +17,41 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.contrib.glossary.machineTranslation;
+package org.xwiki.contrib.glossary.machinetranslation;
 
-import org.xwiki.component.annotation.Role;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.glossary.script.GlossaryScriptService;
+import org.xwiki.script.service.ScriptService;
+import org.xwiki.security.authorization.ContextualAuthorizationManager;
+import org.xwiki.security.authorization.Right;
 
 /**
  * @version $Id$
- * Glossary manager for translator.
  */
-@Role
-public interface TranslationGlossaryManager
+@Component
+@Named(GlossaryScriptService.HINT + "." + TranslationGlossaryScriptService.HINT)
+@Singleton
+public class TranslationGlossaryScriptService implements ScriptService
 {
+    static final String HINT = "translation";
+
+    @Inject
+    private ContextualAuthorizationManager authorizationManager;
+
+    @Inject
+    private TranslationGlossaryManager translationGlossaryManager;
+
     /**
      * Run synchronisation of the glossaries with translation provider.
      */
-    void synchronizeGlossaries();
+    public void synchronizeGlossaries()
+    {
+        if (this.authorizationManager.hasAccess(Right.PROGRAM)) {
+            translationGlossaryManager.synchronizeGlossaries();
+        }
+    }
 }
