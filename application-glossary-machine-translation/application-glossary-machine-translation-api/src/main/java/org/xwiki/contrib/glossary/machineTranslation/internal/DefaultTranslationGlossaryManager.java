@@ -97,14 +97,12 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
     public void synchronizeGlossaries()
     {
         Translator translator = translatorManager.getTranslator();
+        XWikiContext context = xwikiContextProvider.get();
 
         try {
             List<GlossaryLocalePairs> translatorSupportedGlossaries = translator.getGlossaryLocalePairs();
             logger.debug("Fetched the list of supported glossary language combinations : [{}]",
                 translatorSupportedGlossaries);
-
-            Translator translator1 = translatorManager.getTranslator();
-            XWikiContext context = xwikiContextProvider.get();
 
             // Get the list of languages that are supported in the XWiki preferences
             DocumentReference reference = new DocumentReference(context.getWikiId(), "XWiki", "XWikiPreferences");
@@ -119,8 +117,8 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
                 Locale sourceLanguage = new Locale(sourceLangStr);
                 for (String targetLangStr : missingLanguagesRaw) {
                     Locale targetLanguage = new Locale(targetLangStr);
-                    String deeplSrcLang = translator1.normalizeLocale(sourceLanguage);
-                    String deeplDstLang = translator1.normalizeLocale(targetLanguage);
+                    String deeplSrcLang = translator.normalizeLocale(sourceLanguage);
+                    String deeplDstLang = translator.normalizeLocale(targetLanguage);
 
                     // Check that src lang dans dstLang are not identical in case of the language is 'fr_FR' to
                     // 'fr_CH' which is same for deepL
