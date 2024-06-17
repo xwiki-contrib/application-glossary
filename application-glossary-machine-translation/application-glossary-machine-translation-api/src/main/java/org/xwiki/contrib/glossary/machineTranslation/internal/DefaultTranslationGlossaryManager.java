@@ -34,7 +34,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.machineTranslation.TranslationGlossaryManager;
 import org.xwiki.contrib.translator.Translator;
 import org.xwiki.contrib.translator.TranslatorManager;
-import org.xwiki.contrib.translator.model.GlossaryLocalePairs;
+import org.xwiki.contrib.translator.model.LocalePairs;
 import org.xwiki.contrib.translator.model.GlossaryUpdateEntry;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.ObjectReference;
@@ -91,16 +91,14 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
         return glossaryEntries;
     }
 
-    /**
-     * Run synchronisation of the glossaries with translation provider.
-     */
+    @Override
     public void synchronizeGlossaries()
     {
         Translator translator = translatorManager.getTranslator();
         XWikiContext context = xwikiContextProvider.get();
 
         try {
-            List<GlossaryLocalePairs> translatorSupportedGlossaries = translator.getGlossaryLocalePairs();
+            List<LocalePairs> translatorSupportedGlossaries = translator.getGlossaryLocalePairs();
             logger.debug("Fetched the list of supported glossary language combinations : [{}]",
                 translatorSupportedGlossaries);
 
@@ -124,8 +122,8 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
                     // 'fr_CH' which is same for deepL
                     boolean findMatchingGlossary = translatorSupportedGlossaries.stream()
                         .anyMatch(entry ->
-                            entry.getSourceLanguage().toString().equals(deeplSrcLang)
-                                && entry.getTargetLanguage().toString().equals(deeplDstLang));
+                            entry.getSourceLocale().toString().equals(deeplSrcLang)
+                                && entry.getTargetLocale().toString().equals(deeplDstLang));
                     if (!deeplSrcLang.equals(deeplDstLang) && findMatchingGlossary) {
                         Map<String, String> localGlossaryEntries = getLocalGlossaryEntries(sourceLanguage,
                             targetLanguage
