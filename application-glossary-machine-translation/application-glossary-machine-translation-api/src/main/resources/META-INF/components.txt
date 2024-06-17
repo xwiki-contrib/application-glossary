@@ -1,2 +1,2 @@
-org.xwiki.contrib.glossary.machinetranslation.TranslationGlossaryScriptService
+org.xwiki.contrib.glossary.machinetranslation.script.TranslationGlossaryScriptService
 org.xwiki.contrib.glossary.machinetranslation.internal.DefaultTranslationGlossaryManager
