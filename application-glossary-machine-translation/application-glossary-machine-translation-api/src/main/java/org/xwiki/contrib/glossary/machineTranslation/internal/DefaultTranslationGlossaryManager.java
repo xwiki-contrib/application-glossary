@@ -34,17 +34,14 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.machineTranslation.TranslationGlossaryManager;
 import org.xwiki.contrib.translator.Translator;
 import org.xwiki.contrib.translator.TranslatorManager;
-import org.xwiki.contrib.translator.model.LocalePairs;
-import org.xwiki.contrib.translator.model.GlossaryUpdateEntry;
-import org.xwiki.model.reference.DocumentReference;
-import org.xwiki.model.reference.ObjectReference;
+import org.xwiki.contrib.translator.model.Glossary;
+import org.xwiki.contrib.translator.model.GlossaryInfo;
+import org.xwiki.contrib.translator.model.LocalePair;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.query.QueryManager;
 
 import com.xpn.xwiki.XWikiContext;
-import com.xpn.xwiki.doc.XWikiDocument;
-import com.xpn.xwiki.objects.BaseObject;
 
 /**
  * @version $Id$
@@ -98,38 +95,31 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
         XWikiContext context = xwikiContextProvider.get();
 
         try {
-            List<LocalePairs> translatorSupportedGlossaries = translator.getGlossaryLocalePairs();
+            List<LocalePair> translatorSupportedLocalePairs = translator.getGlossaryLocalePairs();
             logger.debug("Fetched the list of supported glossary language combinations : [{}]",
-                translatorSupportedGlossaries);
+                translatorSupportedLocalePairs);
 
-            // Get the list of languages that are supported in the XWiki preferences
-            DocumentReference reference = new DocumentReference(context.getWikiId(), "XWiki", "XWikiPreferences");
-            XWikiDocument preferencesDoc = context.getWiki().getDocument(reference, context);
-            BaseObject preferencesObject =
-                preferencesDoc.getXObject(new ObjectReference("XWiki.XWikiPreferences", reference));
-            String[] missingLanguagesRaw = preferencesObject.getStringValue("languages").split(",");
+            List<Locale> missingLanguages = xwikiContextProvider.get().getWiki().getAvailableLocales(context);
+            List<Glossary> updateEntries = new ArrayList<>();
 
-            List<GlossaryUpdateEntry> updateEntries = new ArrayList<>();
-
-            for (String sourceLangStr : missingLanguagesRaw) {
-                Locale sourceLanguage = new Locale(sourceLangStr);
-                for (String targetLangStr : missingLanguagesRaw) {
-                    Locale targetLanguage = new Locale(targetLangStr);
+            for (Locale sourceLanguage : missingLanguages) {
+                for (Locale targetLanguage : missingLanguages) {
                     String deeplSrcLang = translator.normalizeLocale(sourceLanguage);
                     String deeplDstLang = translator.normalizeLocale(targetLanguage);
 
                     // Check that src lang dans dstLang are not identical in case of the language is 'fr_FR' to
                     // 'fr_CH' which is same for deepL
-                    boolean findMatchingGlossary = translatorSupportedGlossaries.stream()
+                    boolean foundMatchingLocalePairs = translatorSupportedLocalePairs.stream()
                         .anyMatch(entry ->
                             entry.getSourceLocale().toString().equals(deeplSrcLang)
                                 && entry.getTargetLocale().toString().equals(deeplDstLang));
-                    if (!deeplSrcLang.equals(deeplDstLang) && findMatchingGlossary) {
+                    if (!deeplSrcLang.equals(deeplDstLang) && foundMatchingLocalePairs) {
                         Map<String, String> localGlossaryEntries = getLocalGlossaryEntries(sourceLanguage,
                             targetLanguage
                         );
                         updateEntries.add(
-                            new GlossaryUpdateEntry(localGlossaryEntries, sourceLanguage, targetLanguage));
+                            new Glossary(localGlossaryEntries,
+                                new GlossaryInfo("", "", true, sourceLanguage, targetLanguage, 0)));
                     }
                 }
             }
