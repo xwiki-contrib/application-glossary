@@ -31,14 +31,6 @@
   <artifactId>application-glossary-machine-translation-api</artifactId>
   <description>Provide a glossary for translator application - API</description>
   <name>Glossary - Translation glossary - API</name>
-
-  <!-- TODO fix checkstyle and remove this -->
-  <properties>
-  <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
-  <xwiki.spoon.skip>true</xwiki.spoon.skip>
-  <xwiki.revapi.skip>true</xwiki.revapi.skip>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.xwiki.contrib.glossary</groupId>

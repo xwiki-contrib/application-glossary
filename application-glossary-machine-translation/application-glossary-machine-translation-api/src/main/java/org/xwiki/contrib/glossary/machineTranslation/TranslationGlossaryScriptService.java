@@ -45,6 +45,9 @@ public class TranslationGlossaryScriptService implements ScriptService
     @Inject
     private TranslationGlossaryManager translationGlossaryManager;
 
+    /**
+     * Run synchronisation of the glossaries with translation provider.
+     */
     public void synchronizeGlossaries()
     {
         if (this.authorizationManager.hasAccess(Right.PROGRAM)) {

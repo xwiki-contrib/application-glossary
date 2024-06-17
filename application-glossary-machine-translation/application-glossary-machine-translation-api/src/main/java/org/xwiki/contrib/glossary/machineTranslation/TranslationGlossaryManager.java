@@ -21,11 +21,15 @@ package org.xwiki.contrib.glossary.machineTranslation;
 
 import org.xwiki.component.annotation.Role;
 
+/**
+ * @version $Id$
+ * Glossary manager for translator.
+ */
 @Role
 public interface TranslationGlossaryManager
 {
     /**
-     * Force synchronisation of the glossaries with translation provider
+     * Run synchronisation of the glossaries with translation provider.
      */
     void synchronizeGlossaries();
 }

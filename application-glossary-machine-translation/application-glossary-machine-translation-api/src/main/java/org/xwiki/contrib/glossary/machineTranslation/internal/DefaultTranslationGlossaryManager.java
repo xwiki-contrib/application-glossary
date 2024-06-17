@@ -31,7 +31,6 @@ import javax.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.contrib.glossary.machineTranslation.TranslationGlossaryManager;
 import org.xwiki.contrib.translator.Translator;
 import org.xwiki.contrib.translator.TranslatorManager;
@@ -74,8 +73,10 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
                     + "where glossaryObj.name = sourceDoc.fullName " + "and glossaryObj.name = targetDoc.fullName "
                     + "and glossaryObj.className = 'Glossary.Code.GlossaryClass' " + "and sourceDoc.space = 'Glossary' "
                     + "and targetDoc.space = 'Glossary' "
-                    + "and ((sourceDoc.defaultLanguage = :sourceLanguage and sourceDoc.language = '') or sourceDoc.language = :sourceLanguage) "
-                    + "and ((targetDoc.defaultLanguage = :targetLanguage and targetDoc.language = '') or targetDoc.language = :targetLanguage)",
+                    + "and ((sourceDoc.defaultLanguage = :sourceLanguage and sourceDoc.language = '') "
+                    + "     or sourceDoc.language = :sourceLanguage) "
+                    + "and ((targetDoc.defaultLanguage = :targetLanguage and targetDoc.language = '') "
+                    + "     or targetDoc.language = :targetLanguage)",
                 Query.HQL).bindValue("sourceLanguage", sourceLanguage.toString())
             .bindValue("targetLanguage", targetLanguage.toString()).execute();
 
@@ -88,6 +89,9 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
         return glossaryEntries;
     }
 
+    /**
+     * Run synchronisation of the glossaries with translation provider.
+     */
     public void synchronizeGlossaries()
     {
         Translator translator = translatorManager.getTranslator();
@@ -120,13 +124,14 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
                     // 'fr_CH' which is same for deepL
                     boolean findMatchingGlossary = translatorSupportedGlossaries.stream()
                         .anyMatch(entry ->
-                            entry.getSourceLanguage().toString().equals(deeplSrcLang) &&
-                            entry.getTargetLanguage().toString().equals(deeplDstLang));
+                            entry.getSourceLanguage().toString().equals(deeplSrcLang)
+                                && entry.getTargetLanguage().toString().equals(deeplDstLang));
                     if (!deeplSrcLang.equals(deeplDstLang) && findMatchingGlossary) {
                         Map<String, String> localGlossaryEntries = getLocalGlossaryEntries(sourceLanguage,
                             targetLanguage
                         );
-                        updateEntries.add(new GlossaryUpdateEntry(localGlossaryEntries, sourceLanguage, targetLanguage));
+                        updateEntries.add(
+                            new GlossaryUpdateEntry(localGlossaryEntries, sourceLanguage, targetLanguage));
                     }
                 }
             }
