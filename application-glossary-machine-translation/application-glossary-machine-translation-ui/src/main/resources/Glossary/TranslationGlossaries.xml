@@ -20,9 +20,9 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.ExploreTranslatorGlossaries" locale="">
+<xwikidoc version="1.4" reference="Glossary.TranslationGlossaries" locale="">
   <web>Glossary</web>
-  <name>ExploreTranslatorGlossaries</name>
+  <name>TranslationGlossaries</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -38,7 +38,7 @@
   <hidden>true</hidden>
   <content/>
   <object>
-    <name>Glossary.ExploreTranslatorGlossaries</name>
+    <name>Glossary.TranslationGlossaries</name>
     <number>0</number>
     <className>XWiki.DocumentSheetBinding</className>
     <guid>f6806873-4b0d-4bfb-a93f-594045d5b8c3</guid>
@@ -78,11 +78,11 @@
       </sheet>
     </class>
     <property>
-      <sheet>Glossary.Code.MachineTranslation.ExploreTranslatorGlossariesSheet</sheet>
+      <sheet>Glossary.Code.MachineTranslation.TranslationGlossariesSheet</sheet>
     </property>
   </object>
   <object>
-    <name>Glossary.ExploreTranslatorGlossaries</name>
+    <name>Glossary.TranslationGlossaries</name>
     <number>0</number>
     <className>XWiki.XWikiRights</className>
     <guid>b103971d-4d2b-4ac1-b8d4-0678d815eed5</guid>

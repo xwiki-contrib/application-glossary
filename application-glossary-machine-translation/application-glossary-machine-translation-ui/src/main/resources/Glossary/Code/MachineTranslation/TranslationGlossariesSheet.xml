@@ -20,9 +20,9 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.Code.MachineTranslation.ExploreTranslatorGlossariesSheet" locale="">
+<xwikidoc version="1.4" reference="Glossary.Code.MachineTranslation.TranslationGlossariesSheet" locale="">
   <web>Glossary.Code.MachineTranslation</web>
-  <name>ExploreTranslatorGlossariesSheet</name>
+  <name>TranslationGlossariesSheet</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -37,7 +37,7 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <content>{{velocity}}
-[[$services.localization.render('glossary.machineTranslation.explorer.forceSync')&gt;&gt;Scheduler.WebHome||queryString="do=trigger&amp;which=Glossary.Code.MachineTranslation.SynchronizeGlossaries&amp;form_token=$services.csrf.getToken()"]]
+[[$services.localization.render('glossary.machineTranslation.explorer.forceSync')&gt;&gt;Scheduler.WebHome||queryString="do=trigger&amp;which=Glossary.Code.MachineTranslation.GlossarySynchronizer&amp;form_token=$services.csrf.getToken()"]]
 #if ($request.glossaryId)
   =$services.localization.render('glossary.machineTranslation.explorer.glossary') ${request.glossaryId}=
   |=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')"

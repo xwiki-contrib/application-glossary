@@ -20,9 +20,9 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.Code.MachineTranslation.SynchronizeGlossaries" locale="">
+<xwikidoc version="1.4" reference="Glossary.Code.MachineTranslation.GlossarySynchronizer" locale="">
   <web>Glossary.Code.MachineTranslation</web>
-  <name>SynchronizeGlossaries</name>
+  <name>GlossarySynchronizer</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -38,7 +38,7 @@
   <hidden>true</hidden>
   <content/>
   <object>
-    <name>Glossary.Code.MachineTranslation.SynchronizeGlossaries</name>
+    <name>Glossary.Code.MachineTranslation.GlossarySynchronizer</name>
     <number>0</number>
     <className>XWiki.SchedulerJobClass</className>
     <guid>290f402c-af51-478e-abbd-d9d8a5994ab0</guid>
