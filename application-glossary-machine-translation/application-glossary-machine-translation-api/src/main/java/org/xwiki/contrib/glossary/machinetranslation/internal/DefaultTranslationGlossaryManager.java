@@ -113,9 +113,9 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
             for (Locale sourceLanguage : xwikiLanguages) {
                 for (Locale targetLanguage : xwikiLanguages) {
                     String translatorSrcLang =
-                        translator.normalizeLocale(sourceLanguage, Translator.NormalisationType.GLOSSARY);
+                        translator.normalizeLocale(sourceLanguage, Translator.NormalisationType.SOURCE_LANG_GLOSSARY);
                     String translatorDstLang =
-                        translator.normalizeLocale(targetLanguage, Translator.NormalisationType.GLOSSARY);
+                        translator.normalizeLocale(targetLanguage, Translator.NormalisationType.TARGET_LANG_GLOSSARY);
 
                     boolean foundMatchingLocalePairs = translatorSupportedLocalePairs.stream()
                         .anyMatch(entry ->
