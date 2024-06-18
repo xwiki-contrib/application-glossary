@@ -107,27 +107,30 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
             logger.debug("Fetched the list of supported glossary language combinations : [{}]",
                 translatorSupportedLocalePairs);
 
-            List<Locale> missingLanguages = xwikiContextProvider.get().getWiki().getAvailableLocales(context);
+            List<Locale> xwikiLanguages = xwikiContextProvider.get().getWiki().getAvailableLocales(context);
             List<Glossary> updateEntries = new ArrayList<>();
 
-            for (Locale sourceLanguage : missingLanguages) {
-                for (Locale targetLanguage : missingLanguages) {
-                    String translatorSrcLang = translator.normalizeLocale(sourceLanguage);
-                    String translatorDstLang = translator.normalizeLocale(targetLanguage);
+            for (Locale sourceLanguage : xwikiLanguages) {
+                for (Locale targetLanguage : xwikiLanguages) {
+                    String translatorSrcLang =
+                        translator.normalizeLocale(sourceLanguage, Translator.NormalisationType.GLOSSARY);
+                    String translatorDstLang =
+                        translator.normalizeLocale(targetLanguage, Translator.NormalisationType.GLOSSARY);
 
-                    // Check that src lang dans dstLang are not identical in case of the language is 'fr_FR' to
-                    // 'fr_CH' which is same for deepL
                     boolean foundMatchingLocalePairs = translatorSupportedLocalePairs.stream()
                         .anyMatch(entry ->
                             entry.getSourceLocale().toString().equals(translatorSrcLang)
                                 && entry.getTargetLocale().toString().equals(translatorDstLang));
+
                     if (!translatorSrcLang.equals(translatorDstLang) && foundMatchingLocalePairs) {
                         Map<String, String> localGlossaryEntries = getLocalGlossaryEntries(sourceLanguage,
                             targetLanguage
                         );
-                        updateEntries.add(
-                            new Glossary(localGlossaryEntries,
-                                new GlossaryInfo("", "", true, sourceLanguage, targetLanguage, 0)));
+                        if (!localGlossaryEntries.isEmpty()) {
+                            updateEntries.add(
+                                new Glossary(localGlossaryEntries,
+                                    new GlossaryInfo("", "", true, sourceLanguage, targetLanguage, 0)));
+                        }
                     }
                 }
             }

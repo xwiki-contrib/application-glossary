@@ -46,7 +46,8 @@ glossary.machineTranslation.explorer.sourceLanguage=Source language
 glossary.machineTranslation.explorer.targetLanguage=Target language
 glossary.machineTranslation.explorer.isReady=Is ready ?
 glossary.machineTranslation.explorer.entryCount=Entry count
-glossary.machineTranslation.explorer.supportedLanguagePairs=Supported language pairs</content>
+glossary.machineTranslation.explorer.supportedLanguagePairs=Supported language pairs by the translator
+glossary.machineTranslation.explorer.supported=Supported ?</content>
   <object>
     <name>Glossary.Code.MachineTranslation.MachineTranslationTranslations</name>
     <number>0</number>

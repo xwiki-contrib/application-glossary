@@ -53,9 +53,9 @@
     'xwiki/2.1')"]]|$services.rendering.escape(${glossary.name}, 'xwiki/2.1')|$services.rendering.escape(${glossary.sourceLocale}, 'xwiki/2.1')|$services.rendering.escape(${glossary.targetLocale}, 'xwiki/2.1')|${glossary.ready}|${glossary.entryCount}
   #end
   =$services.localization.render('glossary.machineTranslation.explorer.supportedLanguagePairs')=
-  |=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')
-  #foreach ($entry in $services.translator.glossaryLanguagePairs)
-    |$services.rendering.escape(${entry.sourceLocale}, 'xwiki/2.1')|$services.rendering.escape(${entry.targetLocale}, 'xwiki/2.1')
+  |=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.supported')
+  #foreach ($entry in $services.translator.glossaryLocalePairSupport.entrySet())
+    |$services.rendering.escape(${entry.key.sourceLocale}, 'xwiki/2.1')|$services.rendering.escape(${entry.key.targetLocale}, 'xwiki/2.1')|$entry.value
   #end
 #end
 {{/velocity}}
