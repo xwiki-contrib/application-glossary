@@ -31,8 +31,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.contrib.glossary.GlossaryConfiguration;
+import org.xwiki.contrib.glossary.GlossaryConstants;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
+import org.xwiki.model.reference.EntityReference;
+import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryManager;
 import org.xwiki.rendering.block.XDOM;
@@ -73,6 +76,8 @@ public class DefaultGlossaryModelTest
 
     private DocumentReferenceResolver<String> documentResolver;
 
+    private EntityReferenceSerializer<String> entityReferenceSerializer;
+
     @Before
     public void setUp() throws Exception
     {
@@ -85,6 +90,7 @@ public class DefaultGlossaryModelTest
         when(xWikiContext.getWiki()).thenReturn(xwiki);
 
         documentResolver = mocker.registerMockComponent(DocumentReferenceResolver.TYPE_STRING, "currentmixed");
+        entityReferenceSerializer = mocker.registerMockComponent(EntityReferenceSerializer.TYPE_STRING, "local");
     }
 
     @Test
@@ -100,6 +106,8 @@ public class DefaultGlossaryModelTest
         when(query.bindValue(any(String.class), any(String.class))).thenReturn(query);
         when(query.execute()).thenReturn(queryResults);
         when(documentResolver.resolve("test.fullName1")).thenReturn(documentReference);
+        when(entityReferenceSerializer.serialize(GlossaryConstants.GLOSSARY_XCLASS_REFERENCE))
+            .thenReturn("Glossary.Code.GlossaryClass");
 
         Map<Locale, Map<String, DocumentReference>> expected = new HashMap<Locale, Map<String, DocumentReference>>() {{
             put(Locale.ENGLISH, new HashMap<String, DocumentReference>() {{

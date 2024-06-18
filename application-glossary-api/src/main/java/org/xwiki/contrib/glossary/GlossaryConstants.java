@@ -19,8 +19,13 @@
  */
 package org.xwiki.contrib.glossary;
 
+import java.util.Arrays;
+
+import org.xwiki.model.reference.LocalDocumentReference;
+
 /**
  * Constants identifying various properties used by the application.
+ *
  * @version $Id: 5f7563ecfe700a17b19be06763d6fd90f699f0ea $
  */
 public interface GlossaryConstants
@@ -29,10 +34,13 @@ public interface GlossaryConstants
      * Constant representing the CSS "class" attribute name.
      */
     String CSS_CLASS_ATTRIBUTE_NAME = "class";
-
     /**
      * Constant representing the CSS "class" attribute value for a glossary entry.
      */
     String GLOSSARY_ENTRY_CSS_CLASS = "glossary-entry";
-
+    /**
+     * Constant used to retrieve the Glossary Class reference.
+     */
+    LocalDocumentReference GLOSSARY_XCLASS_REFERENCE =
+        new LocalDocumentReference(Arrays.asList("Glossary", "Code"), "GlossaryClass");
 }

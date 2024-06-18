@@ -31,6 +31,7 @@ import javax.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.glossary.GlossaryConstants;
 import org.xwiki.contrib.glossary.GlossaryException;
 import org.xwiki.contrib.glossary.GlossaryModel;
 import org.xwiki.localization.LocaleUtils;
@@ -86,9 +87,11 @@ public class DefaultGlossaryModel implements GlossaryModel
         try {
             Query query = this.queryManager.createQuery("select doc.fullName, doc.title, doc.language, "
                 + "doc.defaultLanguage, doc.translation from XWikiDocument doc, BaseObject obj where "
-                + "obj.className = 'Glossary.Code.GlossaryClass' and obj.name = doc.fullName "
+                + "obj.className = :glossaryClassRef and obj.name = doc.fullName "
                 + "and doc.fullName like :glossaryId", Query.HQL);
-            List<Object[]> documents = query.bindValue("glossaryId", glossaryId).execute();
+            List<Object[]> documents = query.bindValue("glossaryId", glossaryId)
+                .bindValue("glossaryClassRef",
+                    entityReferenceSerializer.serialize(GlossaryConstants.GLOSSARY_XCLASS_REFERENCE)).execute();
 
             for (Object[] document : documents) {
                 DocumentReference reference = this.defaultDocumentReferenceResolver.resolve((String) document[0]);

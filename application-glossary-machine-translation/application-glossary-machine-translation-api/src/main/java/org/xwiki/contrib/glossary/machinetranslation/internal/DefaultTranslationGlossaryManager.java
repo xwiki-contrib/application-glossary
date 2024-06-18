@@ -26,17 +26,20 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.glossary.GlossaryConstants;
 import org.xwiki.contrib.glossary.machinetranslation.TranslationGlossaryManager;
 import org.xwiki.contrib.translator.Translator;
 import org.xwiki.contrib.translator.TranslatorManager;
 import org.xwiki.contrib.translator.model.Glossary;
 import org.xwiki.contrib.translator.model.GlossaryInfo;
 import org.xwiki.contrib.translator.model.LocalePair;
+import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.query.QueryManager;
@@ -60,6 +63,10 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
     private TranslatorManager translatorManager;
 
     @Inject
+    @Named("local")
+    private EntityReferenceSerializer<String> serializer;
+
+    @Inject
     private QueryManager queryManager;
 
     private Map<String, String> getLocalGlossaryEntries(Locale sourceLanguage, Locale targetLanguage)
@@ -69,7 +76,7 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
                     + "from XWikiDocument sourceDoc, XWikiDocument targetDoc, BaseObject glossaryObj "
                     + "where glossaryObj.name = sourceDoc.fullName "
                     + "and glossaryObj.name = targetDoc.fullName "
-                    + "and glossaryObj.className = 'Glossary.Code.GlossaryClass' "
+                    + "and glossaryObj.className = :glossaryClassRef "
                     + "and sourceDoc.space = 'Glossary' "
                     + "and targetDoc.space = 'Glossary' "
                     + "and ((sourceDoc.defaultLanguage = :sourceLanguage and sourceDoc.language = '') "
@@ -77,7 +84,8 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
                     + "and ((targetDoc.defaultLanguage = :targetLanguage and targetDoc.language = '') "
                     + "     or targetDoc.language = :targetLanguage)",
                 Query.HQL).bindValue("sourceLanguage", sourceLanguage.toString())
-            .bindValue("targetLanguage", targetLanguage.toString()).execute();
+            .bindValue("targetLanguage", targetLanguage.toString())
+            .bindValue("glossaryClassRef", serializer.serialize(GlossaryConstants.GLOSSARY_XCLASS_REFERENCE)).execute();
 
         Map<String, String> glossaryEntries = new HashMap<>();
         for (Object[] entry : glossaryRawEntries) {

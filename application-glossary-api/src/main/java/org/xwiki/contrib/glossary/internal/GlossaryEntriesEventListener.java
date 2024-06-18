@@ -34,6 +34,7 @@ import org.xwiki.bridge.event.DocumentDeletedEvent;
 import org.xwiki.bridge.event.DocumentUpdatedEvent;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.GlossaryCache;
+import org.xwiki.contrib.glossary.GlossaryConstants;
 import org.xwiki.contrib.glossary.GlossaryModel;
 import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
@@ -63,11 +64,6 @@ public class GlossaryEntriesEventListener implements EventListener
 
     private static final List<Event> EVENTS = Arrays.asList(new DocumentCreatedEvent(),
         new DocumentUpdatedEvent(), new DocumentDeletedEvent());
-
-    private static final EntityReference GLOSSARY_XCLASS_REFERENCE =
-        new EntityReference("GlossaryClass", EntityType.DOCUMENT,
-            new EntityReference("Code", EntityType.SPACE,
-                new EntityReference("Glossary", EntityType.SPACE)));
 
     @Inject
     private Provider<GlossaryCache> cacheProvider;
@@ -110,11 +106,11 @@ public class GlossaryEntriesEventListener implements EventListener
             // * We are working with a translation document that just got deleted, however the original document
             // remains in the database.
             BaseObject glossaryObject = xWikiContext.getWiki().getDocument(document.getDocumentReference(),
-                xWikiContext).getXObject(GLOSSARY_XCLASS_REFERENCE);
+                xWikiContext).getXObject(GlossaryConstants.GLOSSARY_XCLASS_REFERENCE);
             boolean hasObject = glossaryObject != null;
             boolean isCreateOrUpdate = (event instanceof DocumentCreatedEvent || event instanceof DocumentUpdatedEvent);
             boolean hasOrHadObject =
-                (hasObject || document.getOriginalDocument().getXObject(GLOSSARY_XCLASS_REFERENCE) != null);
+                (hasObject || document.getOriginalDocument().getXObject(GlossaryConstants.GLOSSARY_XCLASS_REFERENCE) != null);
 
             // Note: if the original doc is deleted then document.getOriginalDocument() is the doc before the
             // deletion and thus containing the xclass
