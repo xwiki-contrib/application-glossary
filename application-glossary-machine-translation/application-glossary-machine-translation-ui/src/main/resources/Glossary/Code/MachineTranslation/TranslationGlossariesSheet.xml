@@ -40,7 +40,7 @@
 [[$services.localization.render('glossary.machineTranslation.explorer.forceSync')&gt;&gt;Scheduler.WebHome||queryString="do=trigger&amp;which=Glossary.Code.MachineTranslation.GlossarySynchronizer&amp;form_token=$services.csrf.getToken()"]]
 #if ($request.glossaryId)
   =$services.localization.render('glossary.machineTranslation.explorer.glossary') ${request.glossaryId}=
-  |=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')"
+  |=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')
   #foreach ($entry in $services.translator.getGlossaryEntryDetails($request.glossaryId).entrySet())
     |$services.rendering.escape(${entry.key}, 'xwiki/2.1')|$services.rendering.escape(${entry.value}, 'xwiki/2.1')
   #end
