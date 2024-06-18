@@ -49,12 +49,13 @@
   |=$services.localization.render('glossary.machineTranslation.explorer.glossaryId')|=$services.localization.render('glossary.machineTranslation.explorer.glossaryName')|=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.isReady')|=$services.localization.render('glossary.machineTranslation.explorer.entryCount')
   #foreach ($glossary in $services.translator.glossaries)
     #set ($escapedLabel = $services.rendering.escape($services.rendering.escape(${glossary.glossaryId}, 'xwiki/2.1'), 'xwiki/2.1'))
-    |[[$escapedLabel&gt;&gt;||queryString="glossaryId=$services.rendering.escape(${glossary.glossaryId}, 'xwiki/2.1')"]]|$services.rendering.escape(${glossary.name}, 'xwiki/2.1')|$services.rendering.escape(${glossary.sourceLang}, 'xwiki/2.1')|$services.rendering.escape(${glossary.targetLang}, 'xwiki/2.1')|${glossary.ready}|${glossary.entryCount}
+    |[[$escapedLabel&gt;&gt;||queryString="glossaryId=$services.rendering.escape(${glossary.glossaryId},
+    'xwiki/2.1')"]]|$services.rendering.escape(${glossary.name}, 'xwiki/2.1')|$services.rendering.escape(${glossary.sourceLocale}, 'xwiki/2.1')|$services.rendering.escape(${glossary.targetLocale}, 'xwiki/2.1')|${glossary.ready}|${glossary.entryCount}
   #end
   =$services.localization.render('glossary.machineTranslation.explorer.supportedLanguagePairs')=
   |=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')
   #foreach ($entry in $services.translator.glossaryLanguagePairs)
-    |$services.rendering.escape(${entry.sourceLanguage}, 'xwiki/2.1')|$services.rendering.escape(${entry.targetLanguage}, 'xwiki/2.1')
+    |$services.rendering.escape(${entry.sourceLocale}, 'xwiki/2.1')|$services.rendering.escape(${entry.targetLocale}, 'xwiki/2.1')
   #end
 #end
 {{/velocity}}
