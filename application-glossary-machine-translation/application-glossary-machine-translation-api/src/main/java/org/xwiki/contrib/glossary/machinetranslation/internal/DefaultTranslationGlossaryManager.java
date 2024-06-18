@@ -122,7 +122,7 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
                             entry.getSourceLocale().toString().equals(translatorSrcLang)
                                 && entry.getTargetLocale().toString().equals(translatorDstLang));
 
-                    if (!translatorSrcLang.equals(translatorDstLang) && foundMatchingLocalePairs) {
+                    if (foundMatchingLocalePairs) {
                         Map<String, String> localGlossaryEntries = getLocalGlossaryEntries(sourceLanguage,
                             targetLanguage
                         );
