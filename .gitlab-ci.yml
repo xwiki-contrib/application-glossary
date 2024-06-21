@@ -1,5 +1,0 @@
-include:
-  - project: ci/resources
-    ref: stable-3.x
-    file: /ci.yml
-
