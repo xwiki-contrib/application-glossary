@@ -39,3 +39,5 @@ xwikiModule {
   profiles = 'quality,integration-tests,docker'
   sonar = true
 }
+
+// CI test
