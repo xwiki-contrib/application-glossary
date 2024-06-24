@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.Code.MachineTranslation.WebPreferences" locale="">
+<xwikidoc version="1.5" reference="Glossary.Code.MachineTranslation.WebPreferences" locale="">
   <web>Glossary.Code.MachineTranslation</web>
   <name>WebPreferences</name>
   <language/>
@@ -29,6 +29,7 @@
   <creator>xwiki:XWiki.Admin</creator>
   <parent>Glossary.Code.MachineTranslation.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
+  <originalMetadataAuthor>xwiki:XWiki.Admin</originalMetadataAuthor>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
   <title>$services.localization.render('admin.preferences.title')</title>
@@ -288,6 +289,7 @@
         <number>26</number>
         <picker>0</picker>
         <prettyName>Confirmation eMail Content</prettyName>
+        <restricted>0</restricted>
         <rows>10</rows>
         <size>72</size>
         <tooltip/>
@@ -303,7 +305,7 @@
   #set ($value = $xwiki.getDefaultDocumentSyntax())
 #end
 &lt;select name="${object.getxWikiClass().name}_${object.number}_${name}" id="${object.getxWikiClass().name}_${object.number}_${name}"&gt;
-#set ($configuredSyntaxes = $services.rendering.getConfiguredSyntaxes())
+#set ($configuredSyntaxes = $collectiontool.sort($services.rendering.getConfiguredSyntaxes()))
 #foreach($syntax in $configuredSyntaxes)
   &lt;option value="$syntax.toIdString()"#if($syntax.toIdString().equalsIgnoreCase($value)) selected="selected"#end&gt;$syntax.toString()&lt;/option&gt;
 #end
@@ -512,6 +514,7 @@
         <number>27</number>
         <picker>0</picker>
         <prettyName>Invitation eMail Content</prettyName>
+        <restricted>0</restricted>
         <rows>10</rows>
         <size>72</size>
         <tooltip/>
@@ -529,6 +532,7 @@
         <number>24</number>
         <picker>0</picker>
         <prettyName>Additional JavaMail properties</prettyName>
+        <restricted>0</restricted>
         <rows>6</rows>
         <size>60</size>
         <unmodifiable>0</unmodifiable>
@@ -635,6 +639,7 @@
         <number>60</number>
         <picker>0</picker>
         <prettyName>Ldap user fields mapping</prettyName>
+        <restricted>0</restricted>
         <rows>1</rows>
         <size>60</size>
         <unmodifiable>0</unmodifiable>
@@ -651,6 +656,7 @@
         <number>65</number>
         <picker>0</picker>
         <prettyName>Ldap groups mapping</prettyName>
+        <restricted>0</restricted>
         <rows>5</rows>
         <size>60</size>
         <unmodifiable>0</unmodifiable>
@@ -856,6 +862,7 @@
         <number>16</number>
         <picker>0</picker>
         <prettyName>HTTP Meta Info</prettyName>
+        <restricted>0</restricted>
         <rows>8</rows>
         <size>60</size>
         <tooltip/>
@@ -1296,6 +1303,7 @@
         <number>25</number>
         <picker>0</picker>
         <prettyName>Validation eMail Content</prettyName>
+        <restricted>0</restricted>
         <rows>10</rows>
         <size>72</size>
         <tooltip/>
@@ -1351,7 +1359,19 @@
       <accessibility/>
     </property>
     <property>
+      <admin_email/>
+    </property>
+    <property>
       <colorTheme/>
+    </property>
+    <property>
+      <comment_anonymous/>
+    </property>
+    <property>
+      <comment_registered/>
+    </property>
+    <property>
+      <confirmation_email_content/>
     </property>
     <property>
       <core.defaultDocumentSyntax/>
@@ -1360,10 +1380,25 @@
       <dateformat/>
     </property>
     <property>
+      <default_language/>
+    </property>
+    <property>
+      <documentBundles/>
+    </property>
+    <property>
+      <edit_anonymous/>
+    </property>
+    <property>
+      <edit_registered/>
+    </property>
+    <property>
       <editcomment/>
     </property>
     <property>
       <editcomment_mandatory/>
+    </property>
+    <property>
+      <editor/>
     </property>
     <property>
       <guest_comment_requires_captcha/>
@@ -1372,7 +1407,13 @@
       <iconTheme/>
     </property>
     <property>
+      <invitation_email_content/>
+    </property>
+    <property>
       <javamail_extra_props/>
+    </property>
+    <property>
+      <languages/>
     </property>
     <property>
       <ldap/>
@@ -1432,7 +1473,13 @@
       <ldap_validate_password/>
     </property>
     <property>
+      <leftPanels/>
+    </property>
+    <property>
       <leftPanelsWidth/>
+    </property>
+    <property>
+      <meta/>
     </property>
     <property>
       <minoredit/>
@@ -1445,6 +1492,15 @@
     </property>
     <property>
       <plugins/>
+    </property>
+    <property>
+      <registration_anonymous/>
+    </property>
+    <property>
+      <registration_registered/>
+    </property>
+    <property>
+      <rightPanels/>
     </property>
     <property>
       <rightPanelsWidth/>
@@ -1465,7 +1521,13 @@
       <showinformation/>
     </property>
     <property>
+      <skin/>
+    </property>
+    <property>
       <smtp_port/>
+    </property>
+    <property>
+      <smtp_server/>
     </property>
     <property>
       <smtp_server_password/>
@@ -1474,13 +1536,31 @@
       <smtp_server_username/>
     </property>
     <property>
+      <stylesheet/>
+    </property>
+    <property>
+      <stylesheets/>
+    </property>
+    <property>
       <tags/>
     </property>
     <property>
       <timezone/>
     </property>
     <property>
+      <title/>
+    </property>
+    <property>
       <upload_maxsize/>
+    </property>
+    <property>
+      <validation_email_content/>
+    </property>
+    <property>
+      <version/>
+    </property>
+    <property>
+      <webcopyright/>
     </property>
     <property>
       <xwiki.title.mandatory/>

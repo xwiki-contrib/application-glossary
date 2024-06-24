@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.Code.MachineTranslation.WebHome" locale="">
+<xwikidoc version="1.5" reference="Glossary.Code.MachineTranslation.WebHome" locale="">
   <web>Glossary.Code.MachineTranslation</web>
   <name>WebHome</name>
   <language/>
@@ -29,9 +29,10 @@
   <creator>xwiki:XWiki.Admin</creator>
   <parent>Glossary.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
+  <originalMetadataAuthor>xwiki:XWiki.Admin</originalMetadataAuthor>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Machine translation glossary</title>
+  <title>Machine Translation Glossary</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>

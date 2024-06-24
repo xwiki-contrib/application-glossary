@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.Code.MachineTranslation.MachineTranslationTranslations" locale="">
+<xwikidoc version="1.5" reference="Glossary.Code.MachineTranslation.MachineTranslationTranslations" locale="">
   <web>Glossary.Code.MachineTranslation</web>
   <name>MachineTranslationTranslations</name>
   <language/>
@@ -29,6 +29,7 @@
   <creator>xwiki:XWiki.Admin</creator>
   <parent>Glossary.Code.MachineTranslation.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
+  <originalMetadataAuthor>xwiki:XWiki.Admin</originalMetadataAuthor>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
   <title>MachineTranslationTranslations</title>
@@ -37,17 +38,17 @@
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
   <content>glossary.machineTranslation.explorer.title=Translation Glossaries Explorer
-glossary.machineTranslation.explorer.forceSync=Force synchronization
+glossary.machineTranslation.explorer.forceSync=Synchronize glossaries
 glossary.machineTranslation.explorer.glossary=Glossary
 glossary.machineTranslation.explorer.glossaries=Glossaries
 glossary.machineTranslation.explorer.glossaryId=ID
 glossary.machineTranslation.explorer.glossaryName=Name
 glossary.machineTranslation.explorer.sourceLanguage=Source language
 glossary.machineTranslation.explorer.targetLanguage=Target language
-glossary.machineTranslation.explorer.isReady=Is ready ?
+glossary.machineTranslation.explorer.isReady=Ready
 glossary.machineTranslation.explorer.entryCount=Entry count
-glossary.machineTranslation.explorer.supportedLanguagePairs=Supported language pairs by the translator
-glossary.machineTranslation.explorer.supported=Supported ?</content>
+glossary.machineTranslation.explorer.supportedLanguagePairs=Supported language pairs
+glossary.machineTranslation.explorer.supported=Supported</content>
   <object>
     <name>Glossary.Code.MachineTranslation.MachineTranslationTranslations</name>
     <number>0</number>

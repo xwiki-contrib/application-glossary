@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.Code.MachineTranslation.GlossarySynchronizer" locale="">
+<xwikidoc version="1.5" reference="Glossary.Code.MachineTranslation.GlossarySynchronizer" locale="">
   <web>Glossary.Code.MachineTranslation</web>
   <name>GlossarySynchronizer</name>
   <language/>
@@ -29,9 +29,10 @@
   <creator>xwiki:XWiki.Admin</creator>
   <parent>Glossary.Code.MachineTranslation.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
+  <originalMetadataAuthor>xwiki:XWiki.Admin</originalMetadataAuthor>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Synchronize Glossaries</title>
+  <title>Glossary Synchronizer</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
@@ -101,6 +102,7 @@
         <name>jobDescription</name>
         <number>2</number>
         <prettyName>Job Description</prettyName>
+        <restricted>0</restricted>
         <rows>10</rows>
         <size>45</size>
         <unmodifiable>0</unmodifiable>
@@ -122,6 +124,7 @@
         <name>script</name>
         <number>6</number>
         <prettyName>Job Script</prettyName>
+        <restricted>0</restricted>
         <rows>10</rows>
         <size>60</size>
         <unmodifiable>0</unmodifiable>
@@ -138,7 +141,7 @@
       </status>
     </class>
     <property>
-      <contextDatabase>xwiki</contextDatabase>
+      <contextDatabase>abf</contextDatabase>
     </property>
     <property>
       <contextLang>en</contextLang>
@@ -153,10 +156,10 @@
       <jobClass>com.xpn.xwiki.plugin.scheduler.GroovyJob</jobClass>
     </property>
     <property>
-      <jobDescription>Will synchronize the contents of the XWiki Glossaries with the translator service</jobDescription>
+      <jobDescription>Synchronize the contents of the Glossaries with the translator service</jobDescription>
     </property>
     <property>
-      <jobName>Synchronize Glossaries</jobName>
+      <jobName>Glossary Synchronizer</jobName>
     </property>
     <property>
       <script>services.glossary.translation.synchronizeGlossaries()</script>

@@ -29,8 +29,12 @@
   </parent>
   <packaging>jar</packaging>
   <artifactId>application-glossary-machine-translation-api</artifactId>
-  <description>Provide a glossary for translator application - API</description>
-  <name>Glossary - Translation glossary - API</name>
+  <description>Provides a translation glossary for the translator application</description>
+  <name>Glossary - Translation Glossary - API</name>
+  <properties>
+    <xwiki.extension.name>Translation Glossary API</xwiki.extension.name>
+    <xwiki.extension.namespaces>{root}</xwiki.extension.namespaces>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.contrib.glossary</groupId>
