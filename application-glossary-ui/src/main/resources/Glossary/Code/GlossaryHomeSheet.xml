@@ -120,6 +120,14 @@
     {{/html}}
   )))
 
+  #if ($xwiki.exists('Glossary.Code.MachineTranslation.GlossarySynchronizer'))
+    ## Adding the export button on the main page
+    (% class="glossary-link sync-translator-glossary box" %)(((
+    === #if($services.icon)$services.icon.render('refresh')#end $escapetool.xml($services.localization.render('glossary.machineTranslation.explorer.forceSync')) ===
+    [[$services.localization.render('glossary.machineTranslation.explorer.forceSync')&gt;&gt;Scheduler.WebHome||class="btn button" queryString="do=trigger&amp;which=Glossary.Code.MachineTranslation.GlossarySynchronizer&amp;form_token=$services.csrf.getToken()"]]
+    )))
+  #end
+
   (% class="clearfloats" %)((()))(%%)
 
   {{glossary filter="space=${glossarySpace}"/}}
