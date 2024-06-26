@@ -20,10 +20,10 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.4" reference="Glossary.Code.Translations" locale="pt-BR">
+<xwikidoc version="1.4" reference="Glossary.Code.Translations" locale="pt_BR">
   <web>Glossary.Code</web>
   <name>Translations</name>
-  <language>pt-BR</language>
+  <language>pt_BR</language>
   <defaultLanguage>en</defaultLanguage>
   <translation>1</translation>
   <creator>xwiki:XWiki.Admin</creator>
