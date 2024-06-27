@@ -110,6 +110,8 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
             List<Locale> xwikiLanguages = xwikiContextProvider.get().getWiki().getAvailableLocales(context);
             List<Glossary> updateEntries = new ArrayList<>();
 
+            logger.info("Generating glossary entries to register");
+
             for (Locale sourceLanguage : xwikiLanguages) {
                 for (Locale targetLanguage : xwikiLanguages) {
                     String translatorSrcLang =
@@ -134,6 +136,8 @@ public class DefaultTranslationGlossaryManager implements TranslationGlossaryMan
                     }
                 }
             }
+
+            logger.info("Updating glossary into the translator");
             translator.updateGlossaries(updateEntries);
             logger.debug("Finished synchronizing glossaries");
         } catch (Exception e) {
