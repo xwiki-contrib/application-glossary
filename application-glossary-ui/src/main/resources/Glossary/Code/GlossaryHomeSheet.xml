@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.1" encoding="UTF-8"?>
 
 <!--
  * See the NOTICE file distributed with this work for additional
@@ -120,11 +120,11 @@
     {{/html}}
   )))
 
-  #if ($xwiki.exists('Glossary.Code.MachineTranslation.GlossarySynchronizer'))
+  #if ($xwiki.exists('Glossary.Code.MachineTranslation.GlossarySynchronizer') &amp;&amp; $services.security.authorization.hasAccess('edit'))
     ## Adding the export button on the main page
     (% class="glossary-link sync-translator-glossary box" %)(((
     === #if($services.icon)$services.icon.render('refresh')#end $escapetool.xml($services.localization.render('glossary.machineTranslation.explorer.forceSync')) ===
-    [[$services.localization.render('glossary.machineTranslation.explorer.forceSync')&gt;&gt;Scheduler.WebHome||class="btn button" queryString="do=trigger&amp;which=Glossary.Code.MachineTranslation.GlossarySynchronizer&amp;form_token=$services.csrf.getToken()"]]
+    [[$services.localization.render('glossary.machineTranslation.explorer.forceSync')&gt;&gt;Glossary.GlossarySynchronizerJob||class="btn button" queryString="form_token=$services.csrf.getToken()&amp;jobId=$util.generateRandomString(6).toLowerCase()&amp;confirm=true"]]
     )))
   #end
 
