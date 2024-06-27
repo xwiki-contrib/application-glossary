@@ -39,6 +39,7 @@
   <hidden>true</hidden>
   <content>glossary.machineTranslation.explorer.title=Translation Glossaries Explorer
 glossary.machineTranslation.explorer.forceSync=Synchronize glossaries
+glossary.machineTranslation.job.goToGlossaryPage=Go back to glossary page
 glossary.machineTranslation.explorer.glossary=Glossary
 glossary.machineTranslation.explorer.glossaries=Glossaries
 glossary.machineTranslation.explorer.glossaryId=ID

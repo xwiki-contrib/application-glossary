@@ -38,7 +38,7 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <content>{{velocity}}
-[[$services.localization.render('glossary.machineTranslation.explorer.forceSync')&gt;&gt;Scheduler.WebHome||class="btn btn-primary" queryString="do=trigger&amp;which=Glossary.Code.MachineTranslation.GlossarySynchronizer&amp;form_token=$services.csrf.getToken()"]]
+[[$services.localization.render('glossary.machineTranslation.explorer.forceSync')&gt;&gt;Glossary.GlossarySynchronizerJob||class="btn btn-primary" queryString="form_token=$services.csrf.getToken()&amp;jobId=$util.generateRandomString(6).toLowerCase()&amp;confirm=true"]]
 #if ($request.glossaryId)
   =$services.localization.render('glossary.machineTranslation.explorer.glossary') ${request.glossaryId}=
   |=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')
