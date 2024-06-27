@@ -43,7 +43,7 @@ def log = services.logging.getLogger(doc.fullName)
 services.logging.setLevel(doc.fullName, LogLevel.INFO);
 services.progress.pushLevel(1)
 services.progress.startStep('Synchronizing glossaries with translator service')
-if (services.security.authorization.hasAccess("edit")) {
+if (services.model.createDocumentReference('', ['Glossary'], 'x')) {
   services.glossary.translation.synchronizeGlossaries()
 } else {
   log.error("You are not authorized to run this operation");

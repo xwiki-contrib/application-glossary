@@ -120,7 +120,7 @@
     {{/html}}
   )))
 
-  #if ($xwiki.exists('Glossary.Code.MachineTranslation.GlossarySynchronizer') &amp;&amp; $services.security.authorization.hasAccess('edit'))
+  #if ($xwiki.exists('Glossary.Code.MachineTranslation.GlossarySynchronizer') &amp;&amp; $services.security.authorization.hasAccess('edit', $services.model.createDocumentReference('', ['Glossary'], 'x')))
     ## Adding the export button on the main page
     (% class="glossary-link sync-translator-glossary box" %)(((
     === #if($services.icon)$services.icon.render('refresh')#end $escapetool.xml($services.localization.render('glossary.machineTranslation.explorer.forceSync')) ===
