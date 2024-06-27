@@ -1,0 +1,80 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="Glossary.Code.Translations" locale="pt_BR">
+  <web>Glossary.Code</web>
+  <name>Translations</name>
+  <language>pt_BR</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>Glossary.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content>glossary.doc.title=Itens do glossário
+glossary.doc.creationDate=Criado em
+glossary.doc.date=Última modificação
+glossary.applicationsPanelEntryLabel=Glossário
+glossary._actions=Ações
+glossary.search.text=Procurar…
+glossary.search.submit=Procurar
+glossary.search.title=Pesquisar glossário…
+glossary.add.title=Adicionar item do glossário…
+glossary.add.searchHint=Item do glossário…
+glossary.add.submit=Adicionar item de glossário
+glossary.export.title=Exportar o glossário…
+glossary.export.submit.csv=Exportar como CSV
+glossary.export.id=ID do glossário
+glossary.export.locale.default=Idioma padrão
+glossary.export.csv.content=Conteúdo em {0}
+glossary.about=Aplicação Glossário
+glossary.need=Por favor faça o login ou registre-se
+glossary.noAnswer=Nenhuma resposta foi fornecida ainda para esta entrada do Glossário. Seja o primeiro a fornecer um! Registre-se neste wiki e edite esta página para adicionar uma resposta a esta entrada do Glossário.
+glossary.sheet=Esta planilha de aula deve ser aplicada em uma página contendo um objeto GlossaryCode.GlossaryClass
+glossary.technical=Contém páginas técnicas para a aplicação Glossário.
+glossary.list=Páginas
+Glossary.Code.GlossaryClass_title=Título
+Glossary.Code.GlossaryClass_definition=Definição
+
+# Configuration keys
+admin.glossary=Glossário
+Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId=Espaço padrão do glossário
+Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId.hint=Espaço onde as entradas padrão do glossário estão localizadas
+Glossary.Code.GlossaryConfigurationClass_updateDocumentsOnSave=Atualizar documentos ao salvar
+Glossary.Code.GlossaryConfigurationClass_updateDocumentsOnSave.hint=Indica se as entradas do glossário encontradas no conteúdo da página devem ser transformadas em links para o glossário ao salvar
+Glossary.Code.GlossaryConfigurationClass_activateTransformationJob=Ative a transformação periódica de entradas do glossário em links
+Glossary.Code.GlossaryConfigurationClass_activateTransformationJob.hint=Se ativado, as páginas são atualizadas periodicamente com links para as entradas do glossário encontradas em seu conteúdo. O período padrão é de um dia, pode ser controlado a partir do espaço do Agendador.
+Glossary.Code.GlossaryConfigurationClass_transformationJobIncludeSpaces=Lista de espaços onde a transformação periódica está ativa
+Glossary.Code.GlossaryConfigurationClass_transformationJobIncludeSpaces.hint=Lista de nomes de espaços separados por vírgula onde as entradas do glossário são periodicamente transformadas em links.
+Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob=Aumentar a versão da página quando os links forem adicionados pela transformação periódica
+Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob.hint=Indica se uma nova versão de página deve ser criada quando links para entradas de glossário são adicionados automaticamente pela transformação periódica.
+Glossary.Code.GlossaryConfigurationClass_excludedClassesFromTransformations=Classes excluídas de transformações automatizadas
+Glossary.Code.GlossaryConfigurationClass_excludedClassesFromTransformations.hint=Excluirá qualquer documento que contenha uma das classes fornecidas da atualização do documento ao salvar ou da transformação automatizada do glossário.
+glossary.transformationJob.save.message=Atualizar links para glossário
+</content>
+  </xwikidoc>
