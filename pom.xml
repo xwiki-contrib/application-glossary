@@ -65,10 +65,11 @@
     <translator.version>1.0-SNAPSHOT</translator.version>
   </properties>
   <modules>
+    <!-- Sorted Alphabetically -->
     <module>application-glossary-api</module>
     <module>application-glossary-latex</module>
-    <module>application-glossary-ui</module>
     <module>application-glossary-machine-translation</module>
+    <module>application-glossary-ui</module>
   </modules>
   <profiles>
     <profile>
