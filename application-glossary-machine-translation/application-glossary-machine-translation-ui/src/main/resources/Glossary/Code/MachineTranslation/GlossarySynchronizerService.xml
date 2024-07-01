@@ -39,6 +39,8 @@
   <hidden>true</hidden>
   <content>{{job id="{{velocity}}$!request.jobId{{/velocity}}" start="{{velocity}}$!request.confirm{{/velocity}}"}}
 {{groovy}}
+import org.xwiki.logging.LogLevel;
+
 def log = services.logging.getLogger(doc.fullName)
 services.logging.setLevel(doc.fullName, LogLevel.INFO);
 services.progress.pushLevel(1)
