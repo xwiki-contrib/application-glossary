@@ -30,10 +30,10 @@
   </parent>
   <packaging>xar</packaging>
   <artifactId>application-glossary-machine-translation-ui</artifactId>
-  <description>Provides a translation glossary for the translator application</description>
+  <description>Provides a Machine Translation glossary for the Machine Translation application</description>
   <name>Glossary - Translation Glossary - UI</name>
   <properties>
-    <xwiki.extension.name>Translation Glossary Application</xwiki.extension.name>
+    <xwiki.extension.name>Machine Translation Glossary Application</xwiki.extension.name>
     <xwiki.extension.category>application</xwiki.extension.category>
   </properties>
   <dependencies>
@@ -49,9 +49,9 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.contrib.translator</groupId>
-      <artifactId>translator-ui</artifactId>
-      <version>${translator.version}</version>
+      <groupId>org.xwiki.contrib.machinetranslation</groupId>
+      <artifactId>machine-translation-ui</artifactId>
+      <version>${machineTranslation.version}</version>
       <type>xar</type>
     </dependency>
   </dependencies>

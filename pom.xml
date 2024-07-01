@@ -62,7 +62,7 @@
     <xwiki.issueManagement.jira.id>GLOSSARY</xwiki.issueManagement.jira.id>
     <xwiki.revapi.skip>true</xwiki.revapi.skip>
     <migrator.version>1.1.3</migrator.version>
-    <translator.version>1.0-SNAPSHOT</translator.version>
+    <machineTranslation.version>1.0-SNAPSHOT</machineTranslation.version>
   </properties>
   <modules>
     <!-- Sorted Alphabetically -->

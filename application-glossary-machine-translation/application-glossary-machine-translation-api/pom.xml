@@ -29,10 +29,10 @@
   </parent>
   <packaging>jar</packaging>
   <artifactId>application-glossary-machine-translation-api</artifactId>
-  <description>Provides a translation glossary for the translator application</description>
-  <name>Glossary - Translation Glossary - API</name>
+  <description>Provides a Machine Translation glossary for the Machine Translation application</description>
+  <name>Glossary - Machine Translation Glossary - API</name>
   <properties>
-    <xwiki.extension.name>Translation Glossary API</xwiki.extension.name>
+    <xwiki.extension.name>Machine Translation Glossary API</xwiki.extension.name>
     <xwiki.extension.namespaces>{root}</xwiki.extension.namespaces>
   </properties>
   <dependencies>
@@ -43,9 +43,9 @@
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.contrib.translator</groupId>
-      <artifactId>translator-api</artifactId>
-      <version>${translator.version}</version>
+      <groupId>org.xwiki.contrib.machinetranslation</groupId>
+      <artifactId>machine-translation-api</artifactId>
+      <version>${machineTranslation.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.xwiki.platform</groupId>

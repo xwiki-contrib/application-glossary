@@ -141,7 +141,7 @@
       </status>
     </class>
     <property>
-      <contextDatabase>abf</contextDatabase>
+      <contextDatabase>xwiki</contextDatabase>
     </property>
     <property>
       <contextLang>en</contextLang>

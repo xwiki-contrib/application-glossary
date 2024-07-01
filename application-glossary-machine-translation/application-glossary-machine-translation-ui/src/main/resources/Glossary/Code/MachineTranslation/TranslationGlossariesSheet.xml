@@ -42,20 +42,20 @@
 #if ($request.glossaryId)
   =$services.localization.render('glossary.machineTranslation.explorer.glossary') ${request.glossaryId}=
   |=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')
-  #foreach ($entry in $services.translator.getGlossaryEntryDetails($request.glossaryId).entrySet())
+  #foreach ($entry in $services.machinetranslation.getGlossaryEntryDetails($request.glossaryId).entrySet())
     |$services.rendering.escape(${entry.key}, 'xwiki/2.1')|$services.rendering.escape(${entry.value}, 'xwiki/2.1')
   #end
 #else
   =$services.localization.render('glossary.machineTranslation.explorer.glossaries')=
   |=$services.localization.render('glossary.machineTranslation.explorer.glossaryId')|=$services.localization.render('glossary.machineTranslation.explorer.glossaryName')|=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.isReady')|=$services.localization.render('glossary.machineTranslation.explorer.entryCount')
-  #foreach ($glossary in $services.translator.glossaries)
+  #foreach ($glossary in $services.machinetranslation.glossaries)
     #set ($escapedLabel = $services.rendering.escape($services.rendering.escape(${glossary.glossaryId}, 'xwiki/2.1'), 'xwiki/2.1'))
     |[[$escapedLabel&gt;&gt;||queryString="glossaryId=$services.rendering.escape(${glossary.glossaryId},
     'xwiki/2.1')"]]|$services.rendering.escape(${glossary.name}, 'xwiki/2.1')|$services.rendering.escape(${glossary.sourceLocale}, 'xwiki/2.1')|$services.rendering.escape(${glossary.targetLocale}, 'xwiki/2.1')|${glossary.ready}|${glossary.entryCount}
   #end
   =$services.localization.render('glossary.machineTranslation.explorer.supportedLanguagePairs')=
   |=$services.localization.render('glossary.machineTranslation.explorer.sourceLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.targetLanguage')|=$services.localization.render('glossary.machineTranslation.explorer.supported')
-  #foreach ($entry in $services.translator.glossaryLocalePairSupport.entrySet())
+  #foreach ($entry in $services.machinetranslation.glossaryLocalePairSupport.entrySet())
     |$services.rendering.escape(${entry.key.sourceLocale}, 'xwiki/2.1')|$services.rendering.escape(${entry.key.targetLocale}, 'xwiki/2.1')|$entry.value
   #end
 #end
