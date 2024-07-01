@@ -82,7 +82,7 @@ public class DefaultGlossaryEntriesTransformer implements GlossaryEntriesTransfo
      *
      * We don't do a direct reference to the static variable of the PlainTextStreamParser as it's an internal class.
      */
-    private static final String SPECIAL_SYMBOLS = "!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~";
+    private static final String SPECIAL_SYMBOLS = "!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~“”«» \n";
 
     @Inject
     private Logger logger;
