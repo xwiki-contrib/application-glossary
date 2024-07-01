@@ -35,6 +35,20 @@
     <module>application-glossary-machine-translation-api</module>
     <module>application-glossary-machine-translation-ui</module>
   </modules>
+  <developers>
+    <developer>
+      <id>slauriere</id>
+      <name>slauriere</name>
+    </developer>
+    <developer>
+      <id>aubincleme</id>
+      <name>Clément Aubin</name>
+    </developer>
+    <developer>
+      <id>Josue-T</id>
+      <name>Josué Tille</name>
+    </developer>
+  </developers>
   <dependencyManagement>
     <dependencies>
       <dependency>
