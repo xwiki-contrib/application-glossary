@@ -33,7 +33,6 @@
   <name>Glossary - Machine Translation Glossary - API</name>
   <properties>
     <xwiki.extension.name>Machine Translation Glossary API</xwiki.extension.name>
-    <xwiki.extension.namespaces>{root}</xwiki.extension.namespaces>
   </properties>
   <dependencies>
     <dependency>
