@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.contrib.glossary</groupId>
     <artifactId>application-glossary-machine-translation</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1-SNAPSHOT</version>
   </parent>
   <packaging>xar</packaging>
   <artifactId>application-glossary-machine-translation-ui</artifactId>
