@@ -79,7 +79,7 @@
       </sheet>
     </class>
     <property>
-      <sheet>Glossary.Code.MachineTranslation.GlossarySynchronizerJob</sheet>
+      <sheet>Glossary.Code.MachineTranslation.GlossarySynchronizerService</sheet>
     </property>
   </object>
 </xwikidoc>
