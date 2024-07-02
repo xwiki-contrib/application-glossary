@@ -29,7 +29,7 @@
   </parent>
   <packaging>xar</packaging>
   <artifactId>application-glossary-machine-translation-ui</artifactId>
-  <description>Provides a Machine Translation glossary for the Machine Translation application</description>
+  <description>Turns a Glossary to a Machine Translation Glossary which can then be used by the Machine Translation Application</description>
   <name>Glossary - Translation Glossary - UI</name>
   <properties>
     <xwiki.extension.name>Machine Translation Glossary Application</xwiki.extension.name>
