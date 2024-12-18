@@ -52,7 +52,7 @@
   &lt;dl&gt;
     &lt;dt #if (!$editing &amp;&amp; $hasEdit)
         class="editableProperty"
-        data-property="$escapetool.xml($services.model.serialize($object.getProperty('title').reference))"
+        data-property="$escapetool.xml($services.model.serialize($object.getPropertyReference('title')))"
         data-property-type="object"#end&gt;
       &lt;label#if ($editing) for="Glossary.Code.GlossaryClass_0_title"#end&gt;
         $escapetool.xml($doc.displayPrettyName('title', false, false))
@@ -61,7 +61,7 @@
     &lt;dd&gt;$doc.display('title')&lt;/dd&gt;
     &lt;dt #if (!$editing &amp;&amp; $hasEdit)
         class="editableProperty"
-        data-property="$escapetool.xml($services.model.serialize($object.getProperty('definition').reference))"
+        data-property="$escapetool.xml($services.model.serialize($object.getPropertyReference('definition')))"
         data-property-type="object"#end&gt;
       &lt;label#if ($editing) for="Glossary.Code.GlossaryClass_0_definition"#end&gt;
         $escapetool.xml($doc.displayPrettyName('definition', false, false))
@@ -71,5 +71,5 @@
   &lt;/dl&gt;
 &lt;/div&gt;
 {{/html}}
-{{velocity/}}</content>
+{{/velocity}}</content>
 </xwikidoc>
