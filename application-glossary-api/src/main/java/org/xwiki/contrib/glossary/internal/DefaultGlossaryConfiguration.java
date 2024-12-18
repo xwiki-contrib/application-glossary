@@ -103,19 +103,19 @@ public class DefaultGlossaryConfiguration implements GlossaryConfiguration
     @Override
     public List<EntityReference> excludedClassesFromTransformations()
     {
+        XWikiContext xcontext = xWikiContextProvider.get();
         List<String> rawDefaultValues = Arrays.asList(configurationSource.getProperty(
             CONFIGURATION_PREFIX + EXCLUDED_CLASSES_FROM_TRANSFORMATIONS, StringUtils.EMPTY).split(","));
         List<EntityReference> defaultValues =
-            rawDefaultValues.stream().map(x -> entityReferenceResolver.resolve(x, EntityType.DOCUMENT))
+            rawDefaultValues.stream().map(x -> entityReferenceResolver.resolve(x, EntityType.DOCUMENT, xcontext.getWikiReference()))
                 .collect(Collectors.toList());
 
         try {
             BaseObject baseObject = getConfigurationObject();
-
             if (baseObject != null) {
                 List<String> rawPropertyValues = baseObject.getListValue(EXCLUDED_CLASSES_FROM_TRANSFORMATIONS);
                 List<EntityReference> propertyValues = rawPropertyValues.stream().map(
-                    x -> entityReferenceResolver.resolve(x, EntityType.DOCUMENT)).collect(Collectors.toList());
+                    x -> entityReferenceResolver.resolve(x, EntityType.DOCUMENT, xcontext.getWikiReference())).collect(Collectors.toList());
                 if (propertyValues.size() > 0) {
                     return propertyValues;
                 }
