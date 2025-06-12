@@ -21,7 +21,6 @@ package org.xwiki.contrib.glossary.internal;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -29,13 +28,14 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.slf4j.Logger;
+import org.xwiki.bridge.event.DocumentCreatingEvent;
 import org.xwiki.bridge.event.DocumentUpdatingEvent;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.glossary.GlossaryConfiguration;
 import org.xwiki.contrib.glossary.GlossaryEntriesTransformer;
 import org.xwiki.contrib.glossary.GlossaryException;
 import org.xwiki.model.reference.EntityReference;
-import org.xwiki.observation.EventListener;
+import org.xwiki.observation.AbstractEventListener;
 import org.xwiki.observation.event.Event;
 import org.xwiki.rendering.block.XDOM;
 
@@ -52,7 +52,7 @@ import com.xpn.xwiki.doc.XWikiDocument;
 @Component
 @Named(GlossaryDocumentSaveEventListener.LISTENER_NAME)
 @Singleton
-public class GlossaryDocumentSaveEventListener implements EventListener
+public class GlossaryDocumentSaveEventListener extends AbstractEventListener
 {
     /**
      * The name of the listener.
@@ -74,10 +74,8 @@ public class GlossaryDocumentSaveEventListener implements EventListener
         return LISTENER_NAME;
     }
 
-    @Override
-    public List<Event> getEvents()
-    {
-        return Arrays.asList(new DocumentUpdatingEvent());
+    public GlossaryDocumentSaveEventListener() {
+        super(LISTENER_NAME, Arrays.asList(new DocumentCreatingEvent(), new DocumentUpdatingEvent()));
     }
 
     @Override
@@ -95,7 +93,7 @@ public class GlossaryDocumentSaveEventListener implements EventListener
 
             if (!hasExcludedObject) {
                 // Compute the locale of the document that should be used to resolve glossary entries
-                Locale locale = (Locale.ROOT.equals(document.getLocale())) ? document.getDefaultLocale() :
+                    Locale locale = (Locale.ROOT.equals(document.getLocale())) ? document.getDefaultLocale() :
                     document.getLocale();
 
                 try {
