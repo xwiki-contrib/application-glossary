@@ -69,7 +69,7 @@
         ## Lucene search needs the $request.wikinames param
         &lt;input type="hidden" name="wikinames" value="${xcontext.database}" /&gt;
         ## Both Lucene and SOLR searches obey the $request.text param
-        &lt;input type="text" name="text" value="$escapetool.xml($services.localization.render('glossary.search.text'))" size="16" class="withTip"/&gt;
+        &lt;input type="text" name="text" placeholder="$escapetool.xml($services.localization.render('glossary.search.text'))" size="16"/&gt;
         &lt;span class="buttonwrapper"&gt;
           &lt;input class="button" type="submit" value="$escapetool.xml($services.localization.render('glossary.search.submit'))" /&gt;
         &lt;/span&gt;
@@ -95,7 +95,7 @@
             #if ($request.createGlossary == 'true' &amp;&amp; $stringtool.isBlank($glossaryItem))
               {{error}}$escapetool.xml($services.localization.render('platform.glossary.create.empty')){{/error}}
             #end
-            &lt;input class="withTip" type="text" name="glossaryItem" value="$escapetool.xml($services.localization.render('glossary.add.searchHint'))" size="16"/&gt;
+            &lt;input type="text" name="glossaryItem" placeholder="$escapetool.xml($services.localization.render('glossary.add.searchHint'))" size="16"/&gt;
             &lt;span class="buttonwrapper"&gt;
               &lt;input class="btn btn-success button" type="submit" value="$escapetool.xml($services.localization.render('glossary.add.submit'))" /&gt;
             &lt;/span&gt;
