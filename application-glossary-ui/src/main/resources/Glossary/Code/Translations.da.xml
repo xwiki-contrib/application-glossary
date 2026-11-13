@@ -1,0 +1,80 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="Glossary.Code.Translations" locale="da">
+  <web>Glossary.Code</web>
+  <name>Translations</name>
+  <language>da</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>Glossary.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content>glossary.doc.title=Ordlisteopslag
+glossary.doc.creationDate=Oprettet
+glossary.doc.date=Senest ændret
+glossary.applicationsPanelEntryLabel=Ordliste
+glossary._actions=Handlinger
+glossary.search.text=Søg…
+glossary.search.submit=Søg
+glossary.search.title=Søg i ordlisten…
+glossary.add.title=Tilføj ordlisteopslag…
+glossary.add.searchHint=Ordlisteopslag…
+glossary.add.submit=Tilføj ordlisteopslag
+glossary.export.title=Eksportér ordlisten…
+glossary.export.submit.csv=Eksportér som CSV
+glossary.export.id=Ordliste-id
+glossary.export.locale.default=Standardsprog
+glossary.export.csv.content=Indhold på {0}
+glossary.about=Ordlisteprogram
+glossary.need=Log ind, eller opret dig
+glossary.noAnswer=Der er endnu ikke givet et svar på dette ordlisteopslag. Vær den første! Opret dig på denne wiki, og rediger siden for at tilføje et svar til ordlisteopslaget.
+glossary.sheet=Dette klasseark skal anvendes på en side, der indeholder et GlossaryCode.GlossaryClass-objekt
+glossary.technical=Indeholder tekniske sider til ordlisteprogrammet.
+glossary.list=Sider
+Glossary.Code.GlossaryClass_title=Titel
+Glossary.Code.GlossaryClass_definition=Definition
+
+# Configuration keys
+admin.glossary=Ordliste
+Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId=Standardområde for ordlisten
+Glossary.Code.GlossaryConfigurationClass_defaultGlossaryId.hint=Det område, hvor standardordlistens opslag ligger
+Glossary.Code.GlossaryConfigurationClass_updateDocumentsOnSave=Opdater dokumenter, når de gemmes
+Glossary.Code.GlossaryConfigurationClass_updateDocumentsOnSave.hint=Angiver, om ordlisteopslag, der findes i sidens indhold, skal laves om til links til ordlisten, når siden gemmes
+Glossary.Code.GlossaryConfigurationClass_activateTransformationJob=Aktivér den periodiske omdannelse af ordlisteopslag til links
+Glossary.Code.GlossaryConfigurationClass_activateTransformationJob.hint=Hvis indstillingen er aktiveret, opdateres siderne med jævne mellemrum med links til de ordlisteopslag, der findes i deres indhold. Standardperioden er én dag, og den kan styres fra området Scheduler.
+Glossary.Code.GlossaryConfigurationClass_transformationJobIncludeSpaces=Liste over områder, hvor den periodiske omdannelse er aktiv
+Glossary.Code.GlossaryConfigurationClass_transformationJobIncludeSpaces.hint=Liste over områdenavne adskilt med komma, hvor ordlisteopslag med jævne mellemrum laves om til links.
+Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob=Øg sideversionen, når den periodiske omdannelse tilføjer links
+Glossary.Code.GlossaryConfigurationClass_incrementVersionOnTransformationJob.hint=Angiver, om der skal oprettes en ny sideversion, når den periodiske omdannelse automatisk tilføjer links til ordlisteopslag.
+Glossary.Code.GlossaryConfigurationClass_excludedClassesFromTransformations=Klasser, der er udelukket fra automatiske omdannelser
+Glossary.Code.GlossaryConfigurationClass_excludedClassesFromTransformations.hint=Udelukker alle dokumenter, der indeholder en af de angivne klasser, fra opdateringen af dokumenter, når de gemmes, og fra den automatiske omdannelse af ordlisten.
+glossary.transformationJob.save.message=Opdater links til ordlisten
+</content>
+</xwikidoc>
